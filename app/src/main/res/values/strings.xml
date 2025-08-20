@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">World Cup 2026 Smart Guide</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_events">Events</string>
+    <string name="nav_chatbot">AI Assistant</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_admin">Admin Panel</string>
+
+    <!-- Home Screen -->
+    <string name="home_countdown_title">Countdown to World Cup 2026</string>
+    <string name="home_attractions_title">Top Attractions</string>
+    <string name="home_hotels_title">Recommended Hotels</string>
+    <string name="home_restaurants_title">Popular Restaurants</string>
+    <string name="home_quick_info_title">Quick Info</string>
+    <string name="home_banners_title">Latest Updates</string>
+    <string name="home_view_more">View More</string>
+
+    <!-- Events Screen -->
+    <string name="events_title">Events</string>
+    <string name="events_filter_country">Filter by Country</string>
+    <string name="events_filter_city">Filter by City</string>
+    <string name="events_filter_type">Filter by Type</string>
+    <string name="events_filter_date">Filter by Date</string>
+    <string name="events_clear_filters">Clear Filters</string>
+    <string name="events_no_results">No events found</string>
+
+    <!-- Event Details -->
+    <string name="event_details_title">Event Details</string>
+    <string name="event_details_venue">Venue</string>
+    <string name="event_details_capacity">Capacity</string>
+    <string name="event_details_description">Description</string>
+    <string name="event_details_location">Location</string>
+    <string name="event_details_book_tickets">Book Tickets</string>
+    <string name="event_details_add_reminder">Add Reminder</string>
+    <string name="event_details_add_favorite">Add to Favorites</string>
+    <string name="event_details_remove_favorite">Remove from Favorites</string>
+    <string name="event_details_get_directions">Get Directions</string>
+
+    <!-- Place Details -->
+    <string name="place_details_title">Place Details</string>
+    <string name="place_details_address">Address</string>
+    <string name="place_details_rating">Rating</string>
+    <string name="place_details_price_level">Price Level</string>
+    <string name="place_details_amenities">Amenities</string>
+    <string name="place_details_reviews">Reviews</string>
+    <string name="place_details_add_review">Add Review</string>
+    <string name="place_details_your_rating">Your Rating</string>
+    <string name="place_details_your_review">Your Review</string>
+
+    <!-- AI Chatbot -->
+    <string name="chatbot_title">AI Assistant</string>
+    <string name="chatbot_hint">Ask me about World Cup 2026…</string>
+    <string name="chatbot_send">Send</string>
+    <string name="chatbot_voice_input">Voice Input</string>
+    <string name="chatbot_daily_plan">Generate Daily Plan</string>
+    <string name="chatbot_daily_plan_city">Which city?</string>
+    <string name="chatbot_daily_plan_hours">How many hours?</string>
+    <string name="chatbot_daily_plan_interests">Your interests</string>
+    <string name="chatbot_daily_plan_generate">Generate Plan</string>
+    <string name="chatbot_translate">Translate</string>
+    <string name="chatbot_listening">Listening…</string>
+    <string name="chatbot_speaking">Speaking…</string>
+
+    <!-- Authentication -->
+    <string name="auth_title">Sign In</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_display_name">Display Name</string>
+    <string name="auth_sign_in">Sign In</string>
+    <string name="auth_sign_up">Sign Up</string>
+    <string name="auth_register">Register</string>
+    <string name="auth_forgot_password">Forgot Password?</string>
+    <string name="auth_sign_out">Sign Out</string>
+    <string name="auth_google_sign_in">Sign in with Google</string>
+    <string name="auth_switch_to_register">Don\'t have an account? Sign up</string>
+    <string name="auth_switch_to_login">Already have an account? Sign in</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_edit">Edit Profile</string>
+    <string name="profile_favorites">Favorites</string>
+    <string name="profile_reviews">My Reviews</string>
+    <string name="profile_preferred_cities">Preferred Cities</string>
+    <string name="profile_sign_in_required">Sign in to view your profile</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_cache">Cache</string>
+    <string name="settings_clear_cache">Clear Cache</string>
+    <string name="settings_about">About</string>
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_terms_of_service">Terms of Service</string>
+
+    <!-- Admin Panel -->
+    <string name="admin_panel_title">Admin Panel</string>
+    <string name="admin_add_event">Add Event</string>
+    <string name="admin_manage_events">Manage Events</string>
+    <string name="admin_send_notification">Send Notification</string>
+    <string name="admin_upload_image">Upload Image</string>
+
+    <!-- Time and Date -->
+    <string name="time_now">Now</string>
+    <string name="time_in_minutes">In %d minutes</string>
+    <string name="time_minutes_ago">%d minutes ago</string>
+    <string name="time_in_hours">In %d hours</string>
+    <string name="time_hours_ago">%d hours ago</string>
+    <string name="time_in_days">In %d days</string>
+    <string name="time_days_ago">%d days ago</string>
+    <string name="countdown_format">%d days, %d hours, %d minutes</string>
+    <string name="world_cup_started">World Cup 2026 has started!</string>
+    <string name="duration_minutes">%d min</string>
+    <string name="duration_hours">%d hr</string>
+    <string name="duration_hours_minutes">%d hr %d min</string>
+
+    <!-- Event Status -->
+    <string name="event_status_upcoming">Upcoming</string>
+    <string name="event_status_live">Live</string>
+    <string name="event_status_ended">Ended</string>
+
+    <!-- Distance -->
+    <string name="distance_meters">%d m</string>
+    <string name="distance_km">%d km</string>
+    <string name="distance_km_decimal">%.1f km</string>
+
+    <!-- Common Actions -->
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_share">Share</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_search">Search</string>
+    <string name="action_filter">Filter</string>
+    <string name="action_sort">Sort</string>
+
+    <!-- Messages -->
+    <string name="message_loading">Loading…</string>
+    <string name="message_error">Something went wrong</string>
+    <string name="message_no_internet">No internet connection</string>
+    <string name="message_empty_list">No items found</string>
+    <string name="message_success">Success</string>
+    <string name="message_saved">Saved successfully</string>
+    <string name="message_deleted">Deleted successfully</string>
+    <string name="message_sign_in_required">Please sign in to continue</string>
+    <string name="message_permission_required">Permission required</string>
+
+    <!-- Quick Info -->
+    <string name="quick_info_currency">Currency: %s</string>
+    <string name="quick_info_languages">Languages: %s</string>
+    <string name="quick_info_transport">Transport: %s</string>
+    <string name="quick_info_weather">Weather: %s</string>
+
+    <!-- Notifications -->
+    <string name="notification_reminder_title">Event Reminder</string>
+    <string name="notification_reminder_text">%s starts in %s</string>
+    <string name="notification_channel_reminders">Event Reminders</string>
+    <string name="notification_channel_updates">App Updates</string>
+
+    <!-- Favorites -->
+    <string name="favorites_empty">No favorites yet</string>
+    <string name="favorites_add_success">Added to favorites</string>
+    <string name="favorites_remove_success">Removed from favorites</string>
+
+    <!-- Reviews -->
+    <string name="reviews_empty">No reviews yet</string>
+    <string name="reviews_add_success">Review added successfully</string>
+    <string name="reviews_rating_required">Please provide a rating</string>
+
+    <!-- Countries and Cities -->
+    <string name="country_us">United States</string>
+    <string name="country_ca">Canada</string>
+    <string name="country_mx">Mexico</string>
+
+    <!-- Event Types -->
+    <string name="event_type_match">Match</string>
+    <string name="event_type_ceremony">Ceremony</string>
+    <string name="event_type_concert">Concert</string>
+    <string name="event_type_fan_zone">Fan Zone</string>
+
+    <!-- Place Types -->
+    <string name="place_type_attraction">Attraction</string>
+    <string name="place_type_hotel">Hotel</string>
+    <string name="place_type_restaurant">Restaurant</string>
+
+    <!-- Price Levels -->
+    <string name="price_level_1">$</string>
+    <string name="price_level_2">$$</string>
+    <string name="price_level_3">$$$</string>
+    <string name="price_level_4">$$$$</string>
+
+    <!-- Content Descriptions (Accessibility) -->
+    <string name="cd_event_image">Event image</string>
+    <string name="cd_place_image">Place image</string>
+    <string name="cd_user_avatar">User avatar</string>
+    <string name="cd_favorite_button">Favorite button</string>
+    <string name="cd_share_button">Share button</string>
+    <string name="cd_menu_button">Menu button</string>
+    <string name="cd_search_button">Search button</string>
+    <string name="cd_filter_button">Filter button</string>
+    <string name="cd_voice_input_button">Voice input button</string>
+    <string name="cd_send_button">Send button</string>
+
+    <!-- Permissions -->
+    <string name="permission_location_rationale">Location permission is needed to show nearby events and places</string>
+    <string name="permission_microphone_rationale">Microphone permission is needed for voice input</string>
+    <string name="permission_notification_rationale">Notification permission is needed for event reminders</string>
+</resources>

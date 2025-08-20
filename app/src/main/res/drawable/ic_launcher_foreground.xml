@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:translateX="16.2"
+        android:translateY="16.2">
+        <!-- Soccer ball -->
+        <path android:fillColor="@color/on_primary"
+            android:pathData="M54,10C29.7,10 10,29.7 10,54s19.7,44 44,44s44,-19.7 44,-44S78.3,10 54,10z" />
+
+        <!-- Pentagon patterns -->
+        <path android:fillColor="@color/md_theme_light_primary"
+            android:pathData="M54,22l8,12h-16z" />
+        <path android:fillColor="@color/md_theme_light_primary"
+            android:pathData="M34,40l8,12h-16z" />
+        <path android:fillColor="@color/md_theme_light_primary"
+            android:pathData="M74,40l8,12h-16z" />
+        <path android:fillColor="@color/md_theme_light_primary"
+            android:pathData="M44,58l8,12h-16z" />
+        <path android:fillColor="@color/md_theme_light_primary"
+            android:pathData="M64,58l8,12h-16z" />
+        <path android:fillColor="@color/md_theme_light_primary"
+            android:pathData="M54,76l8,12h-16z" />
+
+        <!-- Lines connecting pentagons -->
+        <path android:fillColor="@color/md_theme_light_primary"
+            android:strokeColor="@color/md_theme_light_primary"
+            android:strokeWidth="2"
+            android:pathData="M46,34L42,40M62,34L66,40M38,52L50,58M70,52L58,58M50,70L54,76M58,70L54,76" />
+    </group>
+</vector>
