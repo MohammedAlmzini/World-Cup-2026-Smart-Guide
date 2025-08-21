@@ -75,10 +75,10 @@
 
     <!-- Splash Theme -->
     <style name="Theme.WorldCup2026SmartGuide.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/md_theme_light_primary</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
-        <item name="windowSplashScreenAnimationDuration">300</item>
-        <item name="postSplashScreenTheme">@style/Theme.WorldCup2026SmartGuide</item>
+        <item name="android:windowSplashScreenBackground">@color/md_theme_light_primary</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="android:windowSplashScreenAnimationDuration">300</item>
+        <item name="android:postSplashScreenTheme">@style/Theme.WorldCup2026SmartGuide</item>
     </style>
 
     <!-- Widget Styles -->
@@ -113,6 +113,12 @@
     </style>
 
     <!-- Text Appearances -->
+    <style name="TextAppearance.WorldCup" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+
     <style name="TextAppearance.WorldCup.Headline1" parent="TextAppearance.Material3.HeadlineLarge">
         <item name="fontFamily">sans-serif-medium</item>
         <item name="android:textSize">32sp</item>
@@ -150,6 +156,11 @@
     </style>
 
     <!-- Event Status Styles -->
+    <style name="TextAppearance.WorldCup.EventStatus" parent="TextAppearance.WorldCup">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextAppearance.WorldCup.EventStatus.Live">
         <item name="android:textColor">@color/status_live</item>
         <item name="android:textStyle">bold</item>
@@ -168,14 +179,14 @@
     </style>
 
     <!-- Rating Styles -->
-    <style name="TextAppearance.WorldCup.Rating">
+    <style name="TextAppearance.WorldCup.Rating" parent="TextAppearance.WorldCup">
         <item name="android:textColor">@color/rating_star</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <!-- Countdown Styles -->
-    <style name="TextAppearance.WorldCup.Countdown">
+    <style name="TextAppearance.WorldCup.Countdown" parent="TextAppearance.WorldCup">
         <item name="android:textColor">@color/world_cup_gold</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
