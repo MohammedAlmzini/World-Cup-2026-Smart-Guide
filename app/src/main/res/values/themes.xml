@@ -113,6 +113,12 @@
     </style>
 
     <!-- Text Appearances -->
+    <!-- Base TextAppearance for WorldCup -->
+    <style name="TextAppearance.WorldCup" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
     <style name="TextAppearance.WorldCup.Headline1" parent="TextAppearance.Material3.HeadlineLarge">
         <item name="fontFamily">sans-serif-medium</item>
         <item name="android:textSize">32sp</item>
@@ -150,6 +156,12 @@
     </style>
 
     <!-- Event Status Styles -->
+    <!-- Base EventStatus style -->
+    <style name="TextAppearance.WorldCup.EventStatus" parent="TextAppearance.WorldCup">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextAppearance.WorldCup.EventStatus.Live">
         <item name="android:textColor">@color/status_live</item>
         <item name="android:textStyle">bold</item>
@@ -207,4 +219,13 @@
         <item name="tabTextColor">?attr/colorOnSurfaceVariant</item>
         <item name="tabIndicatorColor">?attr/colorPrimary</item>
     </style>
+
+    <!-- Define Theme.SplashScreen base style -->
+    <style name="Theme.SplashScreen" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <!-- Splash Screen Attributes -->
+    <attr name="windowSplashScreenBackground" format="color|reference" />
+    <attr name="windowSplashScreenAnimatedIcon" format="reference" />
+    <attr name="windowSplashScreenAnimationDuration" format="integer" />
+    <attr name="postSplashScreenTheme" format="reference" />
 </resources>
