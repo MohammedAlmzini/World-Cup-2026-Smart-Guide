@@ -62,18 +62,18 @@ public class EventAdapter extends ListAdapter<Event, EventAdapter.EventViewHolde
         private final ImageView eventImage;
         private final TextView eventTitle;
         private final TextView eventDate;
-        private final TextView eventLocation;
+        private final TextView eventVenue;
         private final TextView eventType;
-        private final ImageView favoriteIcon;
+        private final ImageView favoriteButton;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
             eventImage = itemView.findViewById(R.id.event_image);
             eventTitle = itemView.findViewById(R.id.event_title);
             eventDate = itemView.findViewById(R.id.event_date);
-            eventLocation = itemView.findViewById(R.id.event_location);
+            eventVenue = itemView.findViewById(R.id.event_venue);
             eventType = itemView.findViewById(R.id.event_type);
-            favoriteIcon = itemView.findViewById(R.id.favorite_icon);
+            favoriteButton = itemView.findViewById(R.id.favorite_button);
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
@@ -82,7 +82,7 @@ public class EventAdapter extends ListAdapter<Event, EventAdapter.EventViewHolde
                 }
             });
 
-            favoriteIcon.setOnClickListener(v -> {
+            favoriteButton.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && onFavoriteClickListener != null) {
                     Event event = getItem(position);
@@ -94,7 +94,7 @@ public class EventAdapter extends ListAdapter<Event, EventAdapter.EventViewHolde
         public void bind(Event event) {
             eventTitle.setText(event.getTitle());
             eventDate.setText(event.getFormattedDate());
-            eventLocation.setText(event.getLocation());
+            eventVenue.setText(event.getVenueName() != null ? event.getVenueName() : event.getLocation());
             eventType.setText(event.getType());
 
             // Load event image
@@ -106,8 +106,8 @@ public class EventAdapter extends ListAdapter<Event, EventAdapter.EventViewHolde
                         .into(eventImage);
             }
 
-            // Update favorite icon
-            favoriteIcon.setImageResource(event.isFavorite() ? 
+            // Update favorite button
+            favoriteButton.setImageResource(event.isFavorite() ? 
                     R.drawable.ic_favorite_filled : R.drawable.ic_favorite_border);
         }
     }

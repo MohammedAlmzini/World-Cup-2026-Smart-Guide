@@ -16,6 +16,13 @@ public class Event {
     private boolean isFavorite;
     private String country;
     private String city;
+    private String venueName;
+    private long startUtc;
+    private long endUtc;
+    private int capacity;
+    private String ticketUrl;
+    private double lat;
+    private double lng;
 
     public Event() {
         // Required empty constructor for Firebase
@@ -30,6 +37,27 @@ public class Event {
         this.date = date;
         this.imageUrl = imageUrl;
         this.isFavorite = false;
+    }
+
+    public Event(String id, String title, String country, String city, String venueName,
+                 String type, long startUtc, long endUtc, String imageUrl, int capacity,
+                 String ticketUrl, String description, double lat, double lng) {
+        this.id = id;
+        this.title = title;
+        this.country = country;
+        this.city = city;
+        this.venueName = venueName;
+        this.type = type;
+        this.startUtc = startUtc;
+        this.endUtc = endUtc;
+        this.imageUrl = imageUrl;
+        this.capacity = capacity;
+        this.ticketUrl = ticketUrl;
+        this.description = description;
+        this.lat = lat;
+        this.lng = lng;
+        this.isFavorite = false;
+        this.date = new Date(startUtc);
     }
 
     public String getId() {
@@ -112,6 +140,65 @@ public class Event {
         this.city = city;
     }
 
+    public String getVenueName() {
+        return venueName;
+    }
+
+    public void setVenueName(String venueName) {
+        this.venueName = venueName;
+    }
+
+    public long getStartUtc() {
+        return startUtc;
+    }
+
+    public void setStartUtc(long startUtc) {
+        this.startUtc = startUtc;
+        if (startUtc > 0) {
+            this.date = new Date(startUtc);
+        }
+    }
+
+    public long getEndUtc() {
+        return endUtc;
+    }
+
+    public void setEndUtc(long endUtc) {
+        this.endUtc = endUtc;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getTicketUrl() {
+        return ticketUrl;
+    }
+
+    public void setTicketUrl(String ticketUrl) {
+        this.ticketUrl = ticketUrl;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
     public String getFormattedDate() {
         if (date == null) return "";
         // Simple date formatting - you can enhance this
@@ -140,6 +227,12 @@ public class Event {
                 ", location='" + location + '\'' +
                 ", type='" + type + '\'' +
                 ", date=" + date +
+                ", venueName='" + venueName + '\'' +
+                ", startUtc=" + startUtc +
+                ", endUtc=" + endUtc +
+                ", capacity=" + capacity +
+                ", lat=" + lat +
+                ", lng=" + lng +
                 '}';
     }
 }
