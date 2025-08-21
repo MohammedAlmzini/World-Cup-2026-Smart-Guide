@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 
 import com.ahmmedalmzini783.wcguide.databinding.FragmentHomeBinding;
 import com.ahmmedalmzini783.wcguide.util.DateTimeUtil;
+import com.ahmmedalmzini783.wcguide.util.Resource;
 
 public class HomeFragment extends Fragment {
 
