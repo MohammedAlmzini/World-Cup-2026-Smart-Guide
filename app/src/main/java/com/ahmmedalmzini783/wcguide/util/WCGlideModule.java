@@ -16,11 +16,10 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 
 @GlideModule
-public final class GlideModule extends AppGlideModule {
+public final class WCGlideModule extends AppGlideModule {
 
     @Override
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
-        // Configure OkHttp client for Glide with timeouts and caching
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -35,3 +34,4 @@ public final class GlideModule extends AppGlideModule {
         return false;
     }
 }
+
