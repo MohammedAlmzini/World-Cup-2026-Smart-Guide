@@ -113,6 +113,7 @@
     </style>
 
     <!-- Text Appearances -->
+    <style name="TextAppearance.WorldCup" parent="TextAppearance.Material3.BodyMedium" />
     <style name="TextAppearance.WorldCup.Headline1" parent="TextAppearance.Material3.HeadlineLarge">
         <item name="fontFamily">sans-serif-medium</item>
         <item name="android:textSize">32sp</item>
@@ -150,6 +151,7 @@
     </style>
 
     <!-- Event Status Styles -->
+    <style name="TextAppearance.WorldCup.EventStatus" parent="TextAppearance.Material3.BodySmall" />
     <style name="TextAppearance.WorldCup.EventStatus.Live">
         <item name="android:textColor">@color/status_live</item>
         <item name="android:textStyle">bold</item>
