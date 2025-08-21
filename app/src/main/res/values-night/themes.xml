@@ -44,5 +44,26 @@
 
         <!-- Status bar -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+
+        <!-- Bottom Navigation -->
+        <item name="bottomNavigationStyle">@style/Widget.WorldCup.BottomNavigationView</item>
+
+        <!-- Card View -->
+        <item name="materialCardViewStyle">@style/Widget.WorldCup.CardView</item>
+
+        <!-- Button styles -->
+        <item name="materialButtonStyle">@style/Widget.WorldCup.Button</item>
+
+        <!-- Text appearance -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.WorldCup.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.WorldCup.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.WorldCup.Headline3</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.WorldCup.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.WorldCup.Body2</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.WorldCup.Caption</item>
     </style>
 </resources>
