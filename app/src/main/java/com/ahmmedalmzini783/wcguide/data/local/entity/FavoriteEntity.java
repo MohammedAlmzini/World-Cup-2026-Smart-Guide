@@ -3,6 +3,7 @@ package com.ahmmedalmzini783.wcguide.data.local.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
+import androidx.room.Ignore;
 
 @Entity(tableName = "favorites")
 public class FavoriteEntity {
@@ -16,6 +17,7 @@ public class FavoriteEntity {
 
     public FavoriteEntity() {}
 
+    @Ignore
     public FavoriteEntity(@NonNull String id, String userId, String targetId,
                           String targetKind, long createdAt) {
         this.id = id;
