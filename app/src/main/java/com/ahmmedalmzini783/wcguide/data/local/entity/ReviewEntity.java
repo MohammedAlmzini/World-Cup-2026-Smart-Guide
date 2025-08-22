@@ -3,6 +3,7 @@ package com.ahmmedalmzini783.wcguide.data.local.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
+import androidx.room.Ignore;
 
 @Entity(tableName = "reviews")
 public class ReviewEntity {
@@ -19,6 +20,7 @@ public class ReviewEntity {
 
     public ReviewEntity() {}
 
+    @Ignore
     public ReviewEntity(@NonNull String id, String userId, String targetId,
                         String targetKind, int rating, String text, long createdAt,
                         long lastUpdated) {
