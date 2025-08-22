@@ -16,6 +16,15 @@ public class Event {
     private boolean isFavorite;
     private String country;
     private String city;
+    
+    // إضافة الحقول المفقودة
+    private String venueName;
+    private long startUtc;
+    private long endUtc;
+    private int capacity;
+    private String ticketUrl;
+    private double lat;
+    private double lng;
 
     public Event() {
         // Required empty constructor for Firebase
@@ -32,6 +41,30 @@ public class Event {
         this.isFavorite = false;
     }
 
+    // Constructor شامل مع جميع الحقول
+    public Event(String id, String title, String description, String location, String type, Date date, String imageUrl,
+                 String country, String city, String venueName, long startUtc, long endUtc, int capacity, 
+                 String ticketUrl, double lat, double lng) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.type = type;
+        this.date = date;
+        this.imageUrl = imageUrl;
+        this.isFavorite = false;
+        this.country = country;
+        this.city = city;
+        this.venueName = venueName;
+        this.startUtc = startUtc;
+        this.endUtc = endUtc;
+        this.capacity = capacity;
+        this.ticketUrl = ticketUrl;
+        this.lat = lat;
+        this.lng = lng;
+    }
+
+    // Getters and Setters الأصلية
     public String getId() {
         return id;
     }
@@ -110,6 +143,63 @@ public class Event {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    // إضافة Getters and Setters للحقول الجديدة
+    public String getVenueName() {
+        return venueName;
+    }
+
+    public void setVenueName(String venueName) {
+        this.venueName = venueName;
+    }
+
+    public long getStartUtc() {
+        return startUtc;
+    }
+
+    public void setStartUtc(long startUtc) {
+        this.startUtc = startUtc;
+    }
+
+    public long getEndUtc() {
+        return endUtc;
+    }
+
+    public void setEndUtc(long endUtc) {
+        this.endUtc = endUtc;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getTicketUrl() {
+        return ticketUrl;
+    }
+
+    public void setTicketUrl(String ticketUrl) {
+        this.ticketUrl = ticketUrl;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public String getFormattedDate() {
