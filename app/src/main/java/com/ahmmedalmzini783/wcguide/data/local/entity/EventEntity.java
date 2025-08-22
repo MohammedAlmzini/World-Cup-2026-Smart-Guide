@@ -2,6 +2,7 @@ package com.ahmmedalmzini783.wcguide.data.local.entity;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.Ignore;
 import androidx.annotation.NonNull;
 
 @Entity(tableName = "events")
@@ -26,6 +27,7 @@ public class EventEntity {
 
     public EventEntity() {}
 
+    @Ignore
     public EventEntity(@NonNull String id, String title, String country, String city,
                        String venueName, String type, long startUtc, long endUtc,
                        String imageUrl, int capacity, String ticketUrl, String description,

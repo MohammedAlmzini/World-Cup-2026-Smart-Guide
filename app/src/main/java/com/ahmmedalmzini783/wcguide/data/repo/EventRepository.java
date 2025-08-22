@@ -12,6 +12,8 @@ import com.ahmmedalmzini783.wcguide.data.model.Event;
 import com.ahmmedalmzini783.wcguide.data.remote.FirebaseDataSource;
 import com.ahmmedalmzini783.wcguide.util.Resource;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -206,9 +208,11 @@ public class EventRepository {
 
     // Conversion methods
     private List<Event> convertEntitiesToEvents(List<EventEntity> entities) {
-        // Implementation for converting entities to events
-        // This would typically use a mapping library or manual conversion
-        return null; // Placeholder
+        List<Event> events = new ArrayList<>();
+        for (EventEntity entity : entities) {
+            events.add(convertEntityToEvent(entity));
+        }
+        return events;
     }
 
     private Event convertEntityToEvent(EventEntity entity) {
@@ -227,12 +231,21 @@ public class EventRepository {
         event.setDescription(entity.getDescription());
         event.setLat(entity.getLat());
         event.setLng(entity.getLng());
+        
+        // تحويل startUtc إلى Date
+        if (entity.getStartUtc() > 0) {
+            event.setDate(new Date(entity.getStartUtc()));
+        }
+        
         return event;
     }
 
     private List<EventEntity> convertEventsToEntities(List<Event> events) {
-        // Implementation for converting events to entities
-        return null; // Placeholder
+        List<EventEntity> entities = new ArrayList<>();
+        for (Event event : events) {
+            entities.add(convertEventToEntity(event));
+        }
+        return entities;
     }
 
     private EventEntity convertEventToEntity(Event event) {
