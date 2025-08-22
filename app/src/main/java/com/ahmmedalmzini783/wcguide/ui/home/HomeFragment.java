@@ -128,25 +128,25 @@ public class HomeFragment extends Fragment {
         });
 
         viewModel.getAttractions().observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null && resource.getStatus() == Resource.Status.SUCCESS) {
+            if (resource != null && resource.getStatus() == com.ahmmedalmzini783.wcguide.util.Resource.Status.SUCCESS) {
                 attractionsAdapter.submitList(resource.getData());
             }
         });
 
         viewModel.getHotels().observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null && resource.getStatus() == Resource.Status.SUCCESS) {
+            if (resource != null && resource.getData() != null) {
                 hotelsAdapter.submitList(resource.getData());
             }
         });
 
         viewModel.getRestaurants().observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null && resource.getStatus() == Resource.Status.SUCCESS) {
+            if (resource != null && resource.getData() != null) {
                 restaurantsAdapter.submitList(resource.getData());
             }
         });
 
         viewModel.getQuickInfo().observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null && resource.getStatus() == Resource.Status.SUCCESS) {
+            if (resource != null && resource.getData() != null) {
                 quickInfoAdapter.submitList(resource.getData());
             }
         });
