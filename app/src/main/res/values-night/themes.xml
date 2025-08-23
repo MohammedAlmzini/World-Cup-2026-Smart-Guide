@@ -68,4 +68,10 @@
         <item name="textAppearanceBody2">@style/TextAppearance.WorldCup.Body2</item>
         <item name="textAppearanceCaption">@style/TextAppearance.WorldCup.Caption</item>
     </style>
+
+    <!-- No Action Bar Theme -->
+    <style name="Theme.WorldCup2026SmartGuide.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
