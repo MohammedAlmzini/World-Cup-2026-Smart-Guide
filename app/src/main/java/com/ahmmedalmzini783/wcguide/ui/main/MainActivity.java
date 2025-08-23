@@ -28,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
+        // Wait for the layout to be fully inflated before setting up navigation
+        binding.getRoot().post(() -> setupNavigation());
+
+        // Handle deep links
+        handleIntent();
+    }
+
+    private void setupNavigation() {
         // Setup Navigation
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
@@ -40,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_events, R.id.navigation_chatbot)
                 .build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        // Handle deep links
-        handleIntent();
     }
 
     @Override

@@ -6,6 +6,7 @@ import androidx.work.Configuration;
 import androidx.work.WorkManager;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class App extends MultiDexApplication {
 
@@ -15,6 +16,9 @@ public class App extends MultiDexApplication {
 
         // Initialize Firebase
         FirebaseApp.initializeApp(this);
+        
+        // Enable offline persistence (must be called before any database usage)
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         // Initialize WorkManager with custom configuration
         Configuration workManagerConfig = new Configuration.Builder()

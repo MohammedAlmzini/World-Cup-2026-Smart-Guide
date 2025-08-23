@@ -109,47 +109,62 @@ public class HomeFragment extends Fragment {
     }
 
     private void observeViewModel() {
-        viewModel.getBanners().observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null) {
-                switch (resource.getStatus()) {
-                    case SUCCESS:
-                        if (resource.getData() != null) {
-                            bannerAdapter.submitList(resource.getData());
-                        }
-                        break;
-                    case ERROR:
-                        // Handle error
-                        break;
-                    case LOADING:
-                        // Show loading state
-                        break;
+        // Observe banners with null check
+        if (viewModel.getBanners() != null) {
+            viewModel.getBanners().observe(getViewLifecycleOwner(), resource -> {
+                if (resource != null) {
+                    switch (resource.getStatus()) {
+                        case SUCCESS:
+                            if (resource.getData() != null) {
+                                bannerAdapter.submitList(resource.getData());
+                            }
+                            break;
+                        case ERROR:
+                            // Handle error
+                            break;
+                        case LOADING:
+                            // Show loading state
+                            break;
+                    }
                 }
-            }
-        });
+            });
+        }
 
-        viewModel.getAttractions().observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null && resource.getStatus() == com.ahmmedalmzini783.wcguide.util.Resource.Status.SUCCESS) {
-                attractionsAdapter.submitList(resource.getData());
-            }
-        });
+        // Observe attractions with null check
+        if (viewModel.getAttractions() != null) {
+            viewModel.getAttractions().observe(getViewLifecycleOwner(), resource -> {
+                if (resource != null && resource.getStatus() == com.ahmmedalmzini783.wcguide.util.Resource.Status.SUCCESS) {
+                    attractionsAdapter.submitList(resource.getData());
+                }
+            });
+        }
 
-        viewModel.getHotels().observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null && resource.getData() != null) {
-                hotelsAdapter.submitList(resource.getData());
-            }
-        });
+        // Observe hotels with null check
+        if (viewModel.getHotels() != null) {
+            viewModel.getHotels().observe(getViewLifecycleOwner(), resource -> {
+                if (resource != null && resource.getData() != null) {
+                    hotelsAdapter.submitList(resource.getData());
+                }
+            });
+        }
 
-        viewModel.getRestaurants().observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null && resource.getData() != null) {
-                restaurantsAdapter.submitList(resource.getData());
-            }
-        });
+        // Observe restaurants with null check
+        if (viewModel.getRestaurants() != null) {
+            viewModel.getRestaurants().observe(getViewLifecycleOwner(), resource -> {
+                if (resource != null && resource.getData() != null) {
+                    restaurantsAdapter.submitList(resource.getData());
+                }
+            });
+        }
 
-        viewModel.getQuickInfo().observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null && resource.getData() != null) {
-                quickInfoAdapter.submitList(resource.getData());
-            }
-        });
+        // Observe quickInfo with null check
+        if (viewModel.getQuickInfo() != null) {
+            viewModel.getQuickInfo().observe(getViewLifecycleOwner(), resource -> {
+                if (resource != null && resource.getData() != null) {
+                    quickInfoAdapter.submitList(resource.getData());
+                }
+            });
+        }
     }
 
     private void updateCountdown() {
