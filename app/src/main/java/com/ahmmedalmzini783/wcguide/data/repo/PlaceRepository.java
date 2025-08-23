@@ -7,6 +7,7 @@ import androidx.lifecycle.MediatorLiveData;
 import com.ahmmedalmzini783.wcguide.data.local.AppDatabase;
 import com.ahmmedalmzini783.wcguide.data.local.dao.PlaceDao;
 import com.ahmmedalmzini783.wcguide.data.local.entity.PlaceEntity;
+import com.ahmmedalmzini783.wcguide.data.model.Banner;
 import com.ahmmedalmzini783.wcguide.data.model.Place;
 import com.ahmmedalmzini783.wcguide.data.remote.FirebaseDataSource;
 import com.ahmmedalmzini783.wcguide.util.Resource;
@@ -207,5 +208,10 @@ public class PlaceRepository {
         }
 
         return entity;
+    }
+
+    // Banners
+    public LiveData<Resource<List<Banner>>> getBanners() {
+        return firebaseDataSource.getBanners();
     }
 }
