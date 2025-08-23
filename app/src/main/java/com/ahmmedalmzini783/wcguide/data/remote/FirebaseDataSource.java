@@ -52,9 +52,6 @@ public class FirebaseDataSource {
         database = FirebaseDatabase.getInstance().getReference();
         storage = FirebaseStorage.getInstance().getReference();
 
-        // Enable offline persistence
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
         // Initialize references
         eventsRef = database.child("events");
         placesRef = database.child("places");
