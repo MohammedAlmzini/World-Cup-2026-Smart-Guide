@@ -33,6 +33,9 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     private void initializeData() {
+        // Load banners from Firebase
+        banners = placeRepository.getBanners();
+
         // Load attractions (limit to 10)
         attractions = placeRepository.getPlacesByCountryAndKind("US", "attraction", 10);
 
@@ -42,7 +45,6 @@ public class HomeViewModel extends AndroidViewModel {
         // Load restaurants (limit to 10)
         restaurants = placeRepository.getPlacesByCountryAndKind("US", "restaurant", 10);
 
-        // TODO: Load banners from Firebase
         // TODO: Load quick info for all countries
     }
 

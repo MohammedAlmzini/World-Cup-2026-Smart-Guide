@@ -16,6 +16,13 @@ public class Event {
     private boolean isFavorite;
     private String country;
     private String city;
+    private String venueName;
+    private long startUtc;
+    private long endUtc;
+    private int capacity;
+    private String ticketUrl;
+    private double lat;
+    private double lng;
 
     public Event() {
         // Required empty constructor for Firebase
@@ -110,6 +117,62 @@ public class Event {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getVenueName() {
+        return venueName;
+    }
+
+    public void setVenueName(String venueName) {
+        this.venueName = venueName;
+    }
+
+    public long getStartUtc() {
+        return startUtc;
+    }
+
+    public void setStartUtc(long startUtc) {
+        this.startUtc = startUtc;
+    }
+
+    public long getEndUtc() {
+        return endUtc;
+    }
+
+    public void setEndUtc(long endUtc) {
+        this.endUtc = endUtc;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getTicketUrl() {
+        return ticketUrl;
+    }
+
+    public void setTicketUrl(String ticketUrl) {
+        this.ticketUrl = ticketUrl;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public String getFormattedDate() {

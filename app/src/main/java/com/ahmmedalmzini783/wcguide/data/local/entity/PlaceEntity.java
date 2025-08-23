@@ -2,6 +2,7 @@ package com.ahmmedalmzini783.wcguide.data.local.entity;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.Ignore;
 import androidx.annotation.NonNull;
 
 @Entity(tableName = "places")
@@ -26,6 +27,7 @@ public class PlaceEntity {
 
     public PlaceEntity() {}
 
+    @Ignore
     public PlaceEntity(@NonNull String id, String kind, String name, String country,
                        String city, String address, double lat, double lng,
                        String imagesJson, float avgRating, int ratingCount, int priceLevel,
