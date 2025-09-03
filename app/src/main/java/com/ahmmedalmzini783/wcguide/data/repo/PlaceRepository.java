@@ -214,4 +214,9 @@ public class PlaceRepository {
     public LiveData<Resource<List<Banner>>> getBanners() {
         return firebaseDataSource.getBanners();
     }
+
+    // Quick Info
+    public LiveData<Resource<List<QuickInfo>>> getQuickInfo() {
+        return firebaseDataSource.getQuickInfo();
+    }
 }

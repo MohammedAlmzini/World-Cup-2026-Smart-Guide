@@ -79,7 +79,7 @@ public class DateTimeUtil {
     }
 
     /**
-     * Get countdown to World Cup 2026
+     * Get countdown to World Cup 2026 with seconds
      */
     public static String getWorldCupCountdown(Context context) {
         long now = System.currentTimeMillis();
@@ -92,8 +92,9 @@ public class DateTimeUtil {
         long days = TimeUnit.MILLISECONDS.toDays(diff);
         long hours = TimeUnit.MILLISECONDS.toHours(diff) % 24;
         long minutes = TimeUnit.MILLISECONDS.toMinutes(diff) % 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(diff) % 60;
 
-        return context.getString(R.string.countdown_format, days, hours, minutes);
+        return context.getString(R.string.countdown_format_with_seconds, days, hours, minutes, seconds);
     }
 
     /**

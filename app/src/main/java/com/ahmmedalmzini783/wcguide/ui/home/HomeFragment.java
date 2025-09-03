@@ -173,9 +173,9 @@ public class HomeFragment extends Fragment {
             binding.countdownText.setText(countdown);
         }
 
-        // Update every minute
+        // Update every second
         if (binding != null) {
-            binding.getRoot().postDelayed(this::updateCountdown, 60000);
+            binding.getRoot().postDelayed(this::updateCountdown, 1000);
         }
     }
 
