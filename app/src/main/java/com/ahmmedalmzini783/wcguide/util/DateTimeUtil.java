@@ -92,8 +92,9 @@ public class DateTimeUtil {
         long days = TimeUnit.MILLISECONDS.toDays(diff);
         long hours = TimeUnit.MILLISECONDS.toHours(diff) % 24;
         long minutes = TimeUnit.MILLISECONDS.toMinutes(diff) % 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(diff) % 60;
 
-        return context.getString(R.string.countdown_format, days, hours, minutes);
+        return context.getString(R.string.countdown_format_with_seconds, days, hours, minutes, seconds);
     }
 
     /**

@@ -46,7 +46,9 @@
                     android:textAppearance="@style/TextAppearance.WorldCup.Countdown"
                     android:textColor="@color/world_cup_gold"
                     android:gravity="center"
-                    tools:text="365 days, 12 hours, 30 minutes" />
+                    android:textStyle="bold"
+                    android:fontFamily="monospace"
+                    tools:text="365 days, 12 hours, 30 minutes, 45 seconds" />
 
             </LinearLayout>
 
