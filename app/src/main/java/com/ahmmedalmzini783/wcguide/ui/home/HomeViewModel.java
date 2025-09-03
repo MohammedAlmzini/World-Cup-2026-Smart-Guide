@@ -45,7 +45,8 @@ public class HomeViewModel extends AndroidViewModel {
         // Load restaurants (limit to 10)
         restaurants = placeRepository.getPlacesByCountryAndKind("US", "restaurant", 10);
 
-        // TODO: Load quick info for all countries
+        // Load quick info for all countries
+        quickInfo = placeRepository.getQuickInfo();
     }
 
     public LiveData<Resource<List<Banner>>> getBanners() {

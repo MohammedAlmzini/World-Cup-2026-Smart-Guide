@@ -115,6 +115,7 @@
     <string name="time_in_days">In %d days</string>
     <string name="time_days_ago">%d days ago</string>
     <string name="countdown_format">%d days, %d hours, %d minutes</string>
+    <string name="countdown_format_with_seconds">%d days, %d hours, %d minutes, %d seconds</string>
     <string name="world_cup_started">World Cup 2026 has started!</string>
     <string name="duration_minutes">%d min</string>
     <string name="duration_hours">%d hr</string>

@@ -358,6 +358,11 @@ public class FirebaseDataSource {
         MutableLiveData<Resource<List<Banner>>> result = new MutableLiveData<>();
         result.setValue(Resource.loading(null));
 
+        // Create temporary mock banners
+        List<Banner> mockBanners = createMockBanners();
+        result.setValue(Resource.success(mockBanners));
+
+        // Also try to load from Firebase
         bannersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -369,16 +374,49 @@ public class FirebaseDataSource {
                         banners.add(banner);
                     }
                 }
-                result.setValue(Resource.success(banners));
+                // If Firebase has data, use it; otherwise keep mock data
+                if (!banners.isEmpty()) {
+                    result.setValue(Resource.success(banners));
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                result.setValue(Resource.error(error.getMessage(), null));
+                // Keep mock data if Firebase fails
             }
         });
 
         return result;
+    }
+
+    private List<Banner> createMockBanners() {
+        List<Banner> banners = new ArrayList<>();
+        
+        // Banner 1: World Cup Tickets
+        Banner banner1 = new Banner();
+        banner1.setId("banner_001");
+        banner1.setTitle("احجز تذاكر كأس العالم 2026");
+        banner1.setImageUrl("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop");
+        banner1.setDeeplink("app://tickets/world_cup_2026");
+        banners.add(banner1);
+
+        // Banner 2: Fan Zone Events
+        Banner banner2 = new Banner();
+        banner2.setId("banner_002");
+        banner2.setTitle("مناطق المشجعين - أحداث مثيرة");
+        banner2.setImageUrl("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop");
+        banner2.setDeeplink("app://events/fan_zones");
+        banners.add(banner2);
+
+        // Banner 3: Travel Packages
+        Banner banner3 = new Banner();
+        banner3.setId("banner_003");
+        banner3.setTitle("باقات السفر الحصرية");
+        banner3.setImageUrl("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop");
+        banner3.setDeeplink("app://travel/packages");
+        banners.add(banner3);
+
+        return banners;
     }
 
     // Quick Info Methods
@@ -396,6 +434,33 @@ public class FirebaseDataSource {
                 } else {
                     result.setValue(Resource.error("Quick info not found", null));
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                result.setValue(Resource.error(error.getMessage(), null));
+            }
+        });
+
+        return result;
+    }
+
+    public LiveData<Resource<List<QuickInfo>>> getQuickInfo() {
+        MutableLiveData<Resource<List<QuickInfo>>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading(null));
+
+        quickInfoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<QuickInfo> quickInfoList = new ArrayList<>();
+                for (DataSnapshot quickInfoSnapshot : snapshot.getChildren()) {
+                    QuickInfo quickInfo = quickInfoSnapshot.getValue(QuickInfo.class);
+                    if (quickInfo != null) {
+                        quickInfo.setCountryCode(quickInfoSnapshot.getKey());
+                        quickInfoList.add(quickInfo);
+                    }
+                }
+                result.setValue(Resource.success(quickInfoList));
             }
 
             @Override

@@ -1,338 +1,218 @@
-# World Cup 2026 Smart Guide - مرشد كأس العالم 2026
+# World Cup 2026 Smart Guide
 
-A comprehensive Android application for World Cup 2026 fans, providing smart guidance for events, places, and AI-powered assistance across the USA, Canada, and Mexico.
+تطبيق ذكي لمرشد كأس العالم 2026 يوفر معلومات شاملة عن الأحداث والفنادق والمطاعم والمعالم السياحية.
 
-## Features
+## المميزات الرئيسية
 
-### 🏆 Core Features
-- **Multilingual Support**: Arabic and English
-- **Event Management**: Browse and filter World Cup events
-- **Smart Places**: Discover attractions, hotels, and restaurants
-- **AI Assistant**: Powered by OpenAI/Gemini for travel planning and Q&A
-- **Favorites & Reviews**: Save favorite places and events, write reviews
-- **Real-time Updates**: Firebase integration for live data
-- **Offline Support**: Room database for offline access
-- **Push Notifications**: FCM for event reminders and updates
+### 🏠 الصفحة الرئيسية (Home)
+- **العد التنازلي**: يعرض العد التنازلي لكأس العالم 2026 باليوم والساعة والدقيقة والثانية
+- **البطاقات الإعلانية**: 3 بطاقات إعلانية وهمية مؤقتة مع صور وعناوين جذابة
+- **أقسام متعددة**: المعالم السياحية، الفنادق، المطاعم، المعلومات السريعة
 
-### 🤖 AI Features
-- **Daily Plan Generator**: AI-powered itinerary creation
-- **Voice Integration**: Speech-to-Text and Text-to-Speech
-- **Smart Translation**: Multi-language translation support
-- **Contextual Q&A**: World Cup 2026 specific assistance
+### 🎫 الأحداث (Events)
+- عرض جميع أحداث كأس العالم 2026
+- تصفية حسب البلد والمدينة والنوع والتاريخ
+- تفاصيل شاملة لكل حدث
 
-### 📱 Technical Features
-- **MVVM Architecture**: Clean architecture with Repository pattern
-- **Material Design 3**: Modern UI with dark/light theme support
-- **Google Maps Integration**: Location services and directions
-- **Firebase Suite**: Authentication, Realtime Database, Storage, FCM
-- **Room Database**: Local caching and offline support
-- **WorkManager**: Background tasks and reminders
+### 🤖 المساعد الذكي (AI Assistant)
+- مساعد ذكي للإجابة على الأسئلة
+- توليد خطط يومية للسفر
+- ترجمة فورية
+- إدخال صوتي
 
-## Architecture
+### 👤 الملف الشخصي (Profile)
+- إدارة الملف الشخصي
+- المفضلة والمراجعات
+- المدن المفضلة
 
-```
-app/
-├── data/
-│   ├── model/          # Data models (POJOs)
-│   ├── local/          # Room database (entities, DAOs, converters)
-│   ├── remote/         # Firebase & AI API clients
-│   └── repo/           # Repository layer (MVVM)
-├── ui/
-│   ├── main/           # MainActivity with bottom navigation
-│   ├── home/           # Home screen with countdown & highlights
-│   ├── events/         # Events listing and filtering
-│   ├── details/        # Event and place detail screens
-│   ├── chatbot/        # AI assistant with voice support
-│   ├── auth/           # Authentication screens
-│   └── settings/       # Settings and preferences
-├── util/               # Utility classes
-└── notifications/      # FCM and reminder services
-```
+## إعداد Firebase
 
-## Setup Instructions
+### 1. إنشاء مشروع Firebase
+1. اذهب إلى [Firebase Console](https://console.firebase.google.com/)
+2. أنشئ مشروع جديد باسم `world-cup-2026-guide`
+3. فعّل خدمات Authentication و Realtime Database و Storage
 
-### Prerequisites
-- Android Studio Arctic Fox or later
-- JDK 17
-- Android SDK 34
-- Google Play Services
+### 2. إعداد Android App
+1. أضف تطبيق Android جديد
+2. استخدم Package Name: `com.ahmmedalmzini783.wcguide`
+3. حمل ملف `google-services.json` وضعه في مجلد `app/`
 
-### 1. Clone and Import
-```bash
-git clone <repository-url>
-cd WorldCup2026SmartGuide
-```
-Open the project in Android Studio.
-
-### 2. Firebase Setup
-1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Create a new project named "World Cup 2026 Guide"
-3. Add an Android app with package name: `com.ahmmedalmzini783.wcguide`
-4. Download `google-services.json` and place it in `app/` directory
-5. Enable the following services:
-    - Authentication (Email/Password)
-    - Realtime Database
-    - Cloud Storage
-    - Cloud Messaging (FCM)
-
-### 3. API Keys Configuration
-Create/update `local.properties` file in project root:
-
-```properties
-# Google Maps API Key
-MAPS_API_KEY=your_google_maps_api_key_here
-
-# OpenAI API Key (optional - for AI features)
-OPENAI_API_KEY=your_openai_api_key_here
-
-# Gemini API Key (alternative to OpenAI)
-GEMINI_API_KEY=your_gemini_api_key_here
-```
-
-#### How to get API keys:
-
-**Google Maps API:**
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Enable Maps SDK for Android
-3. Create credentials → API Key
-4. Restrict the key to Android apps and your package name
-
-**OpenAI API Key:**
-1. Visit [OpenAI Platform](https://platform.openai.com/api-keys)
-2. Create new API key
-3. Add billing information for usage
-
-**Gemini API Key:**
-1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Create new API key
-3. Enable Gemini Pro API
-
-### 4. Firebase Database Rules
-Set up Realtime Database rules:
-
+### 3. إعداد Realtime Database
 ```json
 {
-  "rules": {
-    ".read": true,
-    "users": {
-      "$uid": {
-        ".write": "$uid === auth.uid"
-      }
+  "banners": {
+    "banner_001": {
+      "id": "banner_001",
+      "title": "احجز تذاكر كأس العالم 2026",
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+      "deeplink": "app://tickets/world_cup_2026"
     },
-    "reviews": {
-      "$targetId": {
-        ".read": true,
-        "$reviewId": {
-          ".write": "auth != null && newData.child('userId').val() === auth.uid"
-        }
-      }
+    "banner_002": {
+      "id": "banner_002",
+      "title": "مناطق المشجعين - أحداث مثيرة",
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+      "deeplink": "app://events/fan_zones"
     },
-    "events": {
-      ".read": true,
-      ".write": "root.child('users').child(auth.uid).child('roles').child('admin').val() === true"
-    },
-    "places": {
-      ".read": true
-    },
-    "banners": {
-      ".read": true
-    },
-    "quickInfo": {
-      ".read": true
+    "banner_003": {
+      "id": "banner_003",
+      "title": "باقات السفر الحصرية",
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+      "deeplink": "app://travel/packages"
     }
-  }
-}
-```
-
-### 5. Sample Data
-Import sample data to Firebase Realtime Database:
-
-```json
-{
+  },
   "events": {
-    "evt_001": {
-      "title": "Opening Ceremony",
+    "event_001": {
+      "id": "event_001",
+      "title": "افتتاح كأس العالم 2026",
+      "description": "حفل الافتتاح الرسمي لكأس العالم 2026",
+      "startTime": 1761325200000,
+      "endTime": 1761332400000,
+      "venue": "ملعب ميتلايف",
+      "city": "نيويورك",
       "country": "US",
-      "city": "Los Angeles",
-      "venueName": "SoFi Stadium",
       "type": "ceremony",
-      "startUtc": 1761325200000,
-      "endUtc": 1761332400000,
-      "imageUrl": "https://example.com/opening.jpg",
-      "capacity": 70000,
-      "description": "Grand opening ceremony of FIFA World Cup 2026",
-      "lat": 33.9533,
-      "lng": -118.3391
+      "capacity": 82500,
+      "imageUrl": "https://example.com/opening.jpg"
     }
   },
   "places": {
-    "pl_001": {
+    "place_001": {
+      "id": "place_001",
+      "name": "تمثال الحرية",
       "kind": "attraction",
-      "name": "CN Tower",
-      "country": "CA",
-      "city": "Toronto",
-      "address": "290 Bremner Blvd, Toronto, ON",
-      "lat": 43.6426,
-      "lng": -79.3871,
-      "images": ["https://example.com/cn-tower.jpg"],
-      "avgRating": 4.6,
-      "ratingCount": 21837,
-      "description": "Iconic telecommunications tower and tourist attraction"
+      "country": "US",
+      "city": "نيويورك",
+      "address": "Liberty Island, New York, NY 10004",
+      "lat": 40.6892,
+      "lng": -74.0445,
+      "avgRating": 4.8,
+      "ratingCount": 12500,
+      "priceLevel": 2,
+      "description": "أشهر معلم سياحي في نيويورك",
+      "images": ["https://example.com/liberty1.jpg", "https://example.com/liberty2.jpg"],
+      "amenities": ["مطعم", "متجر هدايا", "مرشد سياحي"]
     }
   },
   "quickInfo": {
     "US": {
-      "currency": "USD",
-      "languages": ["English"],
-      "transportTips": "Metro, Uber, buses available",
-      "weatherTip": "Summer: warm, check local weather"
+      "countryCode": "US",
+      "countryName": "الولايات المتحدة الأمريكية",
+      "currency": "الدولار الأمريكي (USD)",
+      "languages": "الإنجليزية",
+      "transport": "مترو، حافلات، سيارات أجرة",
+      "weather": "متنوع حسب المنطقة"
     },
     "CA": {
-      "currency": "CAD", 
-      "languages": ["English", "French"],
-      "transportTips": "TTC/Metro systems available",
-      "weatherTip": "Variable weather, check forecasts"
+      "countryCode": "CA",
+      "countryName": "كندا",
+      "currency": "الدولار الكندي (CAD)",
+      "languages": "الإنجليزية، الفرنسية",
+      "transport": "مترو، حافلات، قطارات",
+      "weather": "بارد في الشتاء، معتدل في الصيف"
     },
     "MX": {
-      "currency": "MXN",
-      "languages": ["Spanish"],
-      "transportTips": "Metro/CDMX, buses available",
-      "weatherTip": "Sunny weather, use sunblock"
+      "countryCode": "MX",
+      "countryName": "المكسيك",
+      "currency": "البيزو المكسيكي (MXN)",
+      "languages": "الإسبانية",
+      "transport": "مترو، حافلات، سيارات أجرة",
+      "weather": "استوائي، حار ورطب"
     }
   }
 }
 ```
 
-### 6. Build and Run
-1. Sync project with Gradle files
-2. Build → Clean Project
-3. Build → Rebuild Project
-4. Run on device or emulator
+### 4. إعداد Authentication
+1. فعّل Email/Password Authentication
+2. فعّل Google Sign-In
+3. أضف SHA-1 fingerprint للتطبيق
 
-## Features Overview
+### 5. إعداد Storage
+1. أنشئ مجلد `images/` في Storage
+2. ارفع صور البطاقات الإعلانية والمعالم السياحية
 
-### Home Screen
-- Countdown to World Cup 2026
-- Featured attractions by country
-- Hotel and restaurant recommendations
-- Quick info cards (currency, language, transport, weather)
-- Latest news banners
+## المفاتيح المطلوبة
 
-### Events Screen
-- Filter by country, city, type, date
-- Real-time event status (upcoming/live/ended)
-- Event details with maps integration
-- Favorite events and reminder notifications
-- Ticket booking links
+### في ملف `local.properties`:
+```properties
+MAPS_API_KEY=your_google_maps_api_key
+OPENAI_API_KEY=your_openai_api_key
+GEMINI_API_KEY=your_gemini_api_key
+```
 
-### AI Assistant
-- Natural language Q&A about World Cup 2026
-- Daily itinerary generation based on location and interests
-- Voice input/output support
-- Multi-language translation
-- Context-aware responses
+### في ملف `google-services.json`:
+- Project ID: `world-cup-2026-guide`
+- Storage Bucket: `world-cup-2026-guide.appspot.com`
+- Database URL: `https://world-cup-2026-guide-default-rtdb.firebaseio.com`
 
-### Places & Reviews
-- Attractions, hotels, restaurants by location
-- User ratings and reviews
-- Photo galleries
-- Price level indicators
-- Google Maps integration for directions
+## البناء والتشغيل
 
-### User Features
-- Firebase authentication
-- Personal favorites and reviews
-- Notification preferences
-- Multi-language support
-- Offline data caching
+### المتطلبات
+- Android Studio Arctic Fox أو أحدث
+- Android SDK 24+
+- Java 17
 
-## Development Notes
+### الخطوات
+1. استنسخ المشروع
+2. افتح المشروع في Android Studio
+3. أضف المفاتيح المطلوبة في `local.properties`
+4. اربط مشروع Firebase
+5. ارفع البيانات المطلوبة إلى Realtime Database
+6. شغل التطبيق
 
-### Dependencies
-- **Firebase BoM**: 32.7.1
-- **Material Components**: 1.11.0
-- **Room**: 2.6.1
-- **Glide**: 4.16.0
-- **OkHttp/Retrofit**: Latest stable
-- **Google Play Services**: Maps 18.2.0, Location 21.0.1
+## هيكل المشروع
 
-### Build Configuration
-- **minSdk**: 24 (Android 7.0)
-- **targetSdk**: 34 (Android 14)
-- **compileSdk**: 34
-- **Java**: 17
-- **AGP**: 8.2.2
+```
+app/
+├── src/main/
+│   ├── java/com/ahmmedalmzini783/wcguide/
+│   │   ├── data/
+│   │   │   ├── model/          # نماذج البيانات
+│   │   │   ├── repo/           # مستودعات البيانات
+│   │   │   ├── local/          # قاعدة البيانات المحلية
+│   │   │   └── remote/         # Firebase
+│   │   ├── ui/
+│   │   │   ├── home/           # الصفحة الرئيسية
+│   │   │   ├── events/         # الأحداث
+│   │   │   ├── chatbot/        # المساعد الذكي
+│   │   │   └── main/           # النشاط الرئيسي
+│   │   └── util/               # الأدوات المساعدة
+│   └── res/
+│       ├── layout/             # تخطيطات الواجهة
+│       ├── values/            # النصوص والألوان
+│       └── drawable/          # الصور والأيقونات
+└── google-services.json       # إعدادات Firebase
+```
 
-### Proguard Rules
-The app includes comprehensive ProGuard rules for:
-- Firebase components
-- Glide image loading
-- OkHttp/Retrofit networking
-- Gson serialization
-- Room database
-- Google Maps
+## المميزات التقنية
 
-## Troubleshooting
+- **Architecture**: MVVM مع Repository Pattern
+- **Database**: Room (محلي) + Firebase Realtime Database
+- **Authentication**: Firebase Auth
+- **Image Loading**: Glide
+- **Networking**: Retrofit + OkHttp
+- **UI**: Material Design 3
+- **Navigation**: Navigation Component
+- **Background Tasks**: WorkManager
 
-### Common Issues
+## المساهمة
 
-**Build Errors:**
-- Ensure all API keys are properly set in `local.properties`
-- Check that `google-services.json` is in the correct location
-- Verify Firebase project configuration matches package name
+1. Fork المشروع
+2. أنشئ branch جديد للميزة
+3. اكتب الكود مع التعليقات
+4. اكتب اختبارات للكود
+5. أرسل Pull Request
 
-**Maps Not Loading:**
-- Verify Maps API key is valid and unrestricted for development
-- Check that Maps SDK for Android is enabled in Google Cloud Console
-- Ensure location permissions are granted
+## الترخيص
 
-**AI Features Not Working:**
-- Verify API keys for OpenAI or Gemini are valid
-- Check network connectivity
-- Ensure billing is set up for paid APIs
+هذا المشروع مرخص تحت رخصة MIT. راجع ملف `LICENSE` للتفاصيل.
 
-**Firebase Connection Issues:**
-- Verify `google-services.json` is from the correct Firebase project
-- Check Firebase project configuration
-- Ensure Firebase services are enabled
+## الدعم
 
-**Offline Mode:**
-- Room database provides offline access to cached data
-- Firebase has offline persistence enabled
-- Check device storage for cache limits
-
-### Performance Optimization
-- Images are cached using Glide with OkHttp integration
-- Room database provides efficient local storage
-- Firebase offline persistence reduces network calls
-- Pagination is implemented for large data sets
-
-### Security Considerations
-- API keys are stored in `local.properties` (not in version control)
-- Network security config enforces HTTPS
-- Firebase rules restrict write access
-- User data is properly scoped and protected
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Follow the existing code style and architecture
-4. Add tests for new features
-5. Submit a pull request
-
-## License
-
-This project is developed for educational and demonstration purposes. Please ensure compliance with FIFA World Cup 2026 guidelines and obtain proper licenses for commercial use.
-
-## Support
-
-For setup issues or questions:
-1. Check the troubleshooting section above
-2. Verify all configuration steps are completed
-3. Check Firebase console for errors
-4. Ensure all API keys are valid and properly configured
+للدعم والمساعدة، يرجى التواصل عبر:
+- Email: support@worldcupguide.com
+- GitHub Issues: [رابط المشروع]
 
 ---
 
-**Note**: This is a demonstration project. For production use, implement additional security measures, comprehensive testing, and proper error handling.
+**ملاحظة**: هذا التطبيق مخصص لكأس العالم 2026 ويحتوي على بيانات وهمية مؤقتة للعرض. يرجى استبدال البيانات الوهمية ببيانات حقيقية عند النشر.

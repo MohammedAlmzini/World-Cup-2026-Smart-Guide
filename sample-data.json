@@ -1,0 +1,168 @@
+{
+  "banners": {
+    "banner_001": {
+      "id": "banner_001",
+      "title": "احجز تذاكر كأس العالم 2026",
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+      "deeplink": "app://tickets/world_cup_2026"
+    },
+    "banner_002": {
+      "id": "banner_002",
+      "title": "مناطق المشجعين - أحداث مثيرة",
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+      "deeplink": "app://events/fan_zones"
+    },
+    "banner_003": {
+      "id": "banner_003",
+      "title": "باقات السفر الحصرية",
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+      "deeplink": "app://travel/packages"
+    }
+  },
+  "events": {
+    "event_001": {
+      "id": "event_001",
+      "title": "افتتاح كأس العالم 2026",
+      "description": "حفل الافتتاح الرسمي لكأس العالم 2026 في ملعب ميتلايف بنيويورك",
+      "startTime": 1761325200000,
+      "endTime": 1761332400000,
+      "venue": "ملعب ميتلايف",
+      "city": "نيويورك",
+      "country": "US",
+      "type": "ceremony",
+      "capacity": 82500,
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+      "lat": 40.8136,
+      "lng": -74.0744
+    },
+    "event_002": {
+      "id": "event_002",
+      "title": "مباراة الافتتاح - البرازيل ضد الأرجنتين",
+      "description": "مباراة الافتتاح المثيرة بين البرازيل والأرجنتين",
+      "startTime": 1761336000000,
+      "endTime": 1761343200000,
+      "venue": "ملعب ميتلايف",
+      "city": "نيويورك",
+      "country": "US",
+      "type": "match",
+      "capacity": 82500,
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+      "lat": 40.8136,
+      "lng": -74.0744
+    },
+    "event_003": {
+      "id": "event_003",
+      "title": "منطقة المشجعين - نيويورك",
+      "description": "منطقة المشجعين الرسمية في نيويورك مع عروض موسيقية وأطعمة",
+      "startTime": 1761321600000,
+      "endTime": 1761350400000,
+      "venue": "سنترال بارك",
+      "city": "نيويورك",
+      "country": "US",
+      "type": "fan_zone",
+      "capacity": 50000,
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+      "lat": 40.7829,
+      "lng": -73.9654
+    }
+  },
+  "places": {
+    "place_001": {
+      "id": "place_001",
+      "name": "تمثال الحرية",
+      "kind": "attraction",
+      "country": "US",
+      "city": "نيويورك",
+      "address": "Liberty Island, New York, NY 10004",
+      "lat": 40.6892,
+      "lng": -74.0445,
+      "avgRating": 4.8,
+      "ratingCount": 12500,
+      "priceLevel": 2,
+      "description": "أشهر معلم سياحي في نيويورك ورمز للحرية والديمقراطية",
+      "images": [
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop"
+      ],
+      "amenities": ["مطعم", "متجر هدايا", "مرشد سياحي", "متحف", "مطعم"]
+    },
+    "place_002": {
+      "id": "place_002",
+      "name": "فندق والدورف أستوريا",
+      "kind": "hotel",
+      "country": "US",
+      "city": "نيويورك",
+      "address": "301 Park Ave, New York, NY 10022",
+      "lat": 40.7589,
+      "lng": -73.9851,
+      "avgRating": 4.9,
+      "ratingCount": 8500,
+      "priceLevel": 4,
+      "description": "فندق فاخر تاريخي في قلب مانهاتن",
+      "images": [
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop"
+      ],
+      "amenities": ["واي فاي مجاني", "مطعم فاخر", "سبا", "صالة رياضية", "خدمة الغرف"]
+    },
+    "place_003": {
+      "id": "place_003",
+      "name": "مطعم ليفر هاوس",
+      "kind": "restaurant",
+      "country": "US",
+      "city": "نيويورك",
+      "address": "15 Central Park W, New York, NY 10023",
+      "lat": 40.7687,
+      "lng": -73.9817,
+      "avgRating": 4.7,
+      "ratingCount": 3200,
+      "priceLevel": 3,
+      "description": "مطعم أمريكي كلاسيكي مع إطلالة رائعة على سنترال بارك",
+      "images": [
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop"
+      ],
+      "amenities": ["مقاعد خارجية", "حجز طاولة", "توصيل", "مطعم"]
+    }
+  },
+  "quickInfo": {
+    "US": {
+      "countryCode": "US",
+      "countryName": "الولايات المتحدة الأمريكية",
+      "currency": "الدولار الأمريكي (USD)",
+      "languages": "الإنجليزية",
+      "transport": "مترو، حافلات، سيارات أجرة",
+      "weather": "متنوع حسب المنطقة - صيف حار في الجنوب، معتدل في الشمال"
+    },
+    "CA": {
+      "countryCode": "CA",
+      "countryName": "كندا",
+      "currency": "الدولار الكندي (CAD)",
+      "languages": "الإنجليزية، الفرنسية",
+      "transport": "مترو، حافلات، قطارات",
+      "weather": "بارد في الشتاء، معتدل في الصيف"
+    },
+    "MX": {
+      "countryCode": "MX",
+      "countryName": "المكسيك",
+      "currency": "البيزو المكسيكي (MXN)",
+      "languages": "الإسبانية",
+      "transport": "مترو، حافلات، سيارات أجرة",
+      "weather": "استوائي، حار ورطب"
+    }
+  },
+  "users": {
+    "admin_user": {
+      "uid": "admin_user",
+      "displayName": "مدير النظام",
+      "email": "admin@worldcupguide.com",
+      "photoUrl": null,
+      "roles": {
+        "admin": true
+      },
+      "preferences": {
+        "language": "ar",
+        "theme": "light",
+        "notifications": true
+      }
+    }
+  }
+}
