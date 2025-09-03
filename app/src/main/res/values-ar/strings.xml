@@ -114,7 +114,7 @@
     <string name="time_hours_ago">منذ %d ساعة</string>
     <string name="time_in_days">خلال %d يوم</string>
     <string name="time_days_ago">منذ %d يوم</string>
-    <string name="countdown_format">%d يوم، %d ساعة، %d دقيقة</string>
+    <string name="countdown_format">%d يوم، %d ساعة، %d دقيقة، %d ثانية</string>
     <string name="world_cup_started">بدأ كأس العالم 2026!</string>
     <string name="duration_minutes">%d د</string>
     <string name="duration_hours">%d س</string>
