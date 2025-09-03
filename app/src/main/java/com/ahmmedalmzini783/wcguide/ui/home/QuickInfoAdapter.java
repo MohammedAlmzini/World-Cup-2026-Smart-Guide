@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ahmmedalmzini783.wcguide.data.model.QuickInfo;
 import com.ahmmedalmzini783.wcguide.databinding.ItemQuickInfoBinding;
 
-import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class QuickInfoAdapter extends ListAdapter<QuickInfo, QuickInfoAdapter.QuickInfoViewHolder> {
 
@@ -55,35 +53,20 @@ public class QuickInfoAdapter extends ListAdapter<QuickInfo, QuickInfoAdapter.Qu
         }
 
         void bind(QuickInfo quickInfo) {
-            String countryName = countryCodeToName(quickInfo.getCountryCode());
+            String countryName = safeString(quickInfo.getCountryName());
+            if (countryName.equals("-")) {
+                countryName = countryCodeToName(quickInfo.getCountryCode());
+            }
             binding.countryName.setText(countryName);
 
             binding.currencyInfo.setText("Currency: " + safeString(quickInfo.getCurrency()));
-
-            List<String> languages = quickInfo.getLanguages();
-            String languagesText;
-            if (languages != null && !languages.isEmpty()) {
-                languagesText = languagesToString(languages);
-            } else {
-                languagesText = "-";
-            }
-            binding.languagesInfo.setText("Languages: " + languagesText);
-
-            binding.transportInfo.setText("Transport: " + safeString(quickInfo.getTransportTips()));
-            binding.weatherInfo.setText("Weather: " + safeString(quickInfo.getWeatherTip()));
+            binding.languagesInfo.setText("Languages: " + safeString(quickInfo.getLanguages()));
+            binding.transportInfo.setText("Transport: " + safeString(quickInfo.getTransport()));
+            binding.weatherInfo.setText("Weather: " + safeString(quickInfo.getWeather()));
         }
 
         private String safeString(String value) {
             return value == null ? "-" : value;
-        }
-
-        private String languagesToString(List<String> languages) {
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < languages.size(); i++) {
-                if (i > 0) builder.append(", ");
-                builder.append(languages.get(i));
-            }
-            return builder.toString();
         }
 
         private String countryCodeToName(String countryCode) {

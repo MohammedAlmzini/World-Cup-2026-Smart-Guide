@@ -5,39 +5,44 @@ import java.util.Objects;
 
 public class QuickInfo {
     private String countryCode; // US, CA, MX
+    private String countryName; // United States, Canada, Mexico
     private String currency; // USD, CAD, MXN
-    private List<String> languages; // ["English"], ["English", "French"], ["Spanish"]
-    private String transportTips; // Metro, Uber, buses
-    private String weatherTip; // Summer: warm, Check rain, Sunblock
+    private String languages; // English, English/French, Spanish
+    private String transport; // Metro, Uber, buses
+    private String weather; // Summer: warm, Check rain, Sunblock
 
     public QuickInfo() {
         // Default constructor required for Firebase
     }
 
-    public QuickInfo(String countryCode, String currency, List<String> languages,
-                     String transportTips, String weatherTip) {
+    public QuickInfo(String countryCode, String countryName, String currency, String languages,
+                     String transport, String weather) {
         this.countryCode = countryCode;
+        this.countryName = countryName;
         this.currency = currency;
         this.languages = languages;
-        this.transportTips = transportTips;
-        this.weatherTip = weatherTip;
+        this.transport = transport;
+        this.weather = weather;
     }
 
     // Getters and Setters
     public String getCountryCode() { return countryCode; }
     public void setCountryCode(String countryCode) { this.countryCode = countryCode; }
 
+    public String getCountryName() { return countryName; }
+    public void setCountryName(String countryName) { this.countryName = countryName; }
+
     public String getCurrency() { return currency; }
     public void setCurrency(String currency) { this.currency = currency; }
 
-    public List<String> getLanguages() { return languages; }
-    public void setLanguages(List<String> languages) { this.languages = languages; }
+    public String getLanguages() { return languages; }
+    public void setLanguages(String languages) { this.languages = languages; }
 
-    public String getTransportTips() { return transportTips; }
-    public void setTransportTips(String transportTips) { this.transportTips = transportTips; }
+    public String getTransport() { return transport; }
+    public void setTransport(String transport) { this.transport = transport; }
 
-    public String getWeatherTip() { return weatherTip; }
-    public void setWeatherTip(String weatherTip) { this.weatherTip = weatherTip; }
+    public String getWeather() { return weather; }
+    public void setWeather(String weather) { this.weather = weather; }
 
     @Override
     public boolean equals(Object o) {
@@ -56,7 +61,11 @@ public class QuickInfo {
     public String toString() {
         return "QuickInfo{" +
                 "countryCode='" + countryCode + '\'' +
+                ", countryName='" + countryName + '\'' +
                 ", currency='" + currency + '\'' +
+                ", languages='" + languages + '\'' +
+                ", transport='" + transport + '\'' +
+                ", weather='" + weather + '\'' +
                 '}';
     }
 }
