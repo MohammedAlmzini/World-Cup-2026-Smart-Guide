@@ -1,0 +1,98 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": "auth != null",
+    
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
+        "profile": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "favorites": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        },
+        "reviews": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        }
+      }
+    },
+    
+    "events": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('roles').child('admin').val() === true"
+    },
+    
+    "places": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('roles').child('admin').val() === true"
+    },
+    
+    "banners": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('roles').child('admin').val() === true"
+    },
+    
+    "public_banners": {
+      ".read": true,
+      ".write": true
+    },
+    
+    "temp_banners": {
+      ".read": true,
+      ".write": true
+    },
+    
+    "emergency_banners": {
+      ".read": true,
+      ".write": true
+    },
+    
+    "quickInfo": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('roles').child('admin').val() === true"
+    },
+    
+    "reviews": {
+      "$targetId": {
+        ".read": true,
+        "$reviewId": {
+          ".read": true,
+          ".write": "auth != null && newData.child('userId').val() === auth.uid",
+          ".validate": "newData.hasChildren(['userId', 'targetId', 'rating', 'comment', 'timestamp'])"
+        }
+      }
+    },
+    
+    "notifications": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    
+    "public_banners": {
+      ".read": true,
+      ".write": true
+    },
+    
+    "temp_banners": {
+      ".read": true,
+      ".write": true
+    },
+    
+    "emergency_banners": {
+      ".read": true,
+      ".write": true
+    },
+    
+    "admin_setup": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}

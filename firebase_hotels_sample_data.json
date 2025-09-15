@@ -1,0 +1,269 @@
+{
+  "hotels": {
+    "hotel_001": {
+      "id": "hotel_001",
+      "name": "فندق الخليج الذهبي",
+      "description": "فندق فاخر 5 نجوم في قلب الدوحة، يوفر إطلالة خلابة على الخليج العربي. يضم مرافق عالمية المستوى وخدمات VIP خاصة لضيوف كأس العالم.",
+      "mainImageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+      "location": "الخليج الغربي، الدوحة",
+      "address": "شارع الخليج الغربي، الدوحة، قطر",
+      "country": "Qatar",
+      "city": "Doha",
+      "lat": 25.2854,
+      "lng": 51.5310,
+      "phone": "+974 4444 5555",
+      "email": "info@goldengulfhotel.qa",
+      "website": "www.goldengulfhotel.qa",
+      "workingHours": "24 ساعة",
+      "rating": 4.8,
+      "isOpen": true,
+      "services": [
+        "خدمة الواي فاي المجانية",
+        "خدمة الغرف 24 ساعة",
+        "مواقف سيارات مجانية",
+        "مطعم عالمي",
+        "صالة رياضية"
+      ],
+      "facilities": [
+        "مسبح خارجي",
+        "سبا ومركز صحي",
+        "مركز أعمال",
+        "قاعات مؤتمرات",
+        "متجر هدايا"
+      ],
+      "worldCupServices": [
+        "باصات مجانية للملاعب",
+        "حجز تذاكر المباريات",
+        "جولات سياحية خاصة",
+        "خدمة ترجمة",
+        "برنامج ترفيهي لكأس العالم"
+      ],
+      "additionalImages": [
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop",
+          "description": "اللوبي الفاخر"
+        },
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1578774204375-7e72c144b3b2?w=600&h=400&fit=crop", 
+          "description": "المسبح الخارجي"
+        }
+      ],
+      "rooms": [
+        {
+          "type": "غرفة ديلكس",
+          "price": 450.0,
+          "currency": "QAR",
+          "description": "غرفة واسعة مع إطلالة على البحر",
+          "amenities": ["تلفزيون ذكي", "ميني بار", "خدمة القهوة"]
+        },
+        {
+          "type": "جناح ملكي",
+          "price": 850.0,
+          "currency": "QAR", 
+          "description": "جناح فاخر مع صالة منفصلة",
+          "amenities": ["تلفزيون ذكي", "ميني بار", "خدمة القهوة", "شرفة خاصة"]
+        }
+      ],
+      "createdAt": 1694438400000,
+      "updatedAt": 1694438400000
+    },
+    "hotel_002": {
+      "id": "hotel_002", 
+      "name": "فندق النخيل الملكي",
+      "description": "فندق بوتيك راقي يجمع بين الضيافة العربية الأصيلة والخدمات العصرية. موقع مثالي بالقرب من المعالم السياحية الرئيسية في الدوحة.",
+      "mainImageUrl": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&h=400&fit=crop",
+      "location": "المدينة القديمة، الدوحة",
+      "address": "شارع المدينة القديمة، الدوحة، قطر",
+      "country": "Qatar",
+      "city": "Doha",
+      "lat": 25.2760,
+      "lng": 51.5200,
+      "phone": "+974 4455 6677",
+      "email": "reservations@royalpalm.qa",
+      "website": "www.royalpalmhotel.qa",
+      "workingHours": "24 ساعة",
+      "rating": 4.6,
+      "isOpen": true,
+      "services": [
+        "خدمة الواي فاي المجانية",
+        "خدمة الغرف",
+        "مطعم تراثي",
+        "كافيه سطح",
+        "خدمة النقل"
+      ],
+      "facilities": [
+        "حديقة داخلية",
+        "مركز تسوق صغير",
+        "صالة استقبال تراثية",
+        "مكتبة",
+        "منطقة لعب أطفال"
+      ],
+      "worldCupServices": [
+        "نقل مجاني للملاعب",
+        "مشاهدة المباريات على شاشة كبيرة",
+        "أمسيات تراثية",
+        "جولات في المدينة القديمة"
+      ],
+      "additionalImages": [
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop",
+          "description": "الاستقبال التراثي"
+        },
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&h=400&fit=crop",
+          "description": "الحديقة الداخلية"
+        }
+      ],
+      "rooms": [
+        {
+          "type": "غرفة تراثية",
+          "price": 320.0,
+          "currency": "QAR",
+          "description": "غرفة مصممة بطراز عربي أصيل",
+          "amenities": ["تلفزيون", "ميني بار", "خدمة الشاي العربي"]
+        },
+        {
+          "type": "جناح عائلي",
+          "price": 580.0,
+          "currency": "QAR",
+          "description": "جناح واسع مناسب للعائلات",
+          "amenities": ["تلفزيون ذكي", "غرفة معيشة", "مطبخ صغير"]
+        }
+      ],
+      "createdAt": 1694438400000,
+      "updatedAt": 1694438400000
+    },
+    "hotel_003": {
+      "id": "hotel_003",
+      "name": "منتجع الصحراء الذهبية",
+      "description": "تجربة فريدة في قلب الصحراء القطرية. منتجع صحراوي فاخر يوفر مغامرات لا تُنسى مع وسائل الراحة العصرية.",
+      "mainImageUrl": "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?w=600&h=400&fit=crop",
+      "location": "الصحراء الجنوبية، قطر",
+      "address": "طريق الصحراء الجنوبية، قطر",
+      "country": "Qatar", 
+      "city": "Desert",
+      "lat": 25.0000,
+      "lng": 51.2500,
+      "phone": "+974 4466 7788",
+      "email": "desert@goldenresort.qa",
+      "website": "www.goldendesertresort.qa",
+      "workingHours": "24 ساعة",
+      "rating": 4.9,
+      "isOpen": true,
+      "services": [
+        "خدمة الواي فاي",
+        "رحلات سفاري",
+        "مطعم صحراوي",
+        "نشاطات تراثية",
+        "خدمة النقل من المطار"
+      ],
+      "facilities": [
+        "مخيم تراثي",
+        "حلبة الإبل",
+        "مركز الرماية",
+        "مسرح خارجي",
+        "متحف صغير"
+      ],
+      "worldCupServices": [
+        "رحلات خاصة للملاعب بالدراجات الرباعية",
+        "أمسيات تراثية مع البدو",
+        "عروض الصقور",
+        "جولات نجوم الليل"
+      ],
+      "additionalImages": [
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1539650116574-75c0c6d0e9c7?w=600&h=400&fit=crop",
+          "description": "المخيم التراثي"
+        },
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?w=600&h=400&fit=crop",
+          "description": "رحلة السفاري"
+        }
+      ],
+      "rooms": [
+        {
+          "type": "خيمة تراثية",
+          "price": 650.0,
+          "currency": "QAR",
+          "description": "خيمة فاخرة بطراز بدوي أصيل",
+          "amenities": ["مكيف هواء", "حمام خاص", "شرفة صحراوية"]
+        },
+        {
+          "type": "فيلا صحراوية",
+          "price": 1200.0,
+          "currency": "QAR",
+          "description": "فيلا مستقلة مع مسبح خاص",
+          "amenities": ["مسبح خاص", "مطبخ كامل", "شرفة واسعة", "خدمة شخصية"]
+        }
+      ],
+      "createdAt": 1694438400000,
+      "updatedAt": 1694438400000
+    },
+    "hotel_004": {
+      "id": "hotel_004",
+      "name": "فندق برج الخليج",
+      "description": "ناطحة سحاب فندقية في قلب الحي المالي بالدوحة. يوفر إطلالة بانورامية 360 درجة على المدينة والخليج.",
+      "mainImageUrl": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&h=400&fit=crop",
+      "location": "الحي المالي، الدوحة",
+      "address": "شارع الحي المالي، الدوحة، قطر",
+      "country": "Qatar",
+      "city": "Doha",
+      "lat": 25.3178,
+      "lng": 51.5375,
+      "phone": "+974 4477 8899",
+      "email": "tower@gulftower.qa",
+      "website": "www.gulftowerhotel.qa",
+      "workingHours": "24 ساعة",
+      "rating": 4.7,
+      "isOpen": true,
+      "services": [
+        "خدمة كونسيرج",
+        "مطعم سماوي",
+        "صالة أعمال تنفيذية",
+        "خدمة ليموزين",
+        "خدمات مؤتمرات"
+      ],
+      "facilities": [
+        "مهبط طائرات هليكوبتر",
+        "مركز تسوق فاخر",
+        "نادي صحي متكامل",
+        "مسبح في الطابق 50",
+        "مرصد فلكي"
+      ],
+      "worldCupServices": [
+        "طائرة هليكوبتر للملاعب",
+        "جولات جوية فوق الدوحة",
+        "صالات VIP لمتابعة المباريات",
+        "حفلات استقبال للمشاهير"
+      ],
+      "additionalImages": [
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?w=600&h=400&fit=crop",
+          "description": "المطعم السماوي"
+        },
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600&h=400&fit=crop",
+          "description": "إطلالة من الأعلى"
+        }
+      ],
+      "rooms": [
+        {
+          "type": "جناح تنفيذي",
+          "price": 950.0,
+          "currency": "QAR",
+          "description": "جناح في الطوابق العليا مع خدمات تنفيذية",
+          "amenities": ["إطلالة بانورامية", "مكتب خاص", "خدمة مجلس"]
+        },
+        {
+          "type": "الجناح الملكي",
+          "price": 2500.0,
+          "currency": "QAR",
+          "description": "جناح في الطابق الأعلى مع مرافق حصرية",
+          "amenities": ["مهبط هليكوبتر خاص", "خدمة شخصية", "حديقة سماوية"]
+        }
+      ],
+      "createdAt": 1694438400000,
+      "updatedAt": 1694438400000
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "banners": {
+    "banner_001": {
+      "title": "احجز تذاكر كأس العالم 2026",
+      "description": "لا تفوت فرصة حضور أهم حدث رياضي في العالم! احجز تذاكرك الآن لكأس العالم 2026 في الولايات المتحدة وكندا والمكسيك. تذاكر محدودة ومتنوعة لجميع المباريات.",
+      "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop",
+      "deeplink": "app://tickets/world_cup_2026"
+    },
+    "banner_002": {
+      "title": "مناطق المشجعين - أحداث مثيرة",
+      "description": "استمتع بأجواء كأس العالم في مناطق المشجعين المخصصة! فعاليات ترفيهية، عروض موسيقية، وأنشطة تفاعلية في جميع المدن المضيفة. مجاناً للجميع!",
+      "imageUrl": "https://images.unsplash.com/photo-1574869711983-2bb7d1b6659c?w=800&h=400&fit=crop",
+      "deeplink": "app://events/fan_zones"
+    },
+    "banner_003": {
+      "title": "باقات السفر الحصرية",
+      "description": "اكتشف أفضل عروض السفر لكأس العالم 2026! باقات شاملة تتضمن الإقامة، التذاكر، والنقل. خصومات خاصة للحجز المبكر والعائلات.",
+      "imageUrl": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=400&fit=crop",
+      "deeplink": "app://travel/packages"
+    }
+  }
+}
