@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="رابط الصورة (URL)"
+        app:boxStrokeColor="@color/secondary_variant"
+        app:hintTextColor="@color/secondary_variant"
+        app:startIconDrawable="@android:drawable/ic_menu_gallery"
+        app:startIconTint="@color/secondary_variant">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_image_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"
+            android:maxLines="2" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="اسم الصورة"
+        app:boxStrokeColor="@color/secondary_variant"
+        app:hintTextColor="@color/secondary_variant"
+        app:startIconDrawable="@android:drawable/ic_menu_info_details"
+        app:startIconTint="@color/secondary_variant">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_image_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="وصف الصورة (اختياري)"
+        app:boxStrokeColor="@color/secondary_variant"
+        app:hintTextColor="@color/secondary_variant"
+        app:startIconDrawable="@android:drawable/ic_menu_edit"
+        app:startIconTint="@color/secondary_variant">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_image_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:gravity="top" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

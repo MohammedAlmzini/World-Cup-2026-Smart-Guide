@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/text_reviewer_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="اسم المراجع"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                tools:text="أحمد محمد" />
+
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="4.5"
+                android:isIndicator="true"
+                android:progressTint="@color/secondary_variant"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+        <!-- Review Title -->
+        <TextView
+            android:id="@+id/text_review_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="عنوان التقييم"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/secondary_variant"
+            android:layout_marginBottom="4dp"
+            tools:text="تجربة رائعة" />
+
+        <!-- Review Description -->
+        <TextView
+            android:id="@+id/text_review_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="وصف التقييم"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:layout_marginBottom="8dp"
+            tools:text="مكان جميل جداً ويستحق الزيارة، الطبيعة خلابة والمناظر رائعة." />
+
+        <!-- Landmark Name -->
+        <TextView
+            android:id="@+id/text_landmark_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="المعلم السياحي"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginBottom="8dp"
+            android:drawableStart="@android:drawable/ic_menu_mylocation"
+            android:drawablePadding="4dp"
+            tools:text="برج خليفة" />
+
+        <!-- Footer Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Approval Status -->
+            <TextView
+                android:id="@+id/text_approval_status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="معتمد"
+                android:textSize="12sp"
+                android:textColor="@android:color/holo_green_dark"
+                android:drawableStart="@android:drawable/ic_media_play"
+                android:drawablePadding="4dp"
+                tools:text="معتمد" />
+
+            <!-- Date -->
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="التاريخ"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                tools:text="2024-01-15" />
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="8dp">
+
+                <ImageButton
+                    android:id="@+id/btn_edit"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:contentDescription="تعديل"
+                    android:layout_marginEnd="4dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_delete"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_delete"
+                    android:contentDescription="حذف"
+                    android:tint="@android:color/holo_red_dark" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

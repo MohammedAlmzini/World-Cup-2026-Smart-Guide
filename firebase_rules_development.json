@@ -1,0 +1,26 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "banners": {
+      ".read": true,
+      ".write": true
+    },
+    "public_banners": {
+      ".read": true,
+      ".write": true
+    },
+    "temp_banners": {
+      ".read": true,
+      ".write": true
+    },
+    "emergency_banners": {
+      ".read": true,
+      ".write": true
+    },
+    "users": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}

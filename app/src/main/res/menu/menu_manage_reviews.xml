@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_add_review"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="إضافة تقييم مستخدم"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_add_landmark_rating"
+        android:icon="@android:drawable/btn_star_big_on"
+        android:title="تقييم المعلم العام"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:title="تحديث"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_filter"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="فلترة"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="الإعدادات"
+        app:showAsAction="never" />
+
+</menu>
