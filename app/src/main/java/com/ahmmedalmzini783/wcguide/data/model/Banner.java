@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Banner {
     private String id;
     private String title;
+    private String description;
     private String imageUrl;
     private String deeplink; // app://event/evt_123 or app://place/pl_001
 
@@ -12,9 +13,10 @@ public class Banner {
         // Default constructor required for Firebase
     }
 
-    public Banner(String id, String title, String imageUrl, String deeplink) {
+    public Banner(String id, String title, String description, String imageUrl, String deeplink) {
         this.id = id;
         this.title = title;
+        this.description = description;
         this.imageUrl = imageUrl;
         this.deeplink = deeplink;
     }
@@ -25,6 +27,9 @@ public class Banner {
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }

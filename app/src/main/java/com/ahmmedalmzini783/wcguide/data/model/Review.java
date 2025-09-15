@@ -1,52 +1,184 @@
 package com.ahmmedalmzini783.wcguide.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class Review {
+public class Review implements Parcelable {
     private String id;
-    private String userId;
-    private String targetId; // Event or Place ID
-    private String targetKind; // "event" or "place"
-    private int rating; // 1-5
-    private String text;
-    private long createdAt;
+    private String landmarkId;
+    private String reviewerName;
+    private String reviewerEmail;
+    private float rating; // من 1 إلى 5
+    private String title;
+    private String description;
+    private List<ReviewImage> images;
+    private long timestamp;
+    private boolean isApproved;
+    private String adminNotes;
 
     public Review() {
-        // Default constructor required for Firebase
+        this.images = new ArrayList<>();
+        this.timestamp = System.currentTimeMillis();
+        this.isApproved = true;
     }
 
-    public Review(String id, String userId, String targetId, String targetKind,
-                  int rating, String text, long createdAt) {
-        this.id = id;
-        this.userId = userId;
-        this.targetId = targetId;
-        this.targetKind = targetKind;
+    public Review(String landmarkId, String reviewerName, String reviewerEmail,
+                  float rating, String title, String description) {
+        this();
+        this.landmarkId = landmarkId;
+        this.reviewerName = reviewerName;
+        this.reviewerEmail = reviewerEmail;
         this.rating = rating;
-        this.text = text;
-        this.createdAt = createdAt;
+        this.title = title;
+        this.description = description;
+    }
+
+    // Parcelable implementation
+    protected Review(Parcel in) {
+        id = in.readString();
+        landmarkId = in.readString();
+        reviewerName = in.readString();
+        reviewerEmail = in.readString();
+        rating = in.readFloat();
+        title = in.readString();
+        description = in.readString();
+        images = in.createTypedArrayList(ReviewImage.CREATOR);
+        timestamp = in.readLong();
+        isApproved = in.readByte() != 0;
+        adminNotes = in.readString();
+    }
+
+    public static final Creator<Review> CREATOR = new Creator<Review>() {
+        @Override
+        public Review createFromParcel(Parcel in) {
+            return new Review(in);
+        }
+
+        @Override
+        public Review[] newArray(int size) {
+            return new Review[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(landmarkId);
+        dest.writeString(reviewerName);
+        dest.writeString(reviewerEmail);
+        dest.writeFloat(rating);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeTypedList(images);
+        dest.writeLong(timestamp);
+        dest.writeByte((byte) (isApproved ? 1 : 0));
+        dest.writeString(adminNotes);
     }
 
     // Getters and Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getTargetId() { return targetId; }
-    public void setTargetId(String targetId) { this.targetId = targetId; }
+    public String getLandmarkId() {
+        return landmarkId;
+    }
 
-    public String getTargetKind() { return targetKind; }
-    public void setTargetKind(String targetKind) { this.targetKind = targetKind; }
+    public void setLandmarkId(String landmarkId) {
+        this.landmarkId = landmarkId;
+    }
 
-    public int getRating() { return rating; }
-    public void setRating(int rating) { this.rating = rating; }
+    public String getReviewerName() {
+        return reviewerName;
+    }
 
-    public String getText() { return text; }
-    public void setText(String text) { this.text = text; }
+    public void setReviewerName(String reviewerName) {
+        this.reviewerName = reviewerName;
+    }
 
-    public long getCreatedAt() { return createdAt; }
-    public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
+    public String getReviewerEmail() {
+        return reviewerEmail;
+    }
+
+    public void setReviewerEmail(String reviewerEmail) {
+        this.reviewerEmail = reviewerEmail;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<ReviewImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ReviewImage> images) {
+        this.images = images;
+    }
+
+    public void addImage(ReviewImage image) {
+        if (this.images == null) {
+            this.images = new ArrayList<>();
+        }
+        this.images.add(image);
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public boolean isApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(boolean approved) {
+        isApproved = approved;
+    }
+
+    public String getAdminNotes() {
+        return adminNotes;
+    }
+
+    public void setAdminNotes(String adminNotes) {
+        this.adminNotes = adminNotes;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -65,8 +197,9 @@ public class Review {
     public String toString() {
         return "Review{" +
                 "id='" + id + '\'' +
-                ", targetId='" + targetId + '\'' +
+                ", landmarkId='" + landmarkId + '\'' +
                 ", rating=" + rating +
+                ", title='" + title + '\'' +
                 '}';
     }
 }

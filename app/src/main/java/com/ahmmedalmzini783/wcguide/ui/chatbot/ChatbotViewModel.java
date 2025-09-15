@@ -35,7 +35,15 @@ public class ChatbotViewModel extends AndroidViewModel {
         if (messages != null) {
             messages.add(new ChatMessage(
                     "assistant",
-                    "مرحباً بك في مرشد كأس العالم 2026! كيف يمكنني مساعدتك اليوم؟\n\nWelcome to World Cup 2026 Smart Guide! How can I help you today?",
+                    "🤖 مرحباً بك في مرشد كأس العالم 2026! \n\n" +
+                    "أنا مساعدك الذكي المطور بتقنية Gemini AI. كيف يمكنني مساعدتك اليوم؟\n\n" +
+                    "يمكنك أن تسألني عن:\n" +
+                    "🏆 معلومات كأس العالم 2026\n" +
+                    "🌍 المدن والملاعب المضيفة\n" +
+                    "🏨 الفنادق والإقامة\n" +
+                    "🎫 التذاكر والحجوزات\n\n" +
+                    "🤖 Welcome to World Cup 2026 Smart Guide!\n\n" +
+                    "I'm your AI assistant powered by Gemini AI. How can I help you today?",
                     System.currentTimeMillis()
             ));
             chatMessages.setValue(messages);
@@ -64,8 +72,7 @@ public class ChatbotViewModel extends AndroidViewModel {
                         }
                         break;
                     case ERROR:
-                        String errorMessage = resource.getMessage() != null ?
-                                resource.getMessage() : "عذراً، حدث خطأ. يرجى المحاولة مرة أخرى.\n\nSorry, an error occurred. Please try again.";
+                        String errorMessage = getFormattedErrorMessage(resource.getMessage());
                         addMessage("assistant", errorMessage);
                         lastResponse.setValue(Resource.error(errorMessage, null));
                         break;
@@ -101,7 +108,7 @@ public class ChatbotViewModel extends AndroidViewModel {
                         }
                         break;
                     case ERROR:
-                        String errorMessage = "عذراً، لم أتمكن من إنشاء خطة يومية. يرجى المحاولة مرة أخرى.\n\nSorry, I couldn't generate a daily plan. Please try again.";
+                        String errorMessage = getFormattedErrorMessage(resource.getMessage());
                         addMessage("assistant", errorMessage);
                         lastResponse.setValue(Resource.error(errorMessage, null));
                         break;
@@ -126,7 +133,7 @@ public class ChatbotViewModel extends AndroidViewModel {
                         }
                         break;
                     case ERROR:
-                        String errorMessage = "عذراً، لم أتمكن من ترجمة النص. يرجى المحاولة مرة أخرى.\n\nSorry, I couldn't translate the text. Please try again.";
+                        String errorMessage = getFormattedErrorMessage(resource.getMessage());
                         addMessage("assistant", errorMessage);
                         lastResponse.setValue(Resource.error(errorMessage, null));
                         break;
@@ -148,13 +155,69 @@ public class ChatbotViewModel extends AndroidViewModel {
         }
     }
 
+    public void addBotMessage(String content) {
+        addMessage("assistant", content);
+    }
+
+    public void addUserMessage(String content) {
+        addMessage("user", content);
+    }
+
     public void clearChat() {
         chatMessages.setValue(new ArrayList<>());
         addWelcomeMessage();
     }
 
+    private String getFormattedErrorMessage(String originalError) {
+        if (originalError == null) {
+            return "عذراً، حدث خطأ. يرجى المحاولة مرة أخرى.\n\nSorry, an error occurred. Please try again.";
+        }
+
+        // Handle API 404 errors specifically
+        if (originalError.contains("404") || originalError.contains("API error: 404")) {
+            return "⚠️ عذراً، خدمة Gemini AI غير متوفرة حالياً.\n\n" +
+                   "تم تفعيل النظام البديل - يمكنك السؤال عن:\n" +
+                   "• المعالم السياحية في المدن\n" +
+                   "• معلومات عن كأس العالم 2026\n" +
+                   "• الفنادق والمطاعم\n" +
+                   "• التذاكر والحجوزات\n\n" +
+                   "🌍 Sorry, Gemini AI service is temporarily unavailable.\n\n" +
+                   "Fallback system activated - you can ask about:\n" +
+                   "• Tourist attractions in cities\n" +
+                   "• World Cup 2026 information\n" +
+                   "• Hotels and restaurants\n" +
+                   "• Tickets and bookings";
+        }
+
+        // Handle network errors
+        if (originalError.contains("Network error") || originalError.contains("timeout")) {
+            return "🌐 مشكلة في الاتصال بالإنترنت.\n\n" +
+                   "يرجى التحقق من اتصالك والمحاولة مرة أخرى.\n\n" +
+                   "🌐 Internet connection problem.\n\n" +
+                   "Please check your connection and try again.";
+        }
+
+        // Handle API key errors
+        if (originalError.contains("No AI API key configured") || originalError.contains("401") || originalError.contains("403")) {
+            return "🔑 خدمة Gemini AI غير مفعلة حالياً.\n\n" +
+                   "تم تفعيل النظام البديل - يمكنك استخدام الميزات الأخرى في التطبيق.\n\n" +
+                   "🔑 Gemini AI service is not activated.\n\n" +
+                   "Fallback system activated - you can use other app features.";
+        }
+
+        // Default error message
+        return "عذراً، حدث خطأ. يرجى المحاولة مرة أخرى.\n\n" +
+               "إذا استمرت المشكلة، تأكد من اتصالك بالإنترنت.\n\n" +
+               "Sorry, an error occurred. Please try again.\n\n" +
+               "If the problem persists, check your internet connection.";
+    }
+
     // Getters
     public LiveData<List<ChatMessage>> getChatMessages() {
+        return chatMessages;
+    }
+
+    public LiveData<List<ChatMessage>> getMessages() {
         return chatMessages;
     }
 

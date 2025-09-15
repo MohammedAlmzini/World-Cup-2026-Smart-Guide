@@ -1,129 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.chatbot.ChatbotFragment">
+    android:background="?android:attr/colorBackground">
 
-    <!-- Chat Messages -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chat_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="16dp"
-        android:clipToPadding="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:stackFromEnd="true"
-        tools:listitem="@layout/item_chat_message" />
-
-    <!-- Quick Actions -->
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/quick_actions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:singleSelection="false">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_daily_plan"
-            style="@style/Widget.Material3.Chip.Assist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chatbot_daily_plan"
-            app:chipIcon="@drawable/ic_events" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_translate"
-            style="@style/Widget.Material3.Chip.Assist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chatbot_translate"
-            app:chipIcon="@drawable/ic_translate" />
-
-    </com.google.android.material.chip.ChipGroup>
-
-    <!-- Input Section -->
+    <!-- Action buttons row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical"
-        android:background="?attr/colorSurface"
-        android:elevation="8dp">
+        android:padding="8dp"
+        android:gravity="center">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout"
+        <Button
+            android:id="@+id/helpAction"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            app:boxBackgroundMode="outline"
-            app:boxCornerRadiusBottomEnd="24dp"
-            app:boxCornerRadiusBottomStart="24dp"
-            app:boxCornerRadiusTopEnd="24dp"
-            app:boxCornerRadiusTopStart="24dp"
-            app:hintTextColor="?attr/colorOnSurfaceVariant">
+            android:layout_marginEnd="4dp"
+            android:text="Help"
+            android:textSize="12sp"
+            style="@style/Widget.Material3.Button.OutlinedButton" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/message_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/chatbot_hint"
-                android:maxLines="4"
-                android:inputType="textMultiLine|textCapSentences"
-                android:imeOptions="actionSend" />
+        <Button
+            android:id="@+id/infoAction"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="4dp"
+            android:text="Info"
+            android:textSize="12sp"
+            style="@style/Widget.Material3.Button.OutlinedButton" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/voice_input_button"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="8dp"
-            app:icon="@drawable/ic_mic"
-            app:iconSize="24dp"
-            app:iconTint="?attr/colorPrimary"
-            android:contentDescription="@string/cd_voice_input_button" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/send_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_send"
-            app:fabSize="mini"
-            android:contentDescription="@string/cd_send_button" />
+        <Button
+            android:id="@+id/settingsAction"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:text="Settings"
+            android:textSize="12sp"
+            style="@style/Widget.Material3.Button.OutlinedButton" />
 
     </LinearLayout>
 
+    <!-- Chat Messages RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messagesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+
     <!-- Loading Indicator -->
+    <ProgressBar
+        android:id="@+id/loadingIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <!-- Typing Indicator -->
+    <TextView
+        android:id="@+id/typingIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Guide is typing..."
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="14sp"
+        android:padding="8dp"
+        android:visibility="gone" />
+
+    <!-- Input Layout -->
     <LinearLayout
-        android:id="@+id/loading_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center"
-        android:visibility="gone">
+        android:padding="12dp"
+        android:background="?android:attr/colorBackground"
+        android:elevation="4dp">
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
+        <EditText
+            android:id="@+id/messageInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_card_highlight_effect"
+            android:hint="@string/ask_guide_hint"
+            android:maxLines="4"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:inputType="textCapSentences|textMultiLine" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/voiceInputButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:indicatorSize="24dp" />
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@android:drawable/ic_btn_speak_now"
+            app:fabSize="mini"
+            android:contentDescription="Voice Input" />
 
-        <TextView
-            android:id="@+id/loading_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/message_loading"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?attr/colorOnSurfaceVariant" />
+        <ImageButton
+            android:id="@+id/sendButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/circle_white_bg"
+            android:src="@drawable/ic_send"
+            android:contentDescription="@string/send_message"
+            android:scaleType="centerInside" />
 
     </LinearLayout>
 

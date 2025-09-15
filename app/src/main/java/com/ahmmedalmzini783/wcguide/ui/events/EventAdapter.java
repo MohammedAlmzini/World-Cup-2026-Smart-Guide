@@ -103,6 +103,8 @@ public class EventAdapter extends ListAdapter<Event, EventAdapter.EventViewHolde
                         .load(event.getImageUrl())
                         .placeholder(R.drawable.placeholder_event)
                         .error(R.drawable.placeholder_event)
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.NONE)
                         .into(eventImage);
             }
 

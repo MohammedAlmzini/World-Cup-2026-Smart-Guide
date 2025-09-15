@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ahmmedalmzini783.wcguide.data.model.Banner;
 import com.ahmmedalmzini783.wcguide.databinding.ItemBannerBinding;
-import com.bumptech.glide.Glide;
+import com.ahmmedalmzini783.wcguide.util.ImageLoader;
+import com.ahmmedalmzini783.wcguide.R;
 
 public class BannerAdapter extends ListAdapter<Banner, BannerAdapter.BannerViewHolder> {
 
@@ -56,21 +57,101 @@ public class BannerAdapter extends ListAdapter<Banner, BannerAdapter.BannerViewH
         BannerViewHolder(ItemBannerBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            setupCardAnimation();
+        }
+
+        private void setupCardAnimation() {
+            // Add modern card press animation with ripple effect
+            binding.getRoot().setOnTouchListener((v, event) -> {
+                switch (event.getAction()) {
+                    case android.view.MotionEvent.ACTION_DOWN:
+                        // Scale down with shadow reduction
+                        v.animate()
+                            .scaleX(0.96f)
+                            .scaleY(0.96f)
+                            .translationZ(-4f)
+                            .setDuration(150)
+                            .setInterpolator(new android.view.animation.AccelerateInterpolator())
+                            .start();
+                        break;
+                    case android.view.MotionEvent.ACTION_UP:
+                    case android.view.MotionEvent.ACTION_CANCEL:
+                        // Scale back with shadow restoration
+                        v.animate()
+                            .scaleX(1.0f)
+                            .scaleY(1.0f)
+                            .translationZ(0f)
+                            .setDuration(200)
+                            .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                            .start();
+                        break;
+                }
+                return false;
+            });
         }
 
         void bind(Banner banner) {
+            // Set title with animation
             binding.bannerTitle.setText(banner.getTitle());
 
-            Glide.with(binding.bannerImage.getContext())
-                    .load(banner.getImageUrl())
-                    .centerCrop()
-                    .into(binding.bannerImage);
+            // Load image with modern loading transition
+            binding.bannerImage.setAlpha(0.3f);
+            String url = banner.getImageUrl();
+            if (url != null && !url.trim().isEmpty()) {
+                // Use normal caching first to avoid flicker and keep original image intact
+                ImageLoader.loadImage(
+                        binding.bannerImage.getContext(),
+                        url,
+                        binding.bannerImage,
+                        R.drawable.placeholder_banner
+                );
+            } else {
+                binding.bannerImage.setImageResource(R.drawable.placeholder_banner);
+            }
+            
+            // Fade in image when loaded
+            binding.bannerImage.animate()
+                .alpha(1.0f)
+                .setDuration(400)
+                .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                .start();
 
+            // Set click listener with modern feedback
             binding.getRoot().setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onBannerClick(banner);
+                    // Modern click animation with haptic feedback
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                        v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+                    }
+                    
+                    // Elegant click animation
+                    v.animate()
+                        .scaleX(1.02f)
+                        .scaleY(1.02f)
+                        .setDuration(100)
+                        .withEndAction(() -> {
+                            v.animate()
+                                .scaleX(1.0f)
+                                .scaleY(1.0f)
+                                .setDuration(200)
+                                .setInterpolator(new android.view.animation.OvershootInterpolator(1.2f))
+                                .withEndAction(() -> listener.onBannerClick(banner))
+                                .start();
+                        })
+                        .start();
                 }
             });
+
+            // Add entrance animation with stagger
+            binding.getRoot().setAlpha(0f);
+            binding.getRoot().setTranslationX(100f);
+            binding.getRoot().animate()
+                .alpha(1f)
+                .translationX(0f)
+                .setDuration(500)
+                .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                .setStartDelay(getAdapterPosition() * 100L) // Stagger animation
+                .start();
         }
     }
 }

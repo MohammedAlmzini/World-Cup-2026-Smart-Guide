@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ahmmedalmzini783.wcguide.databinding.ItemChatMessageBinding;
 import com.ahmmedalmzini783.wcguide.util.DateTimeUtil;
 
+import java.util.List;
 import java.util.Locale;
 
 public class ChatAdapter extends ListAdapter<ChatbotViewModel.ChatMessage, ChatAdapter.ChatViewHolder> {
@@ -34,6 +35,10 @@ public class ChatAdapter extends ListAdapter<ChatbotViewModel.ChatMessage, ChatA
 
     public ChatAdapter() {
         super(DIFF_CALLBACK);
+    }
+
+    public void updateMessages(List<ChatbotViewModel.ChatMessage> messages) {
+        submitList(messages);
     }
 
     @NonNull
@@ -59,20 +64,30 @@ public class ChatAdapter extends ListAdapter<ChatbotViewModel.ChatMessage, ChatA
 
         void bind(ChatbotViewModel.ChatMessage message) {
             if (message.isFromUser()) {
-                // Show user message
+                // عرض رسالة المستخدم
                 binding.userMessageContainer.setVisibility(View.VISIBLE);
                 binding.assistantMessageContainer.setVisibility(View.GONE);
                 binding.userMessageText.setText(message.getContent());
+                
+                // عرض التوقيت للمستخدم
+                String timeText = DateTimeUtil.formatTime(message.getTimestamp(), Locale.getDefault());
+                binding.userMessageTime.setText(timeText);
+                binding.userMessageTime.setVisibility(View.VISIBLE);
+                
             } else {
-                // Show assistant message
+                // عرض رسالة المساعد
                 binding.userMessageContainer.setVisibility(View.GONE);
                 binding.assistantMessageContainer.setVisibility(View.VISIBLE);
                 binding.assistantMessageText.setText(message.getContent());
+                
+                // عرض التوقيت للمساعد
+                String timeText = DateTimeUtil.formatTime(message.getTimestamp(), Locale.getDefault());
+                binding.assistantMessageTime.setText(timeText);
+                binding.assistantMessageTime.setVisibility(View.VISIBLE);
             }
 
-            // Format timestamp
-            String timeText = DateTimeUtil.formatTime(message.getTimestamp(), Locale.getDefault());
-            binding.messageTimestamp.setText(timeText);
+            // إخفاء التوقيت المشترك (غير مستخدم في التصميم الجديد)
+            binding.messageTimestamp.setVisibility(View.GONE);
         }
     }
 }

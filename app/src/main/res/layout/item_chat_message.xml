@@ -6,89 +6,156 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:paddingHorizontal="4dp"
+    android:paddingVertical="6dp">
 
-    <!-- User Message -->
+    <!-- رسالة المستخدم -->
     <LinearLayout
         android:id="@+id/user_message_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:layout_marginStart="48dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="8dp"
         android:visibility="gone"
         tools:visibility="visible">
 
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="?attr/colorPrimary">
+            android:orientation="vertical"
+            android:gravity="end">
 
-            <TextView
-                android:id="@+id/user_message_text"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorOnPrimary"
-                tools:text="Hello, how can you help me?" />
+                android:layout_marginBottom="4dp"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FF6B35">
 
-        </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/user_message_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="12dp"
+                    android:textSize="15sp"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="#FFFFFF"
+                    android:maxWidth="280dp"
+                    tools:text="مرحباً، كيف يمكنك مساعدتي؟" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/user_message_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:textSize="11sp"
+                android:textColor="#999999"
+                tools:text="الآن" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <!-- Assistant Message -->
+    <!-- رسالة المساعد -->
     <LinearLayout
         android:id="@+id/assistant_message_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="8dp"
         android:visibility="gone"
         tools:visibility="visible">
 
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
-            android:layout_gravity="top"
-            android:src="@drawable/ic_chatbot"
-            android:background="@drawable/bg_circle_primary"
-            android:padding="6dp"
-            android:contentDescription="@string/nav_chatbot" />
-
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="?attr/colorSurfaceVariant">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/assistant_message_text"
+            <!-- أيقونة المساعد -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="12dp"
+                android:layout_gravity="top"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFF3E0">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_chatbot"
+                    android:contentDescription="المرشد الذكي"
+                    app:tint="#FF6B35" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- محتوى الرسالة -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                tools:text="Hello! I'm your World Cup 2026 smart guide. I can help you with event information, travel planning, and much more!" />
+                android:orientation="vertical">
 
-        </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    app:cardCornerRadius="22dp"
+                    app:cardElevation="1dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#E8E8E8"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                    <TextView
+                        android:id="@+id/assistant_message_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="12dp"
+                        android:textSize="15sp"
+                        android:lineSpacingExtra="3dp"
+                        android:textColor="#1A1A1A"
+                        android:maxWidth="280dp"
+                        tools:text="مرحباً! أنا مساعدك الذكي لكأس العالم 2026. يمكنني مساعدتك في معلومات الأحداث والسفر وأكثر!" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/assistant_message_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="11sp"
+                    android:textColor="#999999"
+                    tools:text="الآن" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <!-- Timestamp -->
+    <!-- التوقيت المشترك -->
     <TextView
         android:id="@+id/message_timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textAppearance="?attr/textAppearanceCaption"
-        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="11sp"
+        android:textColor="#CCCCCC"
         android:layout_marginTop="4dp"
-        tools:text="10:30 AM" />
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        tools:text="10:30 ص" />
 
 </LinearLayout>

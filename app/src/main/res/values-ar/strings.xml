@@ -1,157 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App Name -->
-    <string name="app_name">مرشد كأس العالم 2026</string>
+    <!-- App name -->
+    <string name="app_name">دليل كأس العالم الذكي 2026</string>
 
     <!-- Navigation -->
     <string name="nav_home">الرئيسية</string>
+    <string name="nav_places">الأماكن</string>
     <string name="nav_events">الفعاليات</string>
+    <string name="nav_favorites">المفضلة</string>
     <string name="nav_chatbot">المساعد الذكي</string>
-    <string name="nav_profile">الملف الشخصي</string>
-    <string name="nav_settings">الإعدادات</string>
-    <string name="nav_admin">لوحة الإدارة</string>
 
     <!-- Home Screen -->
     <string name="home_countdown_title">العد التنازلي لكأس العالم 2026</string>
-    <string name="home_attractions_title">أهم المعالم السياحية</string>
-    <string name="home_hotels_title">الفنادق المُوصى بها</string>
-    <string name="home_restaurants_title">المطاعم الشعبية</string>
+    <string name="home_banners_title">آخر الأخبار</string>
+    <string name="home_attractions_title">أشهر المعالم</string>
+    <string name="home_hotels_title">أفضل الفنادق</string>
+    <string name="home_restaurants_title">أفضل المطاعم</string>
     <string name="home_quick_info_title">معلومات سريعة</string>
-    <string name="home_banners_title">آخر التحديثات</string>
     <string name="home_view_more">عرض المزيد</string>
+
+    <!-- Places Screen -->
+    <string name="places_title">الأماكن</string>
+    <string name="places_search_hint">البحث عن الأماكن...</string>
+    <string name="places_filter_all">الكل</string>
+    <string name="places_filter_attractions">معالم سياحية</string>
+    <string name="places_filter_hotels">فنادق</string>
+    <string name="places_filter_restaurants">مطاعم</string>
+    <string name="places_filter_stadiums">الملاعب</string>
 
     <!-- Events Screen -->
     <string name="events_title">الفعاليات</string>
-    <string name="events_filter_country">تصفية حسب البلد</string>
-    <string name="events_filter_city">تصفية حسب المدينة</string>
-    <string name="events_filter_type">تصفية حسب النوع</string>
-    <string name="events_filter_date">تصفية حسب التاريخ</string>
-    <string name="events_clear_filters">مسح التصفية</string>
-    <string name="events_no_results">لم يتم العثور على فعاليات</string>
+    <string name="events_search_hint">البحث عن الفعاليات...</string>
+    <string name="events_filter_all">جميع الفعاليات</string>
+    <string name="events_filter_matches">المباريات</string>
+    <string name="events_filter_cultural">ثقافية</string>
+    <string name="events_filter_entertainment">ترفيهية</string>
 
-    <!-- Event Details -->
-    <string name="event_details_title">تفاصيل الفعالية</string>
-    <string name="event_details_venue">المكان</string>
-    <string name="event_details_capacity">السعة</string>
-    <string name="event_details_description">الوصف</string>
-    <string name="event_details_location">الموقع</string>
-    <string name="event_details_book_tickets">حجز التذاكر</string>
-    <string name="event_details_add_reminder">إضافة تذكير</string>
-    <string name="event_details_add_favorite">إضافة للمفضلة</string>
-    <string name="event_details_remove_favorite">إزالة من المفضلة</string>
-    <string name="event_details_get_directions">الحصول على الاتجاهات</string>
+    <!-- Favorites Screen -->
+    <string name="favorites_title">المفضلة</string>
+    <string name="favorites_empty_title">لا توجد مفضلة</string>
+    <string name="favorites_empty_message">لم تضف أي عنصر إلى المفضلة بعد</string>
+    <string name="favorites_places">الأماكن المفضلة</string>
+    <string name="favorites_events">الفعاليات المفضلة</string>
+
+    <!-- Chatbot Screen -->
+    <string name="chatbot_title">المساعد الذكي</string>
+    <string name="chatbot_input_hint">اسأل عن أي شيء متعلق بكأس العالم...</string>
+    <string name="chatbot_send">إرسال</string>
+    <string name="chatbot_voice_input">إدخال صوتي</string>
+    <string name="chatbot_welcome_message">مرحباً! أنا مساعدك الذكي لكأس العالم 2026. كيف يمكنني مساعدتك اليوم؟</string>
 
     <!-- Place Details -->
     <string name="place_details_title">تفاصيل المكان</string>
-    <string name="place_details_address">العنوان</string>
+    <string name="place_details_description">الوصف</string>
+    <string name="place_details_location">الموقع</string>
+    <string name="place_details_contact">معلومات التواصل</string>
     <string name="place_details_rating">التقييم</string>
-    <string name="place_details_price_level">مستوى السعر</string>
-    <string name="place_details_amenities">المرافق</string>
-    <string name="place_details_reviews">المراجعات</string>
-    <string name="place_details_add_review">إضافة مراجعة</string>
-    <string name="place_details_your_rating">تقييمك</string>
-    <string name="place_details_your_review">مراجعتك</string>
+    <string name="place_details_get_directions">الحصول على الاتجاهات</string>
+    <string name="place_details_call">اتصل</string>
+    <string name="place_details_website">الموقع الإلكتروني</string>
+    <string name="place_details_add_to_favorites">إضافة للمفضلة</string>
+    <string name="place_details_remove_from_favorites">إزالة من المفضلة</string>
 
-    <!-- AI Chatbot -->
-    <string name="chatbot_title">المساعد الذكي</string>
-    <string name="chatbot_hint">اسألني عن كأس العالم 2026…</string>
-    <string name="chatbot_send">إرسال</string>
-    <string name="chatbot_voice_input">الإدخال الصوتي</string>
-    <string name="chatbot_daily_plan">إنشاء خطة يومية</string>
-    <string name="chatbot_daily_plan_city">أي مدينة؟</string>
-    <string name="chatbot_daily_plan_hours">كم ساعة؟</string>
-    <string name="chatbot_daily_plan_interests">اهتماماتك</string>
-    <string name="chatbot_daily_plan_generate">إنشاء الخطة</string>
-    <string name="chatbot_translate">ترجمة</string>
-    <string name="chatbot_listening">جاري الاستماع…</string>
-    <string name="chatbot_speaking">جاري التحدث…</string>
+    <!-- Event Details -->
+    <string name="event_details_title">تفاصيل الفعالية</string>
+    <string name="event_details_description">الوصف</string>
+    <string name="event_details_date_time">التاريخ والوقت</string>
+    <string name="event_details_venue">المكان</string>
+    <string name="event_details_tickets">التذاكر</string>
+    <string name="event_details_set_reminder">تذكير</string>
+    <string name="event_details_buy_tickets">شراء التذاكر</string>
 
-    <!-- Authentication -->
-    <string name="auth_title">تسجيل الدخول</string>
-    <string name="auth_email">البريد الإلكتروني</string>
-    <string name="auth_password">كلمة المرور</string>
-    <string name="auth_display_name">اسم العرض</string>
-    <string name="auth_sign_in">تسجيل الدخول</string>
-    <string name="auth_sign_up">إنشاء حساب</string>
-    <string name="auth_register">تسجيل</string>
-    <string name="auth_forgot_password">نسيت كلمة المرور؟</string>
-    <string name="auth_sign_out">تسجيل الخروج</string>
-    <string name="auth_google_sign_in">تسجيل الدخول بـ Google</string>
-    <string name="auth_switch_to_register">ليس لديك حساب؟ أنشئ حساب</string>
-    <string name="auth_switch_to_login">لديك حساب بالفعل؟ سجل دخولك</string>
+    <!-- General -->
+    <string name="ok">موافق</string>
+    <string name="cancel">إلغاء</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="save">حفظ</string>
+    <string name="delete">حذف</string>
+    <string name="edit">تعديل</string>
+    <string name="share">مشاركة</string>
+    <string name="back">رجوع</string>
+    <string name="next">التالي</string>
+    <string name="previous">السابق</string>
+    <string name="finish">إنهاء</string>
+    <string name="close">إغلاق</string>
+    <string name="loading">جاري التحميل...</string>
+    <string name="error">خطأ</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="no_data">لا توجد بيانات</string>
 
-    <!-- Profile -->
-    <string name="profile_title">الملف الشخصي</string>
-    <string name="profile_edit">تحرير الملف الشخصي</string>
-    <string name="profile_favorites">المفضلة</string>
-    <string name="profile_reviews">مراجعاتي</string>
-    <string name="profile_preferred_cities">المدن المفضلة</string>
-    <string name="profile_sign_in_required">سجل دخولك لعرض ملفك الشخصي</string>
+    <!-- Errors -->
+    <string name="error_network">خطأ في الشبكة. تحقق من اتصال الإنترنت.</string>
+    <string name="error_server">خطأ في الخادم. حاول مرة أخرى لاحقاً.</string>
+    <string name="error_unknown">حدث خطأ غير متوقع.</string>
+    <string name="error_location_permission">إذن الموقع مطلوب لهذه الميزة.</string>
+    <string name="error_microphone_permission">إذن الميكروفون مطلوب للإدخال الصوتي.</string>
 
-    <!-- Settings -->
-    <string name="settings_title">الإعدادات</string>
-    <string name="settings_language">اللغة</string>
-    <string name="settings_theme">المظهر</string>
-    <string name="settings_notifications">الإشعارات</string>
-    <string name="settings_cache">التخزين المؤقت</string>
-    <string name="settings_clear_cache">مسح التخزين المؤقت</string>
-    <string name="settings_about">حول التطبيق</string>
-    <string name="settings_privacy_policy">سياسة الخصوصية</string>
-    <string name="settings_terms_of_service">شروط الخدمة</string>
-
-    <!-- Admin Panel -->
-    <string name="admin_panel_title">لوحة الإدارة</string>
-    <string name="admin_add_event">إضافة فعالية</string>
-    <string name="admin_manage_events">إدارة الفعاليات</string>
-    <string name="admin_send_notification">إرسال إشعار</string>
-    <string name="admin_upload_image">رفع صورة</string>
-
-    <!-- Time and Date -->
-    <string name="time_now">الآن</string>
-    <string name="time_in_minutes">خلال %d دقيقة</string>
-    <string name="time_minutes_ago">منذ %d دقيقة</string>
-    <string name="time_in_hours">خلال %d ساعة</string>
-    <string name="time_hours_ago">منذ %d ساعة</string>
-    <string name="time_in_days">خلال %d يوم</string>
-    <string name="time_days_ago">منذ %d يوم</string>
-    <string name="countdown_format">%d يوم، %d ساعة، %d دقيقة</string>
-    <string name="world_cup_started">بدأ كأس العالم 2026!</string>
+    <!-- Time -->
+    <string name="today">اليوم</string>
+    <string name="tomorrow">غداً</string>
+    <string name="yesterday">أمس</string>
+    <string name="time_in_days">خلال %d أيام</string>
+    <string name="time_days_ago">منذ %d أيام</string>
+    <string name="countdown_format" formatted="false">%d أيام، %d ساعات، %d دقائق، %d ثوان</string>
+    <string name="world_cup_started">كأس العالم 2026 قد بدأ!</string>
+    <string name="countdown_days_label">أيام</string>
+    <string name="countdown_hours_label">ساعات</string>
+    <string name="countdown_minutes_label">دقائق</string>
+    <string name="countdown_seconds_label">ثوان</string>
     <string name="duration_minutes">%d د</string>
     <string name="duration_hours">%d س</string>
-    <string name="duration_hours_minutes">%d س %d د</string>
+    <string name="duration_hours_minutes" formatted="false">%d س %d د</string>
 
-    <!-- Event Status -->
-    <string name="event_status_upcoming">قادم</string>
-    <string name="event_status_live">مباشر</string>
-    <string name="event_status_ended">انتهى</string>
-
-    <!-- Distance -->
-    <string name="distance_meters">%d م</string>
-    <string name="distance_km">%d كم</string>
-    <string name="distance_km_decimal">%.1f كم</string>
-
-    <!-- Common Actions -->
-    <string name="action_save">حفظ</string>
-    <string name="action_cancel">إلغاء</string>
-    <string name="action_delete">حذف</string>
-    <string name="action_edit">تحرير</string>
-    <string name="action_share">مشاركة</string>
-    <string name="action_retry">إعادة المحاولة</string>
-    <string name="action_refresh">تحديث</string>
-    <string name="action_search">بحث</string>
-    <string name="action_filter">تصفية</string>
-    <string name="action_sort">ترتيب</string>
-
-    <!-- Messages -->
-    <string name="message_loading">جاري التحميل…</string>
-    <string name="message_error">حدث خطأ ما</string>
-    <string name="message_no_internet">لا يوجد اتصال بالإنترنت</string>
-    <string name="message_empty_list">لم يتم العثور على عناصر</string>
-    <string name="message_success">تم بنجاح</string>
-    <string name="message_saved">تم الحفظ بنجاح</string>
-    <string name="message_deleted">تم الحذف بنجاح</string>
-    <string name="message_sign_in_required">يرجى تسجيل الدخول للمتابعة</string>
-    <string name="message_permission_required">الإذن مطلوب</string>
+    <!-- Cities -->
+    <string name="city_new_york">نيويورك</string>
+    <string name="city_los_angeles">لوس أنجلوس</string>
+    <string name="city_chicago">شيكاغو</string>
+    <string name="city_houston">هيوستن</string>
+    <string name="city_phoenix">فينيكس</string>
+    <string name="city_philadelphia">فيلادلفيا</string>
+    <string name="city_san_antonio">سان أنطونيو</string>
+    <string name="city_san_diego">سان دييغو</string>
+    <string name="city_dallas">دالاس</string>
+    <string name="city_san_jose">سان خوسيه</string>
+    <string name="city_austin">أوستن</string>
+    <string name="city_fort_worth">فورت وورث</string>
+    <string name="city_charlotte">شارلوت</string>
+    <string name="city_denver">دنفر</string>
+    <string name="city_el_paso">إل باسو</string>
+    <string name="city_detroit">ديترويت</string>
+    <string name="city_memphis">ممفيس</string>
+    <string name="city_boston">بوسطن</string>
+    <string name="city_seattle">سياتل</string>
+    <string name="city_nashville">ناشفيل</string>
+    <string name="city_baltimore">بالتيمور</string>
+    <string name="city_oklahoma_city">أوكلاهوما سيتي</string>
+    <string name="city_louisville">لويزفيل</string>
+    <string name="city_portland">بورتلاند</string>
+    <string name="city_las_vegas">لاس فيغاس</string>
+    <string name="city_milwaukee">ميلووكي</string>
+    <string name="city_albuquerque">ألبوكيرك</string>
+    <string name="city_tucson">توكسون</string>
+    <string name="city_fresno">فريسنو</string>
+    <string name="city_sacramento">ساكرامنتو</string>
+    <string name="city_mesa">ميسا</string>
+    <string name="city_kansas_city">كانساس سيتي</string>
+    <string name="city_atlanta">أتلانتا</string>
+    <string name="city_colorado_springs">كولورادو سبرينغز</string>
+    <string name="city_raleigh">رالي</string>
+    <string name="city_omaha">أوماها</string>
+    <string name="city_miami">ميامي</string>
+    <string name="city_long_beach">لونغ بيتش</string>
+    <string name="city_virginia_beach">فيرجينيا بيتش</string>
+    <string name="city_oakland">أوكلاند</string>
 
     <!-- Quick Info -->
     <string name="quick_info_currency">العملة: %s</string>
@@ -160,49 +162,38 @@
     <string name="quick_info_weather">الطقس: %s</string>
 
     <!-- Notifications -->
-    <string name="notification_reminder_title">تذكير فعالية</string>
-    <string name="notification_reminder_text">%s تبدأ خلال %s</string>
+    <string name="notification_reminder_title">تذكير الحدث</string>
+    <string name="notification_reminder_text" formatted="false">%s تبدأ خلال %s</string>
     <string name="notification_channel_reminders">تذكيرات الفعاليات</string>
     <string name="notification_channel_updates">تحديثات التطبيق</string>
 
-    <!-- Favorites -->
-    <string name="favorites_empty">لا توجد مفضلة حتى الآن</string>
-    <string name="favorites_add_success">تم إضافة للمفضلة</string>
-    <string name="favorites_remove_success">تم حذف من المفضلة</string>
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">مرحباً بك في دليل كأس العالم 2026!</string>
+    <string name="onboarding_welcome_description">اكتشف أفضل الأماكن والفعاليات في البطولة</string>
+    <string name="onboarding_places_title">استكشف الأماكن</string>
+    <string name="onboarding_places_description">اعثر على أفضل المعالم والفنادق والمطاعم</string>
+    <string name="onboarding_events_title">تابع الفعاليات</string>
+    <string name="onboarding_events_description">لا تفوت أي مباراة أو فعالية ثقافية</string>
+    <string name="onboarding_chatbot_title">اسأل المساعد الذكي</string>
+    <string name="onboarding_chatbot_description">احصل على إجابات فورية لجميع أسئلتك</string>
+    <string name="onboarding_get_started">ابدأ الآن</string>
+    <string name="onboarding_skip">تخطي</string>
 
-    <!-- Reviews -->
-    <string name="reviews_empty">لا توجد مراجعات حتى الآن</string>
-    <string name="reviews_add_success">تم إضافة المراجعة بنجاح</string>
-    <string name="reviews_rating_required">يرجى تقديم تقييم</string>
+    <!-- Settings -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_notifications">الإشعارات</string>
+    <string name="settings_theme">السمة</string>
+    <string name="settings_about">حول التطبيق</string>
+    <string name="settings_privacy">سياسة الخصوصية</string>
+    <string name="settings_terms">شروط الاستخدام</string>
 
-    <!-- Countries and Cities -->
-    <string name="country_us">الولايات المتحدة</string>
-    <string name="country_ca">كندا</string>
-    <string name="country_mx">المكسيك</string>
-
-    <!-- Event Types -->
-    <string name="event_type_match">مباراة</string>
-    <string name="event_type_ceremony">احتفال</string>
-    <string name="event_type_concert">حفل موسيقي</string>
-    <string name="event_type_fan_zone">منطقة الجماهير</string>
-
-    <!-- Place Types -->
-    <string name="place_type_attraction">معلم سياحي</string>
-    <string name="place_type_hotel">فندق</string>
-    <string name="place_type_restaurant">مطعم</string>
-
-    <!-- Price Levels -->
-    <string name="price_level_1">$</string>
-    <string name="price_level_2">$$</string>
-    <string name="price_level_3">$$$</string>
-    <string name="price_level_4">$$$$</string>
-
-    <!-- Content Descriptions (Accessibility) -->
-    <string name="cd_event_image">صورة الفعالية</string>
+    <!-- Content Descriptions -->
     <string name="cd_place_image">صورة المكان</string>
-    <string name="cd_user_avatar">صورة المستخدم</string>
+    <string name="cd_event_image">صورة الفعالية</string>
     <string name="cd_favorite_button">زر المفضلة</string>
     <string name="cd_share_button">زر المشاركة</string>
+    <string name="cd_back_button">زر الرجوع</string>
     <string name="cd_menu_button">زر القائمة</string>
     <string name="cd_search_button">زر البحث</string>
     <string name="cd_filter_button">زر التصفية</string>
@@ -213,4 +204,44 @@
     <string name="permission_location_rationale">إذن الموقع مطلوب لإظهار الفعاليات والأماكن القريبة</string>
     <string name="permission_microphone_rationale">إذن الميكروفون مطلوب للإدخال الصوتي</string>
     <string name="permission_notification_rationale">إذن الإشعارات مطلوب لتذكيرات الفعاليات</string>
+
+    <!-- Banner Details -->
+    <string name="banner_details_title">تفاصيل الإعلان</string>
+    <string name="banner_description_title">الوصف</string>
+    <string name="no_description_available">لا يوجد وصف متاح</string>
+
+    <!-- Admin Panel -->
+    <string name="admin_panel_title">لوحة التحكم</string>
+    <string name="admin_banner_management_title">إدارة الإعلانات</string>
+    <string name="admin_banner_management_subtitle">إدارة إعلانات ولافتات التطبيق</string>
+    <string name="admin_banners_list_title">الإعلانات النشطة</string>
+    <string name="add_banner">إضافة إعلان</string>
+    <string name="add_banner_title">إضافة إعلان جديد</string>
+    <string name="edit_banner_title">تعديل الإعلان</string>
+    <string name="delete_banner_title">حذف الإعلان</string>
+    <string name="delete_banner_message">هل أنت متأكد من حذف هذا الإعلان؟</string>
+    <string name="current_banner_image">صورة الإعلان الحالية</string>
+    <string name="banner_title_hint">عنوان الإعلان</string>
+    <string name="banner_description_hint">وصف الإعلان (اختياري)</string>
+    <string name="banner_image_url_hint">رابط الصورة</string>
+    <string name="banner_deeplink_hint">الرابط العميق (اختياري)</string>
+    <string name="banner_deeplink_helper">مثال: app://events/fan_zones</string>
+    <string name="select_image">اختيار صورة</string>
+    <string name="save_banner">حفظ الإعلان</string>
+    <string name="field_required">هذا الحقل مطلوب</string>
+    <string name="banner_saved_successfully">تم حفظ الإعلان بنجاح</string>
+    <string name="image_selection_coming_soon">ميزة اختيار الصورة قريباً</string>
+
+
+
+
+    <!-- Ask Guide Activity -->
+    <string name="ask_guide_title">اسأل المرشد</string>
+    <string name="ask_guide_hint">اسأل عن كأس العالم 2026...</string>
+    <string name="send_message">إرسال</string>
+    <string name="guide_thinking">المرشد يفكر...</string>
+    <string name="welcome_guide_message">مرحباً! أنا مرشدك لكأس العالم 2026. اسألني عن أي شيء يتعلق بالملاعب والفرق والمدن المضيفة أو أي معلومة تحتاجها!</string>
+    <string name="error_ai_connection">خطأ في الاتصال بخدمة الذكاء الاصطناعي. يرجى التحقق من اتصال الإنترنت.</string>
+    <string name="error_empty_response">عذراً، لم أستطع توليد إجابة. يرجى المحاولة مرة أخرى.</string>
+
 </resources>

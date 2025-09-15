@@ -1,5 +1,6 @@
 package com.ahmmedalmzini783.wcguide.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import com.ahmmedalmzini783.wcguide.R;
 
@@ -13,7 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 public class DateTimeUtil {
 
-    public static final long WORLD_CUP_START_TIME = 1761325200000L; // June 11, 2026 (placeholder)
+    // Thursday, June 11, 2026 at 12:00 PM (EDT) - FIFA World Cup 2026 Opening Ceremony
+    public static final long WORLD_CUP_START_TIME = 1780963200000L; // June 11, 2026
 
     /**
      * Format timestamp to readable date string
@@ -79,8 +81,9 @@ public class DateTimeUtil {
     }
 
     /**
-     * Get countdown to World Cup 2026
+     * Get countdown to World Cup 2026 with seconds
      */
+    @SuppressLint("StringFormatInvalid")
     public static String getWorldCupCountdown(Context context) {
         long now = System.currentTimeMillis();
         long diff = WORLD_CUP_START_TIME - now;
@@ -92,8 +95,10 @@ public class DateTimeUtil {
         long days = TimeUnit.MILLISECONDS.toDays(diff);
         long hours = TimeUnit.MILLISECONDS.toHours(diff) % 24;
         long minutes = TimeUnit.MILLISECONDS.toMinutes(diff) % 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(diff) % 60;
 
-        return context.getString(R.string.countdown_format, days, hours, minutes);
+    // Use localized countdown format string: days, hours, minutes, seconds
+    return context.getString(R.string.countdown_format, days, hours, minutes, seconds);
     }
 
     /**
