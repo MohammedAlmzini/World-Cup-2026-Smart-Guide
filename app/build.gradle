@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.ahmmedalmzini783.wcguide'
-    compileSdk 35
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.ahmmedalmzini783.wcguide"
         minSdk 24
-        targetSdk 35
+    targetSdk 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -119,7 +119,11 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
-
+    // Google AI Client (Gemini AI SDK)
+    implementation 'com.google.ai.client.generativeai:generativeai:0.2.2'
+    
+    // Google Guava for concurrency utilities
+    implementation 'com.google.guava:guava:32.1.3-android'
 
     // Testing
     testImplementation 'junit:junit:4.13.2'

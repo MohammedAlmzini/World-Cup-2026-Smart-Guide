@@ -1,5 +1,6 @@
 package com.ahmmedalmzini783.wcguide.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.ahmmedalmzini783.wcguide.R;
 import com.ahmmedalmzini783.wcguide.databinding.ActivityMainBinding;
+import com.ahmmedalmzini783.wcguide.ui.admin.AdminActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,28 +28,37 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.toolbar);
-
-        // Wait for the layout to be fully inflated before setting up navigation
+        setupToolbar();
+        
+        // Wait for the layout to be inflated before setting up navigation
         binding.getRoot().post(() -> setupNavigation());
+    }
 
-        // Handle deep links
-        handleIntent();
+    private void setupToolbar() {
+        setSupportActionBar(binding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.app_name));
+        }
     }
 
     private void setupNavigation() {
-        // Setup Navigation
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        try {
+            // Setup Navigation
+            navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        // Setup Bottom Navigation
-        BottomNavigationView bottomNav = binding.bottomNavigation;
-        NavigationUI.setupWithNavController(bottomNav, navController);
+            // Setup Bottom Navigation
+            BottomNavigationView bottomNav = binding.bottomNavigation;
+            NavigationUI.setupWithNavController(bottomNav, navController);
 
-        // Setup AppBar with Navigation
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_events, R.id.navigation_chatbot)
-                .build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+            // Setup AppBar with Navigation
+            AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.navigation_home, R.id.navigation_events, R.id.navigation_chatbot)
+                    .build();
+            NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        } catch (Exception e) {
+            // Log error and continue without navigation setup
+            android.util.Log.e("MainActivity", "Navigation setup failed", e);
+        }
     }
 
     @Override
@@ -60,33 +71,48 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_search) {
-            // Handle search action
-            return true;
-        } else if (id == R.id.action_notifications) {
-            // Handle notifications action
-            return true;
-        } else if (id == R.id.action_profile) {
-            // Handle profile action
-            return true;
-        } else if (id == R.id.action_settings) {
-            // Handle settings action
+        if (id == R.id.action_admin) {
+            openAdminPanel();
             return true;
         }
 
-        return NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
+        if (navController != null) {
+            return NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openAdminPanel() {
+        // Simple password check (in production, use proper authentication)
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        
+        final android.widget.EditText input = new android.widget.EditText(this);
+        input.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setHint("Admin Password");
+        
+        builder.setTitle("Admin Access")
+               .setMessage("Enter admin password to access control panel")
+               .setView(input)
+               .setPositiveButton("Login", (dialog, which) -> {
+                   String password = input.getText().toString();
+                   if ("admin2026".equals(password)) {
+                       Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+                       startActivity(intent);
+                   } else {
+                       android.widget.Toast.makeText(MainActivity.this, "Invalid password", android.widget.Toast.LENGTH_SHORT).show();
+                   }
+               })
+               .setNegativeButton("Cancel", null)
+               .show();
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        return NavigationUI.navigateUp(navController, new AppBarConfiguration.Builder().build())
-                || super.onSupportNavigateUp();
-    }
-
-    private void handleIntent() {
-        // Handle deep links from notifications or external sources
-        // Example: wcguide://event/evt_123
-        // TODO: Implement deep link handling
+        if (navController != null) {
+            return NavigationUI.navigateUp(navController, new AppBarConfiguration.Builder().build())
+                    || super.onSupportNavigateUp();
+        }
+        return super.onSupportNavigateUp();
     }
 
     @Override

@@ -40,7 +40,7 @@
         <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${mapsApiKey}" />
+            android:value="AIzaSyDSvvk57l5YSCSfa7bHPdR_IpOg3ikemE0" />
 
         <!-- Firebase Messaging Service -->
         <service
@@ -80,7 +80,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar">
+            android:theme="@style/Theme.WorldCup2026SmartGuide.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -115,6 +115,22 @@
             android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
 
+        <!-- All Hotels Activity -->
+        <activity
+            android:name=".ui.hotels.AllHotelsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar"
+            android:label="جميع الفنادق" />
+
+        <!-- All Restaurants Activity -->
+        <activity
+            android:name=".ui.restaurants.AllRestaurantsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar"
+            android:label="جميع المطاعم" />
+
         <!-- Settings Activity -->
         <activity
             android:name=".ui.settings.SettingsActivity"
@@ -122,12 +138,105 @@
             android:parentActivityName=".ui.main.MainActivity"
             android:label="@string/settings_title" />
 
+        <!-- Banner Details Activity -->
+        <activity
+            android:name=".ui.banner.BannerDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
         <!-- Admin Activity (for content management) -->
         <activity
             android:name=".ui.admin.AdminActivity"
             android:exported="false"
             android:parentActivityName=".ui.main.MainActivity"
-            android:label="@string/admin_panel_title" />
+            android:label="@string/admin_panel_title"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Manage Banner Activity -->
+        <activity
+            android:name=".ui.admin.ManageBannerActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.AdminActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Manage Landmarks Activity -->
+        <activity
+            android:name=".ui.admin.ManageLandmarksActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.AdminActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Add/Edit Landmark Activity -->
+        <activity
+            android:name=".ui.admin.AddEditLandmarkActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.ManageLandmarksActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Landmark Details Activity -->
+        <activity
+            android:name=".ui.admin.LandmarkDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.ManageLandmarksActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Add Review Activity -->
+        <activity
+            android:name=".ui.admin.AddReviewActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.LandmarkDetailsActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Add Landmark Rating Activity -->
+        <activity
+            android:name=".ui.admin.AddLandmarkRatingActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.ManageReviewsActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Hotel Management Activity -->
+        <activity
+            android:name=".ui.admin.HotelManagementActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.AdminActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Add/Edit Hotel Activity -->
+        <activity
+            android:name=".ui.admin.AddEditHotelActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.HotelManagementActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Restaurant Management Activity -->
+        <activity
+            android:name=".ui.admin.RestaurantManagementActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.AdminActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Add/Edit Restaurant Activity -->
+        <activity
+            android:name=".ui.admin.AddEditRestaurantActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.RestaurantManagementActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- All Landmarks Activity (public view) -->
+        <!-- Fixed: specify full qualified name since the class is in package com.example.wcguide.activities -->
+        <activity
+            android:name="com.example.wcguide.activities.AllLandmarksActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:label="جميع المعالم السياحية"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Firebase Debug Activity -->
+        <activity
+            android:name=".debug.FirebaseDebugActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
 
     </application>
 

@@ -1,5 +1,7 @@
 package com.ahmmedalmzini783.wcguide.data.repo;
 
+import android.os.Handler;
+import android.os.Looper;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -11,9 +13,11 @@ import java.util.List;
 
 public class AiRepository {
     private final AiApiClient aiApiClient;
+    private final Handler mainHandler;
 
     public AiRepository() {
         aiApiClient = new AiApiClient();
+        mainHandler = new Handler(Looper.getMainLooper());
     }
 
     public LiveData<Resource<String>> askQuestion(String question) {
@@ -23,12 +27,12 @@ public class AiRepository {
         aiApiClient.askQuestion(question, new AiApiClient.ApiCallback<String>() {
             @Override
             public void onSuccess(String response) {
-                result.setValue(Resource.success(response));
+                mainHandler.post(() -> result.setValue(Resource.success(response)));
             }
 
             @Override
             public void onError(String error) {
-                result.setValue(Resource.error(error, null));
+                mainHandler.post(() -> result.setValue(Resource.error(error, null)));
             }
         });
 
@@ -42,12 +46,12 @@ public class AiRepository {
         aiApiClient.generateDailyPlan(city, availableHours, interests, new AiApiClient.ApiCallback<List<AiResponse.DailyPlanItem>>() {
             @Override
             public void onSuccess(List<AiResponse.DailyPlanItem> planItems) {
-                result.setValue(Resource.success(planItems));
+                mainHandler.post(() -> result.setValue(Resource.success(planItems)));
             }
 
             @Override
             public void onError(String error) {
-                result.setValue(Resource.error(error, null));
+                mainHandler.post(() -> result.setValue(Resource.error(error, null)));
             }
         });
 
@@ -61,12 +65,12 @@ public class AiRepository {
         aiApiClient.translateText(text, targetLanguage, new AiApiClient.ApiCallback<AiResponse.TranslationResponse>() {
             @Override
             public void onSuccess(AiResponse.TranslationResponse response) {
-                result.setValue(Resource.success(response));
+                mainHandler.post(() -> result.setValue(Resource.success(response)));
             }
 
             @Override
             public void onError(String error) {
-                result.setValue(Resource.error(error, null));
+                mainHandler.post(() -> result.setValue(Resource.error(error, null)));
             }
         });
 

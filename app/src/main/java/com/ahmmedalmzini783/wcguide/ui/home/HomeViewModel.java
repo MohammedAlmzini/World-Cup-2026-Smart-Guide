@@ -36,16 +36,17 @@ public class HomeViewModel extends AndroidViewModel {
         // Load banners from Firebase
         banners = placeRepository.getBanners();
 
-        // Load attractions (limit to 10)
-        attractions = placeRepository.getPlacesByCountryAndKind("US", "attraction", 10);
+        // Load attractions (limit to 10) - for multiple World Cup countries
+        attractions = placeRepository.getPlacesByCountryAndKind("Qatar", "attraction", 10);
 
-        // Load hotels (limit to 10)
-        hotels = placeRepository.getPlacesByCountryAndKind("US", "hotel", 10);
+        // Load hotels (limit to 10) - for multiple World Cup countries including USA, Qatar, etc.
+        hotels = placeRepository.getAllHotelsByKind("hotel", 10);
 
-        // Load restaurants (limit to 10)
-        restaurants = placeRepository.getPlacesByCountryAndKind("US", "restaurant", 10);
+        // Load restaurants (limit to 10) - for multiple World Cup countries including USA, Qatar, etc.
+        restaurants = placeRepository.getAllRestaurantsByKind("restaurant", 10);
 
-        // TODO: Load quick info for all countries
+        // Load quick info for all countries
+        quickInfo = placeRepository.getQuickInfo();
     }
 
     public LiveData<Resource<List<Banner>>> getBanners() {

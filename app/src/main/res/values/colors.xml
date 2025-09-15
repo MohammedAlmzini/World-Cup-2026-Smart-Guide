@@ -25,6 +25,13 @@
     <color name="world_cup_blue">#0066CC</color>
     <color name="world_cup_red">#DC143C</color>
     <color name="world_cup_green">#228B22</color>
+    
+    <!-- Gradient Colors for Countdown -->
+    <color name="gradient_blue_start">#1E3A8A</color>
+    <color name="gradient_blue_middle">#3B82F6</color>
+    <color name="gradient_purple_end">#8B5CF6</color>
+    <color name="countdown_overlay">#40FFFFFF</color>
+    <color name="countdown_border">#80FFFFFF</color>
 
     <!-- Country Colors -->
     <color name="usa_blue">#002868</color>
@@ -68,6 +75,10 @@
     <color name="transparent">#00000000</color>
     <color name="semi_transparent_black">#80000000</color>
     <color name="semi_transparent_white">#80FFFFFF</color>
+    
+    <!-- Basic Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
     <!-- Material Design System Colors -->
     <color name="md_theme_light_primary">#1976D2</color>

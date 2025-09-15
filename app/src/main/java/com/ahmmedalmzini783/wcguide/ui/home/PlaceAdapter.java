@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ahmmedalmzini783.wcguide.R;
 import com.ahmmedalmzini783.wcguide.data.model.Place;
-import com.ahmmedalmzini783.wcguide.databinding.ItemPlaceHorizontalBinding;
+import com.ahmmedalmzini783.wcguide.databinding.ItemPlaceModernBinding;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class PlaceAdapter extends ListAdapter<Place, PlaceAdapter.PlaceViewHolde
     @NonNull
     @Override
     public PlaceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemPlaceHorizontalBinding binding = ItemPlaceHorizontalBinding.inflate(
+        ItemPlaceModernBinding binding = ItemPlaceModernBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false);
         return new PlaceViewHolder(binding);
     }
@@ -56,9 +56,9 @@ public class PlaceAdapter extends ListAdapter<Place, PlaceAdapter.PlaceViewHolde
     }
 
     class PlaceViewHolder extends RecyclerView.ViewHolder {
-        private final ItemPlaceHorizontalBinding binding;
+        private final ItemPlaceModernBinding binding;
 
-        PlaceViewHolder(ItemPlaceHorizontalBinding binding) {
+        PlaceViewHolder(ItemPlaceModernBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -66,13 +66,8 @@ public class PlaceAdapter extends ListAdapter<Place, PlaceAdapter.PlaceViewHolde
         void bind(Place place) {
             binding.placeName.setText(place.getName());
 
-            String addressText = buildAddressText(place);
-            binding.placeAddress.setText(addressText);
-
             String ratingText = String.format(Locale.getDefault(), "%.1f", place.getAvgRating());
             binding.placeRating.setText(ratingText);
-
-            binding.placePrice.setText(priceLevelToString(place.getPriceLevel()));
 
             List<String> images = place.getImages();
             String firstImage = (images != null && !images.isEmpty()) ? images.get(0) : null;
@@ -80,6 +75,8 @@ public class PlaceAdapter extends ListAdapter<Place, PlaceAdapter.PlaceViewHolde
             Glide.with(binding.placeImage.getContext())
                     .load(firstImage)
                     .placeholder(R.drawable.ic_location)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.NONE)
                     .centerCrop()
                     .into(binding.placeImage);
 

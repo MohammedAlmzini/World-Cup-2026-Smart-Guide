@@ -20,6 +20,18 @@
     <string name="home_banners_title">Latest Updates</string>
     <string name="home_view_more">View More</string>
 
+    <!-- Tab Navigation -->
+    <string name="tab_banners">Banners</string>
+    <string name="tab_attractions">Attractions</string>
+    <string name="tab_hotels">Hotels</string>
+    <string name="tab_restaurants">Restaurants</string>
+
+    <!-- Countdown Labels -->
+    <string name="countdown_days">Days</string>
+    <string name="countdown_hours">Hours</string>
+    <string name="countdown_minutes">Minutes</string>
+    <string name="countdown_seconds">Seconds</string>
+
     <!-- Events Screen -->
     <string name="events_title">Events</string>
     <string name="events_filter_country">Filter by Country</string>
@@ -65,6 +77,11 @@
     <string name="chatbot_translate">Translate</string>
     <string name="chatbot_listening">Listening…</string>
     <string name="chatbot_speaking">Speaking…</string>
+    <string name="chatbot_offline_mode">Offline Mode Active</string>
+    <string name="chatbot_connection_restored">Connection Restored</string>
+    <string name="chatbot_fallback_active">Fallback system activated - you will receive predefined responses</string>
+    <string name="chatbot_network_error">Internet connection problem</string>
+    <string name="chatbot_service_unavailable">AI assistant service temporarily unavailable</string>
 
     <!-- Authentication -->
     <string name="auth_title">Sign In</string>
@@ -101,12 +118,11 @@
 
     <!-- Admin Panel -->
     <string name="admin_panel_title">Admin Panel</string>
-    <string name="admin_add_event">Add Event</string>
-    <string name="admin_manage_events">Manage Events</string>
-    <string name="admin_send_notification">Send Notification</string>
-    <string name="admin_upload_image">Upload Image</string>
-
-    <!-- Time and Date -->
+    <string name="admin_hotels_management">Hotels Management</string>
+    <string name="admin_restaurants_management">Restaurants Management</string>
+    <string name="admin_banners_management">Banners Management</string>
+    <string name="admin_events_management">Events Management</string>
+    <string name="admin_landmarks_management">Landmarks Management</string>    <!-- Time and Date -->
     <string name="time_now">Now</string>
     <string name="time_in_minutes">In %d minutes</string>
     <string name="time_minutes_ago">%d minutes ago</string>
@@ -114,11 +130,15 @@
     <string name="time_hours_ago">%d hours ago</string>
     <string name="time_in_days">In %d days</string>
     <string name="time_days_ago">%d days ago</string>
-    <string name="countdown_format">%d days, %d hours, %d minutes</string>
+    <string name="countdown_format" formatted="false">%d days, %d hours, %d minutes, %d seconds</string>
     <string name="world_cup_started">World Cup 2026 has started!</string>
+    <string name="countdown_days_label">Days</string>
+    <string name="countdown_hours_label">Hours</string>
+    <string name="countdown_minutes_label">Minutes</string>
+    <string name="countdown_seconds_label">Seconds</string>
     <string name="duration_minutes">%d min</string>
     <string name="duration_hours">%d hr</string>
-    <string name="duration_hours_minutes">%d hr %d min</string>
+    <string name="duration_hours_minutes" formatted="false">%d hr %d min</string>
 
     <!-- Event Status -->
     <string name="event_status_upcoming">Upcoming</string>
@@ -161,7 +181,7 @@
 
     <!-- Notifications -->
     <string name="notification_reminder_title">Event Reminder</string>
-    <string name="notification_reminder_text">%s starts in %s</string>
+    <string name="notification_reminder_text" formatted="false">%s starts in %s</string>
     <string name="notification_channel_reminders">Event Reminders</string>
     <string name="notification_channel_updates">App Updates</string>
 
@@ -213,4 +233,270 @@
     <string name="permission_location_rationale">Location permission is needed to show nearby events and places</string>
     <string name="permission_microphone_rationale">Microphone permission is needed for voice input</string>
     <string name="permission_notification_rationale">Notification permission is needed for event reminders</string>
+
+    <!-- Banner Details -->
+    <string name="banner_details_title">Ad Details</string>
+    <string name="banner_description_title">Description</string>
+    <string name="no_description_available">No description available</string>
+    <string name="share">Share</string>
+    <string name="save">Save</string>
+
+    <!-- Admin Panel -->
+    <string name="admin_banner_management_title">Banner Management</string>
+    <string name="admin_banner_management_subtitle">Manage app banners and advertisements</string>
+    <string name="admin_banners_list_title">Active Banners</string>
+    <string name="add_banner">Add Banner</string>
+    <string name="add_banner_title">Add New Banner</string>
+    <string name="edit_banner_title">Edit Banner</string>
+    <string name="delete_banner_title">Delete Banner</string>
+    <string name="delete_banner_message">Are you sure you want to delete this banner?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="refresh">Refresh</string>
+    <string name="current_banner_image">Current Banner Image</string>
+    <string name="banner_title_hint">Banner title</string>
+    <string name="banner_description_hint">Banner description (optional)</string>
+    <string name="banner_image_url_hint">Image URL</string>
+    <string name="banner_deeplink_hint">Deep link (optional)</string>
+    <string name="banner_deeplink_helper">e.g., app://events/fan_zones</string>
+    <string name="select_image">Select Image</string>
+    <string name="save_banner">Save Banner</string>
+    <string name="field_required">This field is required</string>
+    <string name="banner_saved_successfully">Banner saved successfully</string>
+    <string name="image_selection_coming_soon">Image selection feature coming soon</string>
+    <string name="no_banners_found">No banners found</string>
+    <string name="add_first_banner_message">Click the + button to add your first banner</string>
+    
+    <!-- Missing strings -->
+    <string name="back">Back</string>
+    <string name="cd_back_button">Back button</string>
+    <string name="chatbot_input_hint">Type your message...</string>
+    <string name="chatbot_welcome_message">Welcome! How can I help you with World Cup 2026?</string>
+    <string name="close">Close</string>
+    <string name="error">Error</string>
+    <string name="error_location_permission">Location permission required</string>
+    <string name="error_microphone_permission">Microphone permission required</string>
+    <string name="error_network">Network error</string>
+    <string name="error_server">Server error</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="finish">Finish</string>
+    <string name="loading">Loading...</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="nav_places">Places</string>
+    <string name="next">Next</string>
+    <string name="no">No</string>
+    <string name="no_data">No data available</string>
+    <string name="ok">OK</string>
+    <string name="previous">Previous</string>
+    <string name="retry">Retry</string>
+    <string name="settings_privacy">Privacy Policy</string>
+    <string name="settings_terms">Terms of Service</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="yes">Yes</string>
+    <string name="yesterday">Yesterday</string>
+    
+    <!-- Cities -->
+    <string name="city_albuquerque">Albuquerque</string>
+    <string name="city_atlanta">Atlanta</string>
+    <string name="city_austin">Austin</string>
+    <string name="city_baltimore">Baltimore</string>
+    <string name="city_boston">Boston</string>
+    <string name="city_charlotte">Charlotte</string>
+    <string name="city_chicago">Chicago</string>
+    <string name="city_colorado_springs">Colorado Springs</string>
+    <string name="city_dallas">Dallas</string>
+    <string name="city_denver">Denver</string>
+    <string name="city_detroit">Detroit</string>
+    <string name="city_el_paso">El Paso</string>
+    <string name="city_fort_worth">Fort Worth</string>
+    <string name="city_fresno">Fresno</string>
+    <string name="city_houston">Houston</string>
+    <string name="city_kansas_city">Kansas City</string>
+    <string name="city_las_vegas">Las Vegas</string>
+    <string name="city_long_beach">Long Beach</string>
+    <string name="city_los_angeles">Los Angeles</string>
+    <string name="city_louisville">Louisville</string>
+    <string name="city_memphis">Memphis</string>
+    <string name="city_mesa">Mesa</string>
+    <string name="city_miami">Miami</string>
+    <string name="city_milwaukee">Milwaukee</string>
+    <string name="city_nashville">Nashville</string>
+    <string name="city_new_york">New York</string>
+    <string name="city_oakland">Oakland</string>
+    <string name="city_oklahoma_city">Oklahoma City</string>
+    <string name="city_omaha">Omaha</string>
+    <string name="city_philadelphia">Philadelphia</string>
+    <string name="city_phoenix">Phoenix</string>
+    <string name="city_portland">Portland</string>
+    <string name="city_raleigh">Raleigh</string>
+    <string name="city_sacramento">Sacramento</string>
+    <string name="city_san_antonio">San Antonio</string>
+    <string name="city_san_diego">San Diego</string>
+    <string name="city_san_jose">San Jose</string>
+    <string name="city_seattle">Seattle</string>
+    <string name="city_tucson">Tucson</string>
+    <string name="city_virginia_beach">Virginia Beach</string>
+    
+    <!-- Event Details -->
+    <string name="event_details_buy_tickets">Buy Tickets</string>
+    <string name="event_details_date_time">Date &amp; Time</string>
+    <string name="event_details_set_reminder">Set Reminder</string>
+    <string name="event_details_tickets">Tickets</string>
+    
+    <!-- Event Filters -->
+    <string name="events_filter_all">All Events</string>
+    <string name="events_filter_cultural">Cultural</string>
+    <string name="events_filter_entertainment">Entertainment</string>
+    <string name="events_filter_matches">Matches</string>
+    <string name="events_search_hint">Search events...</string>
+    
+    <!-- Favorites -->
+    <string name="favorites_empty_message">No favorites yet</string>
+    <string name="favorites_empty_title">Your favorites will appear here</string>
+    <string name="favorites_events">Events</string>
+    <string name="favorites_places">Places</string>
+    <string name="favorites_title">Favorites</string>
+    
+    <!-- Onboarding -->
+    <string name="onboarding_chatbot_description">Get instant answers about World Cup 2026</string>
+    <string name="onboarding_chatbot_title">AI Assistant</string>
+    <string name="onboarding_events_description">Never miss a match or event</string>
+    <string name="onboarding_events_title">Stay Updated</string>
+    <string name="onboarding_get_started">Get Started</string>
+    <string name="onboarding_places_description">Find the best places to visit</string>
+    <string name="onboarding_places_title">Discover Places</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_welcome_description">Your complete guide to FIFA World Cup 2026</string>
+    <string name="onboarding_welcome_title">Welcome</string>
+    
+    <!-- Place Details -->
+    <string name="place_details_add_to_favorites">Add to Favorites</string>
+    <string name="place_details_call">Call</string>
+    <string name="place_details_contact">Contact</string>
+    <string name="place_details_description">Description</string>
+    <string name="place_details_get_directions">Get Directions</string>
+    <string name="place_details_location">Location</string>
+    <string name="place_details_remove_from_favorites">Remove from Favorites</string>
+    <string name="place_details_website">Website</string>
+    
+    <!-- Place Filters -->
+    <string name="places_filter_all">All Places</string>
+    <string name="places_filter_attractions">Attractions</string>
+    <string name="places_filter_hotels">Hotels</string>
+    <string name="places_filter_restaurants">Restaurants</string>
+    <string name="places_filter_stadiums">Stadiums</string>
+    <string name="places_search_hint">Search places...</string>
+    <string name="places_title">Places</string>
+    
+    <!-- Hotel Management -->
+    <string name="hotel_management_title">Hotel Management</string>
+    <string name="hotel_add_title">Add New Hotel</string>
+    <string name="hotel_edit_title">Edit Hotel</string>
+    <string name="hotel_delete_confirm_title">Delete Hotel</string>
+    <string name="hotel_delete_confirm_message">Are you sure you want to delete this hotel?</string>
+    <string name="hotel_name_hint">Hotel Name</string>
+    <string name="hotel_description_hint">Hotel Description</string>
+    <string name="hotel_main_image_hint">Main Image URL</string>
+    <string name="hotel_location_hint">Location</string>
+    <string name="hotel_working_hours_hint">Working Hours</string>
+    <string name="hotel_services_hint">Services (comma separated)</string>
+    <string name="hotel_facilities_hint">Facilities (comma separated)</string>
+    <string name="hotel_world_cup_services_hint">World Cup Services (comma separated)</string>
+    <string name="hotel_country_hint">Country</string>
+    <string name="hotel_city_hint">City</string>
+    <string name="hotel_address_hint">Address</string>
+    <string name="hotel_phone_hint">Phone</string>
+    <string name="hotel_email_hint">Email</string>
+    <string name="hotel_website_hint">Website</string>
+    <string name="hotel_latitude_hint">Latitude</string>
+    <string name="hotel_longitude_hint">Longitude</string>
+    <string name="hotel_rating_label">Hotel Rating</string>
+    <string name="hotel_is_open_label">Hotel is Open</string>
+    <string name="hotel_save_button">Save Hotel</string>
+    <string name="hotel_add_image_button">Add Image</string>
+    <string name="hotel_add_room_button">Add Room</string>
+    <string name="hotel_additional_images_title">Additional Images</string>
+    <string name="hotel_rooms_prices_title">Rooms &amp; Prices</string>
+    <string name="hotel_basic_info_title">Basic Information</string>
+    <string name="hotel_location_info_title">Location Information</string>
+    <string name="hotel_contact_info_title">Contact Information</string>
+    <string name="hotel_services_facilities_title">Services &amp; Facilities</string>
+    
+    <!-- Hotel Room -->
+    <string name="room_name_hint">Room Name</string>
+    <string name="room_capacity_hint">Capacity</string>
+    <string name="room_price_hint">Price Per Night</string>
+    <string name="room_facilities_hint">Room Facilities (comma separated)</string>
+    <string name="room_booking_url_hint">Booking URL</string>
+    <string name="room_details_title">Room Details</string>
+    
+    <!-- Additional Image -->
+    <string name="image_url_hint">Image URL</string>
+    <string name="image_name_hint">Image Name</string>
+    <string name="remove_image_desc">Remove Image</string>
+    <string name="remove_room_desc">Remove Room</string>
+    
+    
+    <!-- Restaurant Management -->
+    <string name="restaurant_management_title">Restaurant Management</string>
+    <string name="restaurant_add_title">Add New Restaurant</string>
+    <string name="restaurant_edit_title">Edit Restaurant</string>
+    <string name="restaurant_delete_title">Delete Restaurant</string>
+    <string name="restaurant_delete_message">Are you sure you want to delete this restaurant?</string>
+    <string name="restaurant_name_hint">Restaurant Name</string>
+    <string name="restaurant_description_hint">Restaurant Description</string>
+    <string name="restaurant_main_image_hint">Main Image URL</string>
+    <string name="restaurant_location_hint">Location Details</string>
+    <string name="restaurant_working_hours_hint">Working Hours</string>
+    <string name="restaurant_services_hint">Services (comma separated)</string>
+    <string name="restaurant_facilities_hint">Facilities (comma separated)</string>
+    <string name="restaurant_world_cup_services_hint">World Cup Services (comma separated)</string>
+    <string name="restaurant_country_hint">Country</string>
+    <string name="restaurant_city_hint">City</string>
+    <string name="restaurant_address_hint">Address</string>
+    <string name="restaurant_phone_hint">Phone</string>
+    <string name="restaurant_email_hint">Email</string>
+    <string name="restaurant_website_hint">Website</string>
+    <string name="restaurant_latitude_hint">Latitude</string>
+    <string name="restaurant_longitude_hint">Longitude</string>
+    <string name="restaurant_cuisine_type_hint">Cuisine Type</string>
+    <string name="restaurant_price_range_hint">Price Range ($-$$$)</string>
+    <string name="restaurant_capacity_hint">Capacity (number of people)</string>
+    <string name="restaurant_rating_label">Restaurant Rating</string>
+    <string name="restaurant_is_open_label">Restaurant is Open</string>
+    <string name="restaurant_has_delivery_label">Offers Delivery</string>
+    <string name="restaurant_has_reservation_label">Accepts Reservations</string>
+    <string name="restaurant_save_button">Save Restaurant</string>
+    <string name="restaurant_add_image_button">Add Image</string>
+    <string name="restaurant_add_menu_item_button">Add Menu Item</string>
+    <string name="restaurant_additional_images_title">Additional Images</string>
+    <string name="restaurant_menu_title">Restaurant Menu</string>
+    <string name="restaurant_basic_info_title">Basic Information</string>
+    <string name="restaurant_location_info_title">Location Information</string>
+    <string name="restaurant_contact_info_title">Contact Information</string>
+    <string name="restaurant_services_facilities_title">Services &amp; Facilities</string>
+    
+    <!-- Restaurant Menu Item -->
+    <string name="menu_item_name_hint">Item Name</string>
+    <string name="menu_item_description_hint">Item Description</string>
+    <string name="menu_item_price_hint">Price</string>
+    <string name="menu_item_category_hint">Category</string>
+    <string name="menu_item_image_hint">Item Image URL</string>
+    <string name="menu_item_allergens_hint">Allergens</string>
+    <string name="menu_item_is_available_label">Available</string>
+    <string name="menu_item_is_special_label">Special Item</string>
+    <string name="menu_item_details_title">Menu Item Details</string>
+
+    <!-- Ask Guide Activity -->
+    <string name="ask_guide_title">Ask the Guide</string>
+    <string name="ask_guide_hint">Ask about World Cup 2026...</string>
+    <string name="send_message">Send</string>
+    <string name="guide_thinking">Guide is thinking...</string>
+    <string name="welcome_guide_message">Hello! I\'m your World Cup 2026 guide. Ask me anything about stadiums, teams, host cities, or any other information you need!</string>
+    <string name="error_ai_connection">Error connecting to AI service. Please check your internet connection.</string>
+    <string name="error_empty_response">Sorry, I couldn\'t generate a response. Please try again.</string>
+
+
 </resources>

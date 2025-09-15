@@ -1,16 +1,25 @@
 package com.ahmmedalmzini783.wcguide.data.repo;
 
 import android.app.Application;
+import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.ahmmedalmzini783.wcguide.data.local.AppDatabase;
 import com.ahmmedalmzini783.wcguide.data.local.dao.PlaceDao;
 import com.ahmmedalmzini783.wcguide.data.local.entity.PlaceEntity;
 import com.ahmmedalmzini783.wcguide.data.model.Banner;
+import com.ahmmedalmzini783.wcguide.data.model.Hotel;
 import com.ahmmedalmzini783.wcguide.data.model.Place;
+import com.ahmmedalmzini783.wcguide.data.model.QuickInfo;
+import com.ahmmedalmzini783.wcguide.data.model.Restaurant;
 import com.ahmmedalmzini783.wcguide.data.remote.FirebaseDataSource;
+import com.ahmmedalmzini783.wcguide.data.repository.HotelRepository;
+import com.ahmmedalmzini783.wcguide.data.repository.RestaurantRepository;
 import com.ahmmedalmzini783.wcguide.util.Resource;
+import com.ahmmedalmzini783.wcguide.util.HotelPlaceConverter;
+import com.ahmmedalmzini783.wcguide.util.RestaurantPlaceConverter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,13 +32,18 @@ import java.util.concurrent.Executors;
 public class PlaceRepository {
     private final PlaceDao placeDao;
     private final FirebaseDataSource firebaseDataSource;
+    private final HotelRepository hotelRepository;
+    private final RestaurantRepository restaurantRepository;
     private final ExecutorService executor;
     private final Gson gson;
+    private static final String TAG = "PlaceRepository";
 
     public PlaceRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         placeDao = database.placeDao();
         firebaseDataSource = new FirebaseDataSource();
+        hotelRepository = new HotelRepository();
+        restaurantRepository = new RestaurantRepository();
         executor = Executors.newFixedThreadPool(4);
         gson = new Gson();
     }
@@ -66,6 +80,73 @@ public class PlaceRepository {
     public LiveData<Resource<List<Place>>> getPlacesByCountryAndKind(String country, String kind, int limit) {
         MediatorLiveData<Resource<List<Place>>> result = new MediatorLiveData<>();
 
+        // If requesting hotels, get data from new Hotel repository
+        if ("hotel".equals(kind)) {
+            Log.d(TAG, "Fetching hotels for country: " + country + " with limit: " + limit);
+            // Get hotels from hotel repository
+            LiveData<Resource<List<Hotel>>> hotelData = hotelRepository.getHotelsByCountry(country);
+            result.addSource(hotelData, hotelResource -> {
+                if (hotelResource != null) {
+                    Log.d(TAG, "Hotel resource status: " + hotelResource.getStatus());
+                    if (hotelResource.getStatus() == Resource.Status.LOADING) {
+                        result.setValue(Resource.loading(null));
+                    } else if (hotelResource.getStatus() == Resource.Status.SUCCESS && hotelResource.getData() != null) {
+                        // Convert hotels to places and apply limit
+                        List<Hotel> hotels = hotelResource.getData();
+                        Log.d(TAG, "Converting " + hotels.size() + " hotels to places");
+                        List<Place> places = HotelPlaceConverter.convertHotelsToPlaces(hotels);
+                        
+                        // Apply limit
+                        if (places.size() > limit) {
+                            places = places.subList(0, limit);
+                        }
+                        
+                        Log.d(TAG, "Final places count after limit: " + places.size());
+                        result.setValue(Resource.success(places));
+                    } else if (hotelResource.getStatus() == Resource.Status.ERROR) {
+                        Log.e(TAG, "Error loading hotels: " + hotelResource.getMessage());
+                        result.setValue(Resource.error(hotelResource.getMessage(), null));
+                    }
+                }
+            });
+            
+            return result;
+        }
+        
+        // If requesting restaurants, get data from Restaurant repository
+        if ("restaurant".equals(kind)) {
+            Log.d(TAG, "Fetching restaurants for country: " + country + " with limit: " + limit);
+            // Get restaurants from restaurant repository
+            LiveData<Resource<List<Restaurant>>> restaurantData = restaurantRepository.getRestaurantsByCountry(country);
+            result.addSource(restaurantData, restaurantResource -> {
+                if (restaurantResource != null) {
+                    Log.d(TAG, "Restaurant resource status: " + restaurantResource.getStatus());
+                    if (restaurantResource.getStatus() == Resource.Status.LOADING) {
+                        result.setValue(Resource.loading(null));
+                    } else if (restaurantResource.getStatus() == Resource.Status.SUCCESS && restaurantResource.getData() != null) {
+                        // Convert restaurants to places and apply limit
+                        List<Restaurant> restaurants = restaurantResource.getData();
+                        Log.d(TAG, "Converting " + restaurants.size() + " restaurants to places");
+                        List<Place> places = RestaurantPlaceConverter.convertRestaurantsToPlaces(restaurants);
+                        
+                        // Apply limit
+                        if (places.size() > limit) {
+                            places = places.subList(0, limit);
+                        }
+                        
+                        Log.d(TAG, "Final places count after limit: " + places.size());
+                        result.setValue(Resource.success(places));
+                    } else if (restaurantResource.getStatus() == Resource.Status.ERROR) {
+                        Log.e(TAG, "Error loading restaurants: " + restaurantResource.getMessage());
+                        result.setValue(Resource.error(restaurantResource.getMessage(), null));
+                    }
+                }
+            });
+            
+            return result;
+        }
+        
+        // For non-hotel/non-restaurant places, use original logic
         // Load from cache
         LiveData<List<PlaceEntity>> localData = placeDao.getPlacesByCountryAndKind(country, kind, limit);
         result.addSource(localData, entities -> {
@@ -86,6 +167,124 @@ public class PlaceRepository {
                     placeDao.insertPlaces(entities);
                 });
                 result.setValue(resource);
+            }
+        });
+
+        return result;
+    }
+
+    public LiveData<Resource<List<Place>>> getAllHotelsByKind(String kind, int limit) {
+        MediatorLiveData<Resource<List<Place>>> result = new MediatorLiveData<>();
+
+        // If requesting hotels, get hotels from multiple World Cup countries
+        if ("hotel".equals(kind)) {
+            Log.d(TAG, "Fetching hotels from World Cup countries with limit: " + limit);
+            
+            // World Cup 2026 countries: USA, Canada, Mexico, Qatar (and others)
+            String[] worldCupCountries = {"usa", "USA", "United States", "Qatar", "Canada", "Mexico", "قطر", "الولايات المتحدة"};
+            
+            // Get hotels from multiple countries
+            LiveData<Resource<List<Hotel>>> hotelData = hotelRepository.getHotelsByMultipleCountries(worldCupCountries);
+            result.addSource(hotelData, hotelResource -> {
+                if (hotelResource != null) {
+                    Log.d(TAG, "Multi-country hotels resource status: " + hotelResource.getStatus());
+                    if (hotelResource.getStatus() == Resource.Status.LOADING) {
+                        result.setValue(Resource.loading(null));
+                    } else if (hotelResource.getStatus() == Resource.Status.SUCCESS && hotelResource.getData() != null) {
+                        // Convert hotels to places and apply limit
+                        List<Hotel> hotels = hotelResource.getData();
+                        Log.d(TAG, "Converting " + hotels.size() + " hotels from multiple countries to places");
+                        List<Place> places = HotelPlaceConverter.convertHotelsToPlaces(hotels);
+                        
+                        // Apply limit
+                        if (places.size() > limit) {
+                            places = places.subList(0, limit);
+                        }
+                        
+                        Log.d(TAG, "Final places count after limit: " + places.size());
+                        result.setValue(Resource.success(places));
+                    } else if (hotelResource.getStatus() == Resource.Status.ERROR) {
+                        Log.e(TAG, "Error loading hotels from multiple countries: " + hotelResource.getMessage());
+                        result.setValue(Resource.error(hotelResource.getMessage(), null));
+                    }
+                }
+            });
+            
+            return result;
+        }
+        
+        // For non-hotel places, use original logic to get all places of this kind
+        LiveData<List<PlaceEntity>> localData = placeDao.getPlacesByKind(kind);
+        result.addSource(localData, entities -> {
+            if (entities != null) {
+                executor.execute(() -> {
+                    List<Place> places = convertEntitiesToPlaces(entities);
+                    // Apply limit
+                    if (places.size() > limit) {
+                        places = places.subList(0, limit);
+                    }
+                    result.postValue(Resource.success(places));
+                });
+            }
+        });
+
+        return result;
+    }
+
+    public LiveData<Resource<List<Place>>> getAllRestaurantsByKind(String kind, int limit) {
+        MediatorLiveData<Resource<List<Place>>> result = new MediatorLiveData<>();
+
+        // If requesting restaurants, get restaurants from multiple World Cup countries
+        if ("restaurant".equals(kind)) {
+            Log.d(TAG, "Fetching restaurants from World Cup countries with limit: " + limit);
+            
+            // World Cup 2026 countries: USA, Canada, Mexico, Qatar (and others) - with various case variations
+            String[] worldCupCountries = {"usa", "USA", "United States", "united states", "US", "us", "Qatar", "qatar", "قطر", "Canada", "canada", "Mexico", "mexico", "الولايات المتحدة"};
+            
+            Log.d(TAG, "Loading restaurants from countries: " + java.util.Arrays.toString(worldCupCountries));
+            
+            // Get restaurants from multiple countries
+            LiveData<Resource<List<Restaurant>>> restaurantData = restaurantRepository.getRestaurantsByMultipleCountries(worldCupCountries);
+            result.addSource(restaurantData, restaurantResource -> {
+                if (restaurantResource != null) {
+                    Log.d(TAG, "Multi-country restaurants resource status: " + restaurantResource.getStatus());
+                    if (restaurantResource.getStatus() == Resource.Status.LOADING) {
+                        result.setValue(Resource.loading(null));
+                    } else if (restaurantResource.getStatus() == Resource.Status.SUCCESS && restaurantResource.getData() != null) {
+                        // Convert restaurants to places and apply limit
+                        List<Restaurant> restaurants = restaurantResource.getData();
+                        Log.d(TAG, "Converting " + restaurants.size() + " restaurants from multiple countries to places");
+                        List<Place> places = RestaurantPlaceConverter.convertRestaurantsToPlaces(restaurants);
+                        
+                        // Apply limit
+                        if (places.size() > limit) {
+                            places = places.subList(0, limit);
+                        }
+                        
+                        Log.d(TAG, "Final places count after limit: " + places.size());
+                        result.setValue(Resource.success(places));
+                    } else if (restaurantResource.getStatus() == Resource.Status.ERROR) {
+                        Log.e(TAG, "Error loading restaurants from multiple countries: " + restaurantResource.getMessage());
+                        result.setValue(Resource.error(restaurantResource.getMessage(), null));
+                    }
+                }
+            });
+            
+            return result;
+        }
+        
+        // For non-restaurant places, use original logic to get all places of this kind
+        LiveData<List<PlaceEntity>> localData = placeDao.getPlacesByKind(kind);
+        result.addSource(localData, entities -> {
+            if (entities != null) {
+                executor.execute(() -> {
+                    List<Place> places = convertEntitiesToPlaces(entities);
+                    // Apply limit
+                    if (places.size() > limit) {
+                        places = places.subList(0, limit);
+                    }
+                    result.postValue(Resource.success(places));
+                });
             }
         });
 
@@ -213,5 +412,10 @@ public class PlaceRepository {
     // Banners
     public LiveData<Resource<List<Banner>>> getBanners() {
         return firebaseDataSource.getBanners();
+    }
+
+    // Quick Info
+    public LiveData<Resource<List<QuickInfo>>> getQuickInfo() {
+        return firebaseDataSource.getQuickInfo();
     }
 }
