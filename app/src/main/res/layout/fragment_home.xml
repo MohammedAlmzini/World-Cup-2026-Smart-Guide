@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#F8F9FA"
+    android:background="@drawable/bg_home_modern_white"
     tools:context=".ui.home.HomeFragment">
 
     <LinearLayout
@@ -34,7 +34,7 @@
                 android:text="العد التنازلي لكأس العالم"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="#FF6B35"
+                android:textColor="@color/modern_blue_primary"
                 android:gravity="center"
                 android:shadowColor="#80000000"
                 android:shadowDx="1"
@@ -53,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:padding="12dp"
                     android:gravity="center">
 
                     <!-- Days Card -->
@@ -60,12 +61,15 @@
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
                         android:layout_marginEnd="8dp"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="1dp"
-                        app:strokeColor="#E8E8E8"
-                        app:cardBackgroundColor="#FFFFFF">
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="4dp"
+                        app:strokeWidth="0dp"
+                        app:cardBackgroundColor="@color/white"
+                        android:backgroundTint="@color/modern_blue_subtle">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -80,7 +84,7 @@
                                 android:text="000"
                                 android:textSize="22sp"
                                 android:textStyle="bold"
-                                android:textColor="#FF6B35"
+                                android:textColor="@color/modern_blue_primary"
                                 tools:text="123" />
 
                             <TextView
@@ -89,7 +93,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/countdown_days"
                                 android:textSize="12sp"
-                                android:textColor="#999999"
+                                android:textColor="@color/modern_blue_light"
                                 android:layout_marginTop="4dp" />
 
                         </LinearLayout>
@@ -102,11 +106,11 @@
                         android:layout_height="100dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="1dp"
-                        app:strokeColor="#E8E8E8"
-                        app:cardBackgroundColor="#FFFFFF">
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="4dp"
+                        app:strokeWidth="0dp"
+                        app:cardBackgroundColor="@color/white"
+                        android:backgroundTint="@color/modern_blue_subtle">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -121,7 +125,7 @@
                                 android:text="00"
                                 android:textSize="22sp"
                                 android:textStyle="bold"
-                                android:textColor="#FF6B35"
+                                android:textColor="@color/modern_blue_primary"
                                 tools:text="12" />
 
                             <TextView
@@ -129,8 +133,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/countdown_hours"
-                                android:textSize="12sp"
-                                android:textColor="#999999"
+                                android:textSize="8sp"
+                                android:textColor="@color/modern_blue_light"
                                 android:layout_marginTop="4dp" />
 
                         </LinearLayout>
@@ -143,11 +147,11 @@
                         android:layout_height="100dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="1dp"
-                        app:strokeColor="#E8E8E8"
-                        app:cardBackgroundColor="#FFFFFF">
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="4dp"
+                        app:strokeWidth="0dp"
+                        app:cardBackgroundColor="@color/white"
+                        android:backgroundTint="@color/modern_blue_subtle">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -162,7 +166,7 @@
                                 android:text="00"
                                 android:textSize="22sp"
                                 android:textStyle="bold"
-                                android:textColor="#FF6B35"
+                                android:textColor="@color/modern_blue_primary"
                                 tools:text="34" />
 
                             <TextView
@@ -170,8 +174,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/countdown_minutes"
-                                android:textSize="12sp"
-                                android:textColor="#999999"
+                                android:textSize="8sp"
+                                android:textColor="@color/modern_blue_light"
                                 android:layout_marginTop="4dp" />
 
                         </LinearLayout>
@@ -183,11 +187,12 @@
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_weight="1"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="1dp"
-                        app:strokeColor="#E8E8E8"
-                        app:cardBackgroundColor="#FFFFFF">
+                        app:cardCornerRadius="20dp"
+                        android:layout_marginEnd="8dp"
+                        app:cardElevation="4dp"
+                        app:strokeWidth="0dp"
+                        app:cardBackgroundColor="@color/white"
+                        android:backgroundTint="@color/modern_blue_subtle">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -202,7 +207,7 @@
                                 android:text="00"
                                 android:textSize="22sp"
                                 android:textStyle="bold"
-                                android:textColor="#FF6B35"
+                                android:textColor="@color/modern_blue_primary"
                                 tools:text="56" />
 
                             <TextView
@@ -210,8 +215,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/countdown_seconds"
-                                android:textSize="12sp"
-                                android:textColor="#999999"
+                                android:textSize="8sp"
+                                android:textColor="@color/modern_blue_light"
                                 android:layout_marginTop="4dp" />
 
                         </LinearLayout>
@@ -229,7 +234,7 @@
                     android:text="@string/world_cup_started"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="#FF6B35"
+                    android:textColor="@color/modern_blue_primary"
                     android:background="@drawable/finished_badge_bg"
                     android:padding="16dp"
                     android:visibility="gone"
@@ -264,28 +269,8 @@
                     android:text="@string/home_banners_title"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="#1A1A1A"
+                    android:textColor="@color/modern_blue_primary"
                     android:fontFamily="sans-serif-medium" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp"
-                    app:cardBackgroundColor="#FFF3E0">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="جديد"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#FF6B35"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="4dp" />
-
-                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
@@ -312,42 +297,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp" />
 
-        <!-- Attractions Section -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp"
-            app:cardBackgroundColor="#FFFFFF">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/home_attractions_title"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#1A1A1A"
-                    android:layout_marginBottom="16dp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/attractions_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:clipToPadding="false"
-                    android:scrollbars="none" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
 
         <!-- Hotels Section -->
         <com.google.android.material.card.MaterialCardView
@@ -355,9 +304,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
+            app:cardElevation="6dp"
             app:strokeWidth="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardBackgroundColor="@color/white"
+            android:backgroundTint="@color/modern_blue_subtle">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -380,7 +330,7 @@
                         android:text="@string/home_hotels_title"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="#1A1A1A" />
+                        android:textColor="@color/modern_blue_primary" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/button_view_more_hotels"
@@ -434,7 +384,7 @@
                         android:layout_height="wrap_content"
                         android:text="لا توجد فنادق متاحة حتى الآن"
                         android:textSize="14sp"
-                        android:textColor="@android:color/darker_gray"
+                        android:textColor="@color/text_hint"
                         android:gravity="center" />
 
                 </LinearLayout>
@@ -449,9 +399,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
+            app:cardElevation="6dp"
             app:strokeWidth="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardBackgroundColor="@color/white"
+            android:backgroundTint="@color/modern_blue_subtle">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -474,7 +425,7 @@
                         android:text="@string/home_restaurants_title"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="#1A1A1A" />
+                        android:textColor="@color/modern_blue_primary" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/button_view_more_restaurants"
@@ -527,7 +478,7 @@
                         android:layout_height="wrap_content"
                         android:text="لا توجد مطاعم متاحة حتى الآن"
                         android:textSize="14sp"
-                        android:textColor="#999999"
+                        android:textColor="@color/text_hint"
                         android:gravity="center" />
 
                 </LinearLayout>
@@ -542,9 +493,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
+            app:cardElevation="6dp"
             app:strokeWidth="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardBackgroundColor="@color/white"
+            android:backgroundTint="@color/modern_blue_subtle">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -567,7 +519,7 @@
                         android:text="@string/home_quick_info_title"
                         android:textSize="22sp"
                         android:textStyle="bold"
-                        android:textColor="#1A1A1A" />
+                        android:textColor="@color/modern_blue_primary" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="wrap_content"
@@ -575,7 +527,7 @@
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
                         app:strokeWidth="0dp"
-                        app:cardBackgroundColor="#FFF3E0">
+                        app:cardBackgroundColor="@color/primary_light">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -583,7 +535,7 @@
                             android:text="مهم"
                             android:textSize="12sp"
                             android:textStyle="bold"
-                            android:textColor="#FF6B35"
+                            android:textColor="@color/modern_blue_primary"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="6dp" />
 
@@ -613,8 +565,9 @@
                             app:cardCornerRadius="16dp"
                             app:cardElevation="0dp"
                             app:strokeWidth="1dp"
-                            app:strokeColor="#E8E8E8"
-                            app:cardBackgroundColor="#FAFAFA">
+                            app:strokeColor="@color/modern_blue_soft"
+                            app:cardBackgroundColor="@color/white"
+                            android:backgroundTint="@color/modern_blue_subtle">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -627,7 +580,7 @@
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
                                     android:src="@drawable/ic_currency"
-                                    android:tint="#FF6B35"
+                                    android:tint="@color/modern_blue_primary"
                                     android:layout_marginEnd="12dp" />
 
                                 <LinearLayout
@@ -641,7 +594,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="العملة"
                                         android:textSize="12sp"
-                                        android:textColor="#999999" />
+                                        android:textColor="@color/modern_blue_light" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -649,7 +602,7 @@
                                         android:text="USD • CAD • MXN"
                                         android:textSize="14sp"
                                         android:textStyle="bold"
-                                        android:textColor="#1A1A1A" />
+                                        android:textColor="@color/modern_blue_primary" />
 
                                 </LinearLayout>
 
@@ -666,8 +619,9 @@
                             app:cardCornerRadius="16dp"
                             app:cardElevation="0dp"
                             app:strokeWidth="1dp"
-                            app:strokeColor="#E8E8E8"
-                            app:cardBackgroundColor="#FAFAFA">
+                            app:strokeColor="@color/modern_blue_soft"
+                            app:cardBackgroundColor="@color/white"
+                            android:backgroundTint="@color/modern_blue_subtle">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -680,7 +634,7 @@
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
                                     android:src="@drawable/ic_language"
-                                    android:tint="#4CAF50"
+                                    android:tint="@color/modern_blue_primary"
                                     android:layout_marginEnd="12dp" />
 
                                 <LinearLayout
@@ -694,7 +648,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="اللغات"
                                         android:textSize="12sp"
-                                        android:textColor="#999999" />
+                                        android:textColor="@color/modern_blue_light" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -702,7 +656,7 @@
                                         android:text="EN • FR • ES"
                                         android:textSize="14sp"
                                         android:textStyle="bold"
-                                        android:textColor="#1A1A1A" />
+                                        android:textColor="@color/modern_blue_primary" />
 
                                 </LinearLayout>
 
@@ -727,8 +681,9 @@
                             app:cardCornerRadius="16dp"
                             app:cardElevation="0dp"
                             app:strokeWidth="1dp"
-                            app:strokeColor="#E8E8E8"
-                            app:cardBackgroundColor="#FAFAFA">
+                            app:strokeColor="@color/modern_blue_soft"
+                            app:cardBackgroundColor="@color/white"
+                            android:backgroundTint="@color/modern_blue_subtle">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -741,7 +696,7 @@
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
                                     android:src="@drawable/ic_weather"
-                                    android:tint="#2196F3"
+                                    android:tint="@color/modern_blue_primary"
                                     android:layout_marginEnd="12dp" />
 
                                 <LinearLayout
@@ -755,7 +710,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="الطقس"
                                         android:textSize="12sp"
-                                        android:textColor="#999999" />
+                                        android:textColor="@color/modern_blue_light" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -763,7 +718,7 @@
                                         android:text="21-35°C"
                                         android:textSize="14sp"
                                         android:textStyle="bold"
-                                        android:textColor="#1A1A1A" />
+                                        android:textColor="@color/modern_blue_primary" />
 
                                 </LinearLayout>
 
@@ -780,8 +735,9 @@
                             app:cardCornerRadius="16dp"
                             app:cardElevation="0dp"
                             app:strokeWidth="1dp"
-                            app:strokeColor="#E8E8E8"
-                            app:cardBackgroundColor="#FAFAFA">
+                            app:strokeColor="@color/modern_blue_soft"
+                            app:cardBackgroundColor="@color/white"
+                            android:backgroundTint="@color/modern_blue_subtle">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -794,7 +750,7 @@
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
                                     android:src="@drawable/ic_transport"
-                                    android:tint="#9C27B0"
+                                    android:tint="@color/modern_blue_primary"
                                     android:layout_marginEnd="12dp" />
 
                                 <LinearLayout
@@ -808,7 +764,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="المواصلات"
                                         android:textSize="12sp"
-                                        android:textColor="#999999" />
+                                        android:textColor="@color/modern_blue_light" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -816,7 +772,7 @@
                                         android:text="متوفرة"
                                         android:textSize="14sp"
                                         android:textStyle="bold"
-                                        android:textColor="#1A1A1A" />
+                                        android:textColor="@color/modern_blue_primary" />
 
                                 </LinearLayout>
 

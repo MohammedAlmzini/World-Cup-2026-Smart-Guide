@@ -263,6 +263,36 @@ public class FirebaseDataSource {
         return null;
     }
 
+    public LiveData<Resource<Event>> getFeaturedEvent() {
+        MutableLiveData<Resource<Event>> result = new MutableLiveData<>();
+        result.setValue(Resource.loading(null));
+
+        Query query = eventsRef.orderByChild("isFeatured").equalTo(true).limitToFirst(1);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
+                        Event event = eventSnapshot.getValue(Event.class);
+                        if (event != null) {
+                            event.setId(eventSnapshot.getKey());
+                            result.setValue(Resource.success(event));
+                            return;
+                        }
+                    }
+                }
+                result.setValue(Resource.error("No featured event found", null));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                result.setValue(Resource.error(error.getMessage(), null));
+            }
+        });
+
+        return result;
+    }
+
     // Places Methods
     public LiveData<Resource<List<Place>>> getAllPlaces() {
         MutableLiveData<Resource<List<Place>>> result = new MutableLiveData<>();

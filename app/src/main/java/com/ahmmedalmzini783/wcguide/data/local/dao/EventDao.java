@@ -39,6 +39,9 @@ public interface EventDao {
     @Query("SELECT * FROM events WHERE startUtc > :currentTime ORDER BY startUtc ASC LIMIT :limit")
     LiveData<List<EventEntity>> getUpcomingEvents(long currentTime, int limit);
 
+    @Query("SELECT * FROM events WHERE isFeatured = 1 LIMIT 1")
+    LiveData<EventEntity> getFeaturedEvent();
+
     @Query("SELECT DISTINCT country FROM events ORDER BY country ASC")
     LiveData<List<String>> getAllCountries();
 

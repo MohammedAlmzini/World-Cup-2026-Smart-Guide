@@ -24,6 +24,7 @@ public class EventEntity {
     private double lat;
     private double lng;
     private long lastUpdated; // For cache management
+    private boolean isFeatured; // For featured events
 
     public EventEntity() {}
 
@@ -95,4 +96,7 @@ public class EventEntity {
 
     public long getLastUpdated() { return lastUpdated; }
     public void setLastUpdated(long lastUpdated) { this.lastUpdated = lastUpdated; }
+
+    public boolean isFeatured() { return isFeatured; }
+    public void setFeatured(boolean featured) { this.isFeatured = featured; }
 }

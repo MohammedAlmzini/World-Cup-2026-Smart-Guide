@@ -12,6 +12,7 @@ import com.ahmmedalmzini783.wcguide.data.model.Event;
 import com.ahmmedalmzini783.wcguide.data.remote.FirebaseDataSource;
 import com.ahmmedalmzini783.wcguide.util.Resource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -52,7 +53,9 @@ public class EventRepository {
                     // Update local cache
                     executor.execute(() -> {
                         List<EventEntity> entities = convertEventsToEntities(resource.getData());
-                        eventDao.insertEvents(entities);
+                        if (entities != null && !entities.isEmpty()) {
+                            eventDao.insertEvents(entities);
+                        }
                     });
                     result.setValue(resource);
                 } else if (resource.getStatus() == Resource.Status.ERROR) {
@@ -113,7 +116,9 @@ public class EventRepository {
             if (resource != null && resource.getStatus() == Resource.Status.SUCCESS && resource.getData() != null) {
                 executor.execute(() -> {
                     List<EventEntity> entities = convertEventsToEntities(resource.getData());
-                    eventDao.insertEvents(entities);
+                    if (entities != null && !entities.isEmpty()) {
+                        eventDao.insertEvents(entities);
+                    }
                 });
                 result.setValue(resource);
             }
@@ -183,6 +188,34 @@ public class EventRepository {
         return eventDao.getAllTypes();
     }
 
+    public LiveData<Resource<Event>> getFeaturedEvent() {
+        MediatorLiveData<Resource<Event>> result = new MediatorLiveData<>();
+
+        // First, load from cache
+        LiveData<EventEntity> localData = eventDao.getFeaturedEvent();
+        result.addSource(localData, entity -> {
+            if (entity != null) {
+                Event event = convertEntityToEvent(entity);
+                result.setValue(Resource.success(event));
+            }
+        });
+
+        // Then, fetch from network
+        LiveData<Resource<Event>> remoteData = firebaseDataSource.getFeaturedEvent();
+        result.addSource(remoteData, resource -> {
+            if (resource != null && resource.getStatus() == Resource.Status.SUCCESS && resource.getData() != null) {
+                // Update local cache
+                executor.execute(() -> {
+                    EventEntity entity = convertEventToEntity(resource.getData());
+                    eventDao.insertEvent(entity);
+                });
+                result.setValue(resource);
+            }
+        });
+
+        return result;
+    }
+
     // Admin methods
     public LiveData<Resource<Void>> addEvent(Event event) {
         MutableLiveData<Resource<Void>> result = new MutableLiveData<>();
@@ -206,9 +239,17 @@ public class EventRepository {
 
     // Conversion methods
     private List<Event> convertEntitiesToEvents(List<EventEntity> entities) {
-        // Implementation for converting entities to events
-        // This would typically use a mapping library or manual conversion
-        return null; // Placeholder
+        if (entities == null) {
+            return new ArrayList<>();
+        }
+        
+        List<Event> events = new ArrayList<>();
+        for (EventEntity entity : entities) {
+            if (entity != null) {
+                events.add(convertEntityToEvent(entity));
+            }
+        }
+        return events;
     }
 
     private Event convertEntityToEvent(EventEntity entity) {
@@ -227,12 +268,22 @@ public class EventRepository {
         event.setDescription(entity.getDescription());
         event.setLat(entity.getLat());
         event.setLng(entity.getLng());
+        event.setFeatured(entity.isFeatured());
         return event;
     }
 
     private List<EventEntity> convertEventsToEntities(List<Event> events) {
-        // Implementation for converting events to entities
-        return null; // Placeholder
+        if (events == null) {
+            return new ArrayList<>();
+        }
+        
+        List<EventEntity> entities = new ArrayList<>();
+        for (Event event : events) {
+            if (event != null) {
+                entities.add(convertEventToEntity(event));
+            }
+        }
+        return entities;
     }
 
     private EventEntity convertEventToEntity(Event event) {
@@ -251,6 +302,7 @@ public class EventRepository {
         entity.setDescription(event.getDescription());
         entity.setLat(event.getLat());
         entity.setLng(event.getLng());
+        entity.setFeatured(event.isFeatured());
         entity.setLastUpdated(System.currentTimeMillis());
         return entity;
     }

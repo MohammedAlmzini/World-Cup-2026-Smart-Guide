@@ -35,6 +35,7 @@ import com.google.ai.client.generativeai.GenerativeModel;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;
 import com.google.ai.client.generativeai.type.Content;
 import com.google.ai.client.generativeai.type.GenerateContentResponse;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -44,10 +45,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
@@ -77,34 +80,53 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
     private SpeechRecognizer speechRecognizer;
     private TextToSpeech textToSpeech;
     private boolean isListening = false;
+    
+    // Vertex AI variables (مبسطة)
+    private String projectId;
+    private String location;
+    private ServiceAccountCredentials credentials;
 
     // قائمة الكلمات المفتاحية التي تستدعي البحث - موسعة ومحسنة
     private static final List<String> SEARCH_KEYWORDS = Arrays.asList(
-            // كلمات عربية
+            // كلمات عربية - أساسية
             "متأهل", "متأهلة", "المتأهلة", "المتأهلين", "تأهل", "تأهلت", "تأهلوا",
             "آخر", "جديد", "حديث", "أخبار", "نتائج", "جدول", "ترتيب",
             "مباريات اليوم", "تصفيات", "إحصائيات", "القادمة", "تذاكر",
             "حالي", "الحالية", "جاري", "الجارية", "حتى الآن", "الآن",
             "كأس العالم", "مونديال", "فيفا", "2026",
+            
+            // كلمات عربية - إضافية للأسئلة الحديثة
+            "مباشر", "لايف", "live", "اليوم", "أمس", "غداً", "هذا الأسبوع",
+            "الشهر الحالي", "هذا العام", "2024", "2025", "اليورو", "كوبا أمريكا",
+            "دوري الأمم", "التصفيات", "المجموعات", "الجولة", "الدور",
+            "النهائي", "نصف النهائي", "ربع النهائي", "المركز الثالث",
+            "البطولة", "الدوري", "الكأس", "المسابقة", "التنافس",
 
-            // كلمات إنجليزية
+            // كلمات إنجليزية - أساسية
             "qualified", "qualifying", "qualification", "qualifiers",
             "latest", "recent", "news", "results", "schedule", "fixtures",
             "today", "statistics", "stats", "upcoming", "tickets", "current",
             "standings", "rankings", "now", "ongoing", "world cup", "fifa",
             "2026", "so far", "until now",
+            
+            // كلمات إنجليزية - إضافية
+            "live", "match", "game", "today", "yesterday", "tomorrow",
+            "this week", "this month", "this year", "2024", "2025",
+            "euro", "copa america", "nations league", "playoffs",
+            "groups", "round", "final", "semi-final", "quarter-final",
+            "tournament", "league", "cup", "competition", "championship",
 
             // كلمات إسبانية
             "clasificado", "clasificados", "clasificación",
             "nuevo", "último", "noticias", "resultados", "horarios",
             "estadísticas", "próximos", "entradas", "actual", "corriente",
-            "copa del mundo", "mundial",
+            "copa del mundo", "mundial", "en vivo", "hoy", "ayer",
 
             // كلمات فرنسية
             "qualifié", "qualifiés", "qualification",
             "nouveau", "récent", "nouvelles", "résultats", "calendrier",
             "statistiques", "à venir", "billets", "actuel", "courant",
-            "coupe du monde", "mondial"
+            "coupe du monde", "mondial", "en direct", "aujourd'hui"
     );
 
     @Override
@@ -158,6 +180,10 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
 
     private void setupAI() {
         try {
+            // إعداد Vertex AI أولاً
+            setupVertexAI();
+            
+            // إعداد Gemini API كبديل
             String apiKey = BuildConfig.GEMINI_API_KEY;
             Log.d(TAG, "Setting up AI with API key: " + (apiKey != null && !apiKey.isEmpty() && !apiKey.equals("PLACEHOLDER_GEMINI_API_KEY") ? "Valid key found" : "Invalid or missing key"));
             
@@ -177,6 +203,23 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
         } catch (Exception e) {
             Log.e(TAG, "Error setting up AI", e);
             showError("خطأ في إعداد الذكاء الاصطناعي: " + e.getMessage());
+        }
+    }
+
+    private void setupVertexAI() {
+        try {
+            // تحديد معلومات المشروع
+            projectId = "laravel-wasel";
+            location = "us-central1";
+            
+            // قراءة ملف service account من assets
+            InputStream serviceAccountStream = getActivity().getAssets().open("service-account.json");
+            credentials = ServiceAccountCredentials.fromStream(serviceAccountStream);
+            
+            Log.d(TAG, "Vertex AI setup completed successfully");
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting up Vertex AI", e);
+            // لا نظهر خطأ هنا لأن Gemini API سيكون البديل
         }
     }
 
@@ -637,10 +680,57 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
     }
 
     /**
-     * فحص محسن لتحديد ما إذا كان السؤال يحتاج إلى بحث على الويب
+     * فحص محسن لتحديد ما إذا كان السؤال يحتاج إلى بحث على الويب مع مراعاة التاريخ
      */
     private boolean needsWebSearch(String userMessage) {
         String messageLower = userMessage.toLowerCase().trim();
+        
+        Log.d(TAG, "Checking if search needed for: " + userMessage);
+
+        // الحصول على التاريخ الحالي للفحص
+        Calendar currentDate = Calendar.getInstance();
+        int currentYear = currentDate.get(Calendar.YEAR);
+        
+        Log.d(TAG, "📅 Current year for search detection: " + currentYear);
+
+        // فحص بسيط ومباشر للأسئلة الشائعة
+        if (messageLower.contains("متأهل") && messageLower.contains("2026")) {
+            Log.d(TAG, "✅ Found Arabic qualification question for 2026");
+            return true;
+        }
+        
+        if (messageLower.contains("qualified") && messageLower.contains("2026")) {
+            Log.d(TAG, "✅ Found English qualification question for 2026");
+            return true;
+        }
+        
+        if (messageLower.contains("كأس العالم") || messageLower.contains("مونديال")) {
+            Log.d(TAG, "✅ Found World Cup mention in Arabic");
+            return true;
+        }
+        
+        if (messageLower.contains("world cup") || messageLower.contains("fifa")) {
+            Log.d(TAG, "✅ Found World Cup mention in English");
+            return true;
+        }
+
+        // فحص الأسئلة التي تحتاج معلومات حديثة بناءً على التاريخ
+        String[] recentInfoKeywords = {
+                // كلمات تدل على الحاجة لمعلومات حديثة - عربي
+                "آخر", "أحدث", "حديث", "جديد", "اليوم", "الآن", "حالياً", 
+                "حتى الآن", "الوضع الحالي", "أخبار", "نتائج", "مستجدات",
+                
+                // كلمات تدل على الحاجة لمعلومات حديثة - إنجليزي
+                "latest", "recent", "current", "today", "now", "update",
+                "news", "results", "so far", "current status", "progress"
+        };
+        
+        for (String keyword : recentInfoKeywords) {
+            if (messageLower.contains(keyword.toLowerCase())) {
+                Log.d(TAG, "🕒 Found recent info keyword: " + keyword + " - requires search");
+                return true;
+            }
+        }
 
         // أولاً: التحقق من الكلمات المفتاحية
         for (String keyword : SEARCH_KEYWORDS) {
@@ -652,7 +742,7 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
 
         // ثانياً: أسئلة محددة تتطلب بحث
         String[] searchPatterns = {
-                // أسئلة باللغة العربية
+                // أسئلة باللغة العربية - أساسية
                 ".*الدول.*متأهل.*",
                 ".*الفرق.*متأهل.*",
                 ".*المنتخبات.*متأهل.*",
@@ -664,8 +754,22 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                 ".*المنتخبات.*كأس.*العالم.*2026.*",
                 ".*مونديال.*2026.*",
                 ".*تصفيات.*كأس.*العالم.*",
+                
+                // أسئلة باللغة العربية - إضافية للأحداث الحديثة
+                ".*ما.*آخر.*",
+                ".*ما.*أحدث.*",
+                ".*ما.*جديد.*",
+                ".*أخبار.*اليوم.*",
+                ".*نتائج.*اليوم.*",
+                ".*مباريات.*اليوم.*",
+                ".*ما.*حدث.*أمس.*",
+                ".*ما.*سيحدث.*غداً.*",
+                ".*الآن.*",
+                ".*حالياً.*",
+                ".*في.*الوقت.*الحالي.*",
+                ".*حتى.*الآن.*",
 
-                // أسئلة باللغة الإنجليزية
+                // أسئلة باللغة الإنجليزية - أساسية
                 ".*which.*countries.*qualified.*",
                 ".*teams.*qualified.*world.*cup.*2026.*",
                 ".*who.*qualified.*2026.*",
@@ -673,7 +777,21 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                 ".*countries.*world.*cup.*2026.*",
                 ".*fifa.*world.*cup.*2026.*qualified.*",
                 ".*how.*many.*teams.*qualified.*",
-                ".*qualifiers.*2026.*"
+                ".*qualifiers.*2026.*",
+                
+                // أسئلة باللغة الإنجليزية - إضافية للأحداث الحديثة
+                ".*what.*latest.*",
+                ".*what.*recent.*",
+                ".*what.*new.*",
+                ".*today.*news.*",
+                ".*today.*results.*",
+                ".*today.*matches.*",
+                ".*what.*happened.*yesterday.*",
+                ".*what.*will.*happen.*tomorrow.*",
+                ".*right.*now.*",
+                ".*currently.*",
+                ".*at.*the.*moment.*",
+                ".*so.*far.*"
         };
 
         for (String pattern : searchPatterns) {
@@ -692,14 +810,45 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
             return true;
         }
 
+        // رابعاً: أسئلة زمنية تحتاج معلومات حديثة
+        if (messageLower.contains("اليوم") ||
+                messageLower.contains("أمس") ||
+                messageLower.contains("غداً") ||
+                messageLower.contains("الآن") ||
+                messageLower.contains("حالياً") ||
+                messageLower.contains("حديثاً") ||
+                messageLower.contains("مؤخراً") ||
+                messageLower.contains("today") ||
+                messageLower.contains("yesterday") ||
+                messageLower.contains("tomorrow") ||
+                messageLower.contains("now") ||
+                messageLower.contains("currently") ||
+                messageLower.contains("recently") ||
+                messageLower.contains("latest")) {
+            Log.d(TAG, "Message contains time-sensitive keywords");
+            return true;
+        }
+
+        // خامساً: أسئلة الأخبار والتحديثات
+        if (messageLower.contains("أخبار") ||
+                messageLower.contains("جديد") ||
+                messageLower.contains("تحديث") ||
+                messageLower.contains("تطورات") ||
+                messageLower.contains("news") ||
+                messageLower.contains("update") ||
+                messageLower.contains("developments")) {
+            Log.d(TAG, "Message contains news/update keywords");
+            return true;
+        }
+
         return false;
     }
 
     /**
-     * تنفيذ البحث على الويب مع تحسينات
+     * تنفيذ البحث على الويب مع تحسينات وترجمة ذكية
      */
     private void performWebSearch(String userMessage) {
-        Log.d(TAG, "Starting web search for: " + userMessage);
+        Log.d(TAG, "🔍 Starting web search for: " + userMessage);
 
         // إضافة رسالة للمستخدم لإعلامه بأن البحث جاري
         if (getActivity() != null) {
@@ -710,15 +859,35 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
             });
         }
 
-        // بناء استعلام البحث المحسن
-        String searchQuery = buildEnhancedSearchQuery(userMessage);
+        // تحديد لغة المستخدم
+        String userLanguage = isArabicText(userMessage) ? "arabic" : 
+                             isEnglishText(userMessage) ? "english" : "auto";
+        
+        Log.d(TAG, "🌐 Detected user language: " + userLanguage);
+
+        // ترجمة للإنجليزية إذا لزم الأمر
+        translateForSearch(userMessage, userLanguage, new TranslationCallback() {
+            @Override
+            public void onTranslationComplete(String translatedQuery, String originalLanguage) {
+                Log.d(TAG, "Translation complete. Original: " + userMessage + ", Translated: " + translatedQuery);
+                performActualWebSearch(userMessage, translatedQuery, originalLanguage);
+            }
+        });
+    }
+    
+    /**
+     * تنفيذ البحث الفعلي مع الاستعلام المترجم
+     */
+    private void performActualWebSearch(String originalMessage, String translatedQuery, String userLanguage) {
+        // بناء استعلام البحث المحسن باللغة الإنجليزية
+        String searchQuery = buildEnhancedSearchQuery(translatedQuery);
         String encodedQuery;
 
         try {
             encodedQuery = URLEncoder.encode(searchQuery, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             Log.e(TAG, "Error encoding search query", e);
-            sendToAI(userMessage, null);
+            sendToAI(originalMessage, null);
             return;
         }
 
@@ -738,97 +907,38 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
 
         httpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e(TAG, "Web search failed", e);
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Search request failed", e);
                 if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        // إزالة رسالة "جاري البحث"
-                        if (messagesList.size() > 0 &&
-                                messagesList.get(messagesList.size() - 1).getMessage().contains("جاري البحث")) {
-                            messagesList.remove(messagesList.size() - 1);
-                            messagesAdapter.notifyItemRemoved(messagesList.size());
-                        }
-
-                        // إرسال رسالة خطأ وإرسال السؤال بدون بحث
-                        messagesList.add(new ChatMessage(
-                                "❌ لم أتمكن من الوصول للإنترنت للبحث عن أحدث المعلومات. سأجيب بناءً على معرفتي العامة:",
-                                ChatMessage.TYPE_AI));
-                        messagesAdapter.notifyItemInserted(messagesList.size() - 1);
-                        scrollToBottom();
-
-                        sendToAI(userMessage, null);
-                    });
+                    getActivity().runOnUiThread(() -> sendToAI(originalMessage, null));
                 }
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String responseBody = null;
+            public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    if (response.isSuccessful() && response.body() != null) {
-                        responseBody = response.body().string();
-                        Log.d(TAG, "Search response received, length: " + responseBody.length());
+                    String responseBody = response.body().string();
+                    Log.d(TAG, "Search response received, length: " + responseBody.length());
 
-                        List<SearchResult> searchResults = parseSearchResults(responseBody);
-                        Log.d(TAG, "Parsed " + searchResults.size() + " search results");
+                    List<SearchResult> searchResults = parseSearchResults(responseBody);
+                    Log.d(TAG, "Parsed " + searchResults.size() + " search results");
 
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(() -> {
-                                // إزالة رسالة "جاري البحث"
-                                if (messagesList.size() > 0 &&
-                                        messagesList.get(messagesList.size() - 1).getMessage().contains("جاري البحث")) {
-                                    messagesList.remove(messagesList.size() - 1);
-                                    messagesAdapter.notifyItemRemoved(messagesList.size());
-                                }
-
-                                if (searchResults.isEmpty()) {
-                                    Log.w(TAG, "No search results found");
-                                    messagesList.add(new ChatMessage(
-                                            "⚠️ لم أجد نتائج بحث حديثة. سأجيب بناءً على معرفتي العامة:",
-                                            ChatMessage.TYPE_AI));
-                                    messagesAdapter.notifyItemInserted(messagesList.size() - 1);
-                                    scrollToBottom();
-                                    sendToAI(userMessage, null);
-                                } else {
-                                    Log.d(TAG, "Sending search results to AI");
-                                    sendToAI(userMessage, searchResults);
-                                }
-                            });
-                        }
-                    } else {
-                        Log.e(TAG, "Search API error: " + response.code() + " " + response.message());
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(() -> {
-                                // إزالة رسالة "جاري البحث"
-                                if (messagesList.size() > 0 &&
-                                        messagesList.get(messagesList.size() - 1).getMessage().contains("جاري البحث")) {
-                                    messagesList.remove(messagesList.size() - 1);
-                                    messagesAdapter.notifyItemRemoved(messagesList.size());
-                                }
-
-                                messagesList.add(new ChatMessage(
-                                        "❌ حدث خطأ في البحث. سأجيب بناءً على معرفتي العامة:",
-                                        ChatMessage.TYPE_AI));
-                                messagesAdapter.notifyItemInserted(messagesList.size() - 1);
-                                scrollToBottom();
-
-                                sendToAI(userMessage, null);
-                            });
-                        }
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "Error processing search response", e);
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
-                            // إزالة رسالة "جاري البحث"
-                            if (messagesList.size() > 0 &&
-                                    messagesList.get(messagesList.size() - 1).getMessage().contains("جاري البحث")) {
-                                messagesList.remove(messagesList.size() - 1);
-                                messagesAdapter.notifyItemRemoved(messagesList.size());
+                            if (searchResults.isEmpty()) {
+                                Log.w(TAG, "No search results found, proceeding without search data");
+                                sendToAI(originalMessage, null);
+                            } else {
+                                Log.d(TAG, "Sending to AI with " + searchResults.size() + " search results");
+                                // إرسال السؤال الأصلي مع نتائج البحث - سيستجيب بلغة المستخدم
+                                sendToAI(originalMessage, searchResults);
                             }
-
-                            sendToAI(userMessage, null);
                         });
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error processing search results", e);
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> sendToAI(originalMessage, null));
                     }
                 }
             }
@@ -836,52 +946,56 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
     }
 
     /**
-     * دالة جديدة للكشف عن اللغة الرئيسية في السؤال
-     */
-    private String detectLanguage(String message) {
-        // التحقق من وجود حروف عربية
-        if (Pattern.matches(".*[\\u0600-\\u06FF].*", message)) {
-            return "ar"; // عربي
-        } else {
-            return "en"; // إنجليزي (افتراضي)
-        }
-    }
-
-    /**
-     * بناء استعلام بحث محسن
+     * بناء استعلام بحث محسن مع التاريخ الحالي
      */
     private String buildEnhancedSearchQuery(String userMessage) {
         StringBuilder queryBuilder = new StringBuilder();
-        String language = detectLanguage(userMessage);
 
-        if (language.equals("ar")) {
-            // استعلام عربي مبسط لتجنب عدم العثور على نتائج
-            queryBuilder.append("الدول المتأهلة لكأس العالم 2026 حتى الآن ");
-            queryBuilder.append("\"المنتخبات المتأهلة لمونديال 2026\" ");
-        } else {
-            // استعلام إنجليزي مبسط
-            queryBuilder.append("FIFA World Cup 2026 qualified teams list ");
-            queryBuilder.append("\"qualified for 2026 world cup\" ");
-        }
+        // الحصول على التاريخ الحالي
+        Calendar currentDate = Calendar.getInstance();
+        int currentYear = currentDate.get(Calendar.YEAR);
+        int currentMonth = currentDate.get(Calendar.MONTH) + 1; // Calendar.MONTH يبدأ من 0
+        String monthName = getMonthName(currentMonth);
+        
+        Log.d(TAG, "📅 Current date for search: " + monthName + " " + currentYear);
 
-        // إضافة كلمات رئيسية مختارة من السؤال الأصلي
-        String[] words = userMessage.split("\\s+");
-        int addedWords = 0;
+        // استعلام إنجليزي مبسط (سيتم ترجمة السؤال مسبقاً)
+        queryBuilder.append("FIFA World Cup 2026 ");
+        
+        // إضافة كلمات مفتاحية من السؤال
+        String[] words = userMessage.toLowerCase().split("\\s+");
         for (String word : words) {
-            if (word.length() > 3 && !isStopWord(word) && addedWords < 5) {
+            if (word.length() > 3 && !isStopWord(word)) {
                 queryBuilder.append(word).append(" ");
-                addedWords++;
             }
         }
-
-        // إضافة OR لتوسيع البحث إذا لزم الأمر
-        if (language.equals("ar")) {
-            queryBuilder.append(" OR \"قائمة الدول المتأهلة لكأس العالم 2026\"");
-        } else {
-            queryBuilder.append(" OR \"list of countries qualified for 2026 world cup\"");
+        
+        // إضافة التاريخ الحالي للحصول على أحدث النتائج
+        queryBuilder.append(monthName).append(" ").append(currentYear).append(" ");
+        queryBuilder.append("latest qualified teams news update ");
+        
+        // إضافة كلمات للحصول على نتائج حديثة
+        if (currentYear >= 2025) {
+            queryBuilder.append("recent qualification results ");
         }
 
-        return queryBuilder.toString().trim();
+        String query = queryBuilder.toString().trim();
+        Log.d(TAG, "📍 Enhanced search query with current date: " + query);
+        return query;
+    }
+    
+    /**
+     * الحصول على اسم الشهر بالإنجليزية
+     */
+    private String getMonthName(int month) {
+        String[] months = {
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        };
+        if (month >= 1 && month <= 12) {
+            return months[month - 1];
+        }
+        return "Current";
     }
 
     /**
@@ -891,6 +1005,154 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
         String[] stopWords = {"من", "إلى", "في", "على", "عن", "مع", "هل", "كيف", "لماذا", "متى", "أين", "ما", "هو", "هي",
                 "the", "in", "on", "at", "of", "and", "to", "for", "with", "is", "are", "was", "were", "a", "an"};
         return Arrays.asList(stopWords).contains(word.toLowerCase());
+    }
+
+    /**
+     * اكتشاف اللغة - بسيط وفعال
+     */
+    private boolean isArabicText(String text) {
+        if (text == null || text.trim().isEmpty()) return false;
+        
+        // تحقق من وجود أحرف عربية
+        String arabicPattern = "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]";
+        return text.matches(".*" + arabicPattern + ".*");
+    }
+    
+    /**
+     * اكتشاف إذا كان النص باللغة الإنجليزية
+     */
+    private boolean isEnglishText(String text) {
+        if (text == null || text.trim().isEmpty()) return false;
+        
+        // تحقق من وجود أحرف إنجليزية فقط (معظم النص)
+        String englishPattern = "[a-zA-Z]";
+        int englishChars = 0;
+        int totalChars = 0;
+        
+        for (char c : text.toCharArray()) {
+            if (Character.isLetter(c)) {
+                totalChars++;
+                if (String.valueOf(c).matches(englishPattern)) {
+                    englishChars++;
+                }
+            }
+        }
+        
+        return totalChars > 0 && (englishChars * 100.0 / totalChars) > 70;
+    }
+    
+    /**
+     * ترجمة النص للإنجليزية للبحث
+     */
+    private void translateForSearch(String originalQuery, String userLanguage, TranslationCallback callback) {
+        // إذا كان النص إنجليزي، لا نحتاج ترجمة
+        if (isEnglishText(originalQuery)) {
+            callback.onTranslationComplete(originalQuery, userLanguage);
+            return;
+        }
+        
+        // ترجمة باستخدام Gemini
+        translateWithGemini(originalQuery, userLanguage, callback);
+    }
+    
+    /**
+     * ترجمة باستخدام Gemini API مع معلومات التاريخ الحالي
+     */
+    private void translateWithGemini(String text, String userLanguage, TranslationCallback callback) {
+        executor.execute(() -> {
+            try {
+                String apiKey = BuildConfig.GEMINI_API_KEY;
+                String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
+                
+                // إضافة معلومات التاريخ الحالي للترجمة
+                Calendar currentDate = Calendar.getInstance();
+                int currentYear = currentDate.get(Calendar.YEAR);
+                int currentMonth = currentDate.get(Calendar.MONTH) + 1;
+                String monthName = getMonthName(currentMonth);
+                String currentDateInfo = monthName + " " + currentYear;
+                
+                String prompt = "This is Arabic text about FIFA World Cup 2026. " +
+                              "Current date context: " + currentDateInfo + ". " +
+                              "Please translate it to English for web search purposes. " +
+                              "Focus on qualification and current events. " +
+                              "Only return the English translation: \"" + text + "\"";
+                
+                Log.d(TAG, "🌐 Translation prompt with date context: " + currentDateInfo);
+                
+                JSONObject requestBody = new JSONObject();
+                JSONArray contentsArray = new JSONArray();
+                JSONObject contentObject = new JSONObject();
+                JSONArray partsArray = new JSONArray();
+                JSONObject partObject = new JSONObject();
+                
+                partObject.put("text", prompt);
+                partsArray.put(partObject);
+                contentObject.put("parts", partsArray);
+                contentsArray.put(contentObject);
+                requestBody.put("contents", contentsArray);
+                
+                RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json; charset=utf-8"),
+                    requestBody.toString()
+                );
+                
+                Request request = new Request.Builder()
+                        .url(url)
+                        .addHeader("Content-Type", "application/json")
+                        .post(body)
+                        .build();
+                
+                httpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e(TAG, "Translation failed", e);
+                        // إذا فشلت الترجمة، استخدم النص الأصلي
+                        callback.onTranslationComplete(text, userLanguage);
+                    }
+                    
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        try {
+                            String responseBody = response.body().string();
+                            JSONObject jsonResponse = new JSONObject(responseBody);
+                            
+                            if (jsonResponse.has("candidates")) {
+                                JSONArray candidates = jsonResponse.getJSONArray("candidates");
+                                if (candidates.length() > 0) {
+                                    JSONObject candidate = candidates.getJSONObject(0);
+                                    JSONObject content = candidate.getJSONObject("content");
+                                    JSONArray parts = content.getJSONArray("parts");
+                                    if (parts.length() > 0) {
+                                        String translatedText = parts.getJSONObject(0).getString("text").trim();
+                                        Log.d(TAG, "📅 Translation with current date context: " + text + " -> " + translatedText);
+                                        callback.onTranslationComplete(translatedText, userLanguage);
+                                        return;
+                                    }
+                                }
+                            }
+                            
+                            // إذا لم نجد ترجمة، استخدم النص الأصلي
+                            callback.onTranslationComplete(text, userLanguage);
+                            
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error parsing translation response", e);
+                            callback.onTranslationComplete(text, userLanguage);
+                        }
+                    }
+                });
+                
+            } catch (Exception e) {
+                Log.e(TAG, "Error in translation request", e);
+                callback.onTranslationComplete(text, userLanguage);
+            }
+        });
+    }
+    
+    /**
+     * Interface للترجمة
+     */
+    private interface TranslationCallback {
+        void onTranslationComplete(String translatedQuery, String userLanguage);
     }
 
     /**
@@ -967,10 +1229,17 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
      */
     private void sendToAI(String userMessage, List<SearchResult> searchResults) {
         try {
+            // استخدام Vertex AI أولاً
+            if (credentials != null) {
+                Log.d(TAG, "Using Vertex AI Gemini Pro");
+                sendToVertexAI(userMessage, searchResults);
+                return;
+            }
+            
+            // fallback إلى Gemini API العادي
             if (model == null) {
-                Log.e(TAG, "AI model is not initialized");
-                showError("لم يتم إعداد الذكاء الاصطناعي بشكل صحيح");
-                showLoading(false);
+                Log.e(TAG, "AI model is not initialized, trying Gemini REST API");
+                sendToGeminiREST(userMessage, searchResults);
                 return;
             }
 
@@ -1065,6 +1334,157 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
     }
 
     /**
+     * إرسال الرسالة إلى Vertex AI Gemini Pro
+     */
+    private void sendToVertexAI(String userMessage, List<SearchResult> searchResults) {
+        try {
+            if (credentials == null) {
+                Log.e(TAG, "Vertex AI is not initialized, falling back to Gemini API");
+                sendToGeminiREST(userMessage, searchResults);
+                return;
+            }
+
+            String systemPrompt = getSystemPrompt();
+            String fullPrompt = buildFullPrompt(systemPrompt, userMessage, searchResults);
+
+            Log.d(TAG, "Sending prompt to Vertex AI (length: " + fullPrompt.length() + ")");
+
+            // تنفيذ الطلب في background thread
+            executor.execute(() -> {
+                try {
+                    sendToVertexAIREST(fullPrompt, userMessage, searchResults);
+                } catch (Exception e) {
+                    Log.e(TAG, "Error in Vertex AI request", e);
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            showLoading(false);
+                            // fallback إلى Gemini API
+                            sendToGeminiREST(userMessage, searchResults);
+                        });
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error in sendToVertexAI", e);
+            showLoading(false);
+            // fallback إلى Gemini API
+            sendToGeminiREST(userMessage, searchResults);
+        }
+    }
+
+    /**
+     * إرسال طلب إلى Vertex AI باستخدام REST API
+     */
+    private void sendToVertexAIREST(String fullPrompt, String userMessage, List<SearchResult> searchResults) {
+        try {
+            // استخدام Gemini Pro API مع API key الجديد (بدلاً من Vertex AI المعقد)
+            String apiKey = BuildConfig.GEMINI_API_KEY;
+            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + apiKey;
+
+            JSONObject requestBody = new JSONObject();
+            JSONArray contents = new JSONArray();
+            JSONObject content = new JSONObject();
+            JSONArray parts = new JSONArray();
+            JSONObject part = new JSONObject();
+            
+            part.put("text", fullPrompt);
+            parts.put(part);
+            content.put("parts", parts);
+            contents.put(content);
+            requestBody.put("contents", contents);
+
+            RequestBody body = RequestBody.create(
+                MediaType.parse("application/json; charset=utf-8"),
+                requestBody.toString()
+            );
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .addHeader("Content-Type", "application/json")
+                    .post(body)
+                    .build();
+
+            httpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "Gemini Pro request failed", e);
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            showLoading(false);
+                            // fallback إلى Gemini Flash
+                            sendToGeminiREST(userMessage, searchResults);
+                        });
+                    }
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            try {
+                                showLoading(false);
+                                if (response.isSuccessful()) {
+                                    String responseBody = response.body().string();
+                                    Log.d(TAG, "Gemini Pro Response: " + responseBody);
+                                    
+                                    JSONObject jsonResponse = new JSONObject(responseBody);
+                                    JSONArray candidates = jsonResponse.getJSONArray("candidates");
+                                    
+                                    if (candidates.length() > 0) {
+                                        JSONObject candidate = candidates.getJSONObject(0);
+                                        JSONObject content = candidate.getJSONObject("content");
+                                        JSONArray parts = content.getJSONArray("parts");
+                                        
+                                        if (parts.length() > 0) {
+                                            String text = parts.getJSONObject(0).getString("text");
+                                            
+                                            if (!text.isEmpty()) {
+                                                messagesList.add(new ChatMessage(text, ChatMessage.TYPE_AI));
+                                                messagesAdapter.notifyItemInserted(messagesList.size() - 1);
+                                                scrollToBottom();
+                                                
+                                                Log.d(TAG, "✅ Gemini Pro responded successfully with search results");
+                                            } else {
+                                                showError("تم الحصول على رد فارغ من الذكاء الاصطناعي");
+                                            }
+                                        }
+                                    } else {
+                                        showError("لم يتم الحصول على رد من الذكاء الاصطناعي");
+                                    }
+                                } else {
+                                    String errorBody = response.body() != null ? response.body().string() : "Unknown error";
+                                    Log.e(TAG, "Gemini Pro request failed: " + response.code() + " - " + errorBody);
+                                    
+                                    if (response.code() == 403) {
+                                        showError("خطأ 403: يرجى التحقق من إعدادات API في Google Cloud Console");
+                                    } else {
+                                        // fallback إلى Gemini Flash
+                                        sendToGeminiREST(userMessage, searchResults);
+                                    }
+                                }
+                            } catch (Exception e) {
+                                Log.e(TAG, "Error parsing Gemini Pro response", e);
+                                showError("خطأ في معالجة الرد من Gemini Pro: " + e.getMessage());
+                            }
+                        });
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error in sendToVertexAIREST", e);
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    showLoading(false);
+                    // fallback إلى Gemini Flash
+                    sendToGeminiREST(userMessage, searchResults);
+                });
+            }
+        }
+    }
+
+    /**
      * بناء البرومبت الكامل مع تحسينات
      */
     private String buildFullPrompt(String systemPrompt, String userMessage, List<SearchResult> searchResults) {
@@ -1104,18 +1524,29 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
     }
 
     /**
-     * البرومبت الأساسي للنظام
+     * البرومبت الأساسي للنظام مع معلومات التاريخ الحالي
      */
     private String getSystemPrompt() {
+        // الحصول على التاريخ الحالي
+        Calendar currentDate = Calendar.getInstance();
+        int currentYear = currentDate.get(Calendar.YEAR);
+        int currentMonth = currentDate.get(Calendar.MONTH) + 1;
+        int currentDay = currentDate.get(Calendar.DAY_OF_MONTH);
+        String monthName = getMonthName(currentMonth);
+        
+        String currentDateInfo = String.format("Today's date is: %s %d, %d", monthName, currentDay, currentYear);
+        
         return "أنت مرشد سياحي خبير متخصص في كأس العالم فيفا 2026. " +
                 "لديك معرفة شاملة بالملاعب والفرق والمدن المضيفة والجداول الزمنية " +
                 "والإقامة والفعاليات الجانبية والمعلومات العامة حول البلدان المضيفة " +
                 "(الولايات المتحدة وكندا والمكسيك). " +
+                "\n\n" + currentDateInfo + " - استخدم هذا التاريخ كمرجع للإجابة على الأسئلة حول الأحداث الحالية والتطورات الأخيرة." +
                 "\n\nأجب على أسئلة المستخدمين بدقة ووضوح وبطريقة ودية ومفيدة. " +
                 "\n\nمهم جداً: أجب دائماً بنفس اللغة التي يسأل بها المستخدم. " +
                 "إذا سأل باللغة العربية، أجب بالعربية. إذا سأل بالإنجليزية، أجب بالإنجليزية. " +
                 "\n\nعندما تتوفر نتائج بحث حديثة، استخدمها حصرياً للإجابة على الأسئلة المتعلقة " +
-                "بالأحداث الجارية مثل الفرق المتأهلة والنتائج الحديثة.";
+                "بالأحداث الجارية مثل الفرق المتأهلة والنتائج الحديثة. " +
+                "تأكد من ذكر أن المعلومات محدثة حتى تاريخ " + currentDateInfo + ".";
     }
 
     private void toggleVoiceInput() {

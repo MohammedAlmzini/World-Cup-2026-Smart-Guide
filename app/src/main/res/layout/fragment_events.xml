@@ -1,105 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".ui.events.EventsFragment">
 
-    <!-- Filter Section -->
-    <com.google.android.material.card.MaterialCardView
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="2dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/action_filter"
-                android:textAppearance="?attr/textAppearanceHeadline3"
-                android:layout_marginBottom="12dp" />
-
-            <!-- Filter Chips -->
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/filter_chips"
+            <!-- Header Section -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:singleSelection="false"
-                app:chipSpacingHorizontal="8dp">
+                android:orientation="vertical"
+                android:background="@drawable/bg_events_header"
+                android:padding="24dp"
+                android:paddingTop="32dp">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_country"
-                    style="@style/Widget.WorldCup.Chip.Filter"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/events_filter_country"
-                    app:chipIcon="@drawable/ic_location" />
+                    android:text="@string/events_title"
+                    android:textAppearance="?attr/textAppearanceHeadline1"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="8dp" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_city"
-                    style="@style/Widget.WorldCup.Chip.Filter"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/events_filter_city"
-                    app:chipIcon="@drawable/ic_location" />
+                    android:text="@string/events_subtitle"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="@color/white"
+                    android:alpha="0.9" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_type"
-                    style="@style/Widget.WorldCup.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/events_filter_type"
-                    app:chipIcon="@drawable/ic_events" />
+            </LinearLayout>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_date"
-                    style="@style/Widget.WorldCup.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/events_filter_date"
-                    app:chipIcon="@drawable/ic_events" />
-
-            </com.google.android.material.chip.ChipGroup>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/clear_filters"
-                style="@style/Widget.WorldCup.Button.Text"
-                android:layout_width="wrap_content"
+            <!-- Featured Event Section -->
+            <LinearLayout
+                android:id="@+id/featured_event_section"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/events_clear_filters"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp" />
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@color/background">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/events_featured"
+                    android:textAppearance="?attr/textAppearanceHeadline3"
+                    android:textColor="@color/on_background"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Featured Event Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/featured_event_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:strokeColor="@color/primary"
+                    app:strokeWidth="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Event Image -->
+                        <ImageView
+                            android:id="@+id/featured_event_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/placeholder_event"
+                            android:background="@color/primary_light" />
+
+                        <!-- Event Content -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <!-- Event Title -->
+                            <TextView
+                                android:id="@+id/featured_event_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="World Cup Opening Ceremony"
+                                android:textAppearance="?attr/textAppearanceHeadline3"
+                                android:textColor="@color/on_background"
+                                android:layout_marginBottom="8dp" />
+
+                            <!-- Event Description -->
+                            <TextView
+                                android:id="@+id/featured_event_description"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="حفل افتتاح مبهر لكأس العالم 2026"
+                                android:textAppearance="?attr/textAppearanceBody2"
+                                android:textColor="@color/on_surface_variant"
+                                android:layout_marginBottom="8dp" />
+
+                            <!-- Event Date -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginBottom="4dp">
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:src="@drawable/ic_calendar"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_gravity="center_vertical" />
+
+                                <TextView
+                                    android:id="@+id/featured_event_date"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="June 15, 2026"
+                                    android:textAppearance="?attr/textAppearanceBody2"
+                                    android:textColor="@color/on_surface_variant" />
+
+                            </LinearLayout>
+
+                            <!-- Event Venue -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginBottom="12dp">
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:src="@drawable/ic_location"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_gravity="center_vertical" />
+
+                                <TextView
+                                    android:id="@+id/featured_event_location"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="MetLife Stadium, New York"
+                                    android:textAppearance="?attr/textAppearanceBody2"
+                                    android:textColor="@color/on_surface_variant" />
+
+                            </LinearLayout>
+
+                            <!-- Action Buttons -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="end">
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/featured_favorite_button"
+                                    style="@style/Widget.Material3.Button.IconButton"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    app:icon="@drawable/ic_favorite_border"
+                                    app:iconTint="@color/primary" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/events_view_details"
+                                    android:textColor="@color/white"
+                                    app:backgroundTint="@color/primary" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <!-- Filter and Other Events Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@color/surface">
+
+                <!-- Filter Button -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/events_other"
+                        android:textAppearance="?attr/textAppearanceHeadline3"
+                        android:textColor="@color/on_background" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/filter_button"
+                        style="@style/Widget.Material3.Button.Outlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/events_filter_title"
+                        android:textColor="@color/primary"
+                        app:icon="@drawable/ic_filter"
+                        app:iconTint="@color/primary"
+                        app:strokeColor="@color/primary"
+                        app:strokeWidth="2dp" />
+
+                </LinearLayout>
+
+                <!-- Other Events List -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/events_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_event_compact" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.core.widget.NestedScrollView>
 
-    <!-- Events List -->
+    <!-- Swipe Refresh -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/events_recycler"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:clipToPadding="false"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_event" />
+            android:layout_height="match_parent" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminateTint="@color/primary" />
 
     <!-- Empty State -->
     <LinearLayout
@@ -109,7 +280,8 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="32dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:background="@color/background">
 
         <ImageView
             android:layout_width="120dp"
@@ -124,9 +296,9 @@
             android:layout_height="wrap_content"
             android:text="@string/events_no_results"
             android:textAppearance="?attr/textAppearanceHeadline2"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="@color/on_surface_variant"
             android:gravity="center" />
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

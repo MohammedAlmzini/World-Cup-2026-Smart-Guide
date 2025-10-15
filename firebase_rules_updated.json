@@ -28,6 +28,33 @@
     
     "events": {
       ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('roles').child('admin').val() === true",
+      ".indexOn": ["type", "date", "country", "city", "hasCountdown", "createdAt"],
+      "$eventId": {
+        ".validate": "newData.hasChildren(['id', 'title', 'description', 'type', 'date']) && newData.child('type').val().matches(/^(celebration|match|general)$/)"
+      }
+    },
+    
+    "celebrations": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('roles').child('admin').val() === true",
+      ".indexOn": ["celebrationType", "date", "isMainEvent", "hasCountdown"],
+      "$celebrationId": {
+        ".validate": "newData.hasChildren(['id', 'name', 'description', 'date', 'location'])"
+      }
+    },
+    
+    "matches": {
+      ".read": true,
+      ".write": "auth != null && root.child('users').child(auth.uid).child('roles').child('admin').val() === true",
+      ".indexOn": ["matchDate", "homeTeam", "awayTeam", "matchType", "group", "matchStatus", "hasCountdown"],
+      "$matchId": {
+        ".validate": "newData.hasChildren(['id', 'homeTeam', 'awayTeam', 'matchDate', 'stadium']) && newData.child('matchStatus').val().matches(/^(scheduled|live|finished|postponed|cancelled)$/)"
+      }
+    },
+    
+    "event_stats": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('roles').child('admin').val() === true",
       ".write": "auth != null && root.child('users').child(auth.uid).child('roles').child('admin').val() === true"
     },
     

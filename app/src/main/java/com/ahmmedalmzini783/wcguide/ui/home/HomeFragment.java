@@ -91,19 +91,7 @@ public class HomeFragment extends Fragment {
             binding.bannersRecycler.setNestedScrollingEnabled(false);
         }
 
-        // Setup Attractions RecyclerView
-        if (binding.attractionsRecycler != null) {
-            attractionsAdapter = new PlaceAdapter(place -> {
-                // Open place detail activity when clicked
-                // TODO: Implement place detail activity
-            });
-            
-            LinearLayoutManager attractionsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-            binding.attractionsRecycler.setLayoutManager(attractionsLayoutManager);
-            binding.attractionsRecycler.setAdapter(attractionsAdapter);
-            binding.attractionsRecycler.setHasFixedSize(true);
-            binding.attractionsRecycler.setNestedScrollingEnabled(false);
-        }
+
 
         // Setup Hotels RecyclerView
         if (binding.hotelsRecycler != null) {

@@ -25,7 +25,7 @@ import com.ahmmedalmzini783.wcguide.data.local.entity.ReviewEntity;
                 FavoriteEntity.class,
                 ReviewEntity.class
         },
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
@@ -49,7 +49,9 @@ public abstract class AppDatabase extends RoomDatabase {
                                     DATABASE_NAME
                             )
                             .enableMultiInstanceInvalidation()
+                            .addMigrations(MIGRATION_1_2)
                             .fallbackToDestructiveMigration() // For development only
+                            .allowMainThreadQueries() // For development only
                             .build();
                 }
             }
@@ -61,12 +63,20 @@ public abstract class AppDatabase extends RoomDatabase {
     static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            // Example migration - add new columns, tables, etc.
-            // database.execSQL("ALTER TABLE events ADD COLUMN newColumn TEXT");
+            // Add isFeatured column to events table
+            database.execSQL("ALTER TABLE events ADD COLUMN isFeatured INTEGER NOT NULL DEFAULT 0");
         }
     };
 
     public static void destroyInstance() {
+        if (INSTANCE != null) {
+            INSTANCE.close();
+        }
         INSTANCE = null;
+    }
+
+    public static void clearDatabase(Context context) {
+        destroyInstance();
+        context.deleteDatabase(DATABASE_NAME);
     }
 }

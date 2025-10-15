@@ -15,7 +15,10 @@
     <!-- Main background -->
     <item android:bottom="2dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/secondary_variant" />
+            <gradient
+                android:startColor="@color/modern_blue_primary"
+                android:endColor="@color/modern_blue_dark"
+                android:angle="135" />
             <corners
                 android:bottomLeftRadius="24dp"
                 android:bottomRightRadius="24dp"

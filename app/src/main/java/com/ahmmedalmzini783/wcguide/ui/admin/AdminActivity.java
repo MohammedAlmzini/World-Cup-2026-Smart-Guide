@@ -126,6 +126,24 @@ public class AdminActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ManageReviewsActivity.class);
             startActivity(intent);
         });
+        
+        // Setup events management button
+        binding.btnManageEvents.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ManageEventsActivity.class);
+            startActivity(intent);
+        });
+        
+        // Setup add event button
+        binding.btnAddEvent.setOnClickListener(v -> {
+            Intent intent = AddEditEventActivity.createIntent(this, null);
+            startActivity(intent);
+        });
+        
+        // Setup view all events button
+        binding.btnViewAllEvents.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ManageEventsActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void setupFab() {

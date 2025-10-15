@@ -2,122 +2,170 @@ package com.ahmmedalmzini783.wcguide.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.ahmmedalmzini783.wcguide.R;
-import com.ahmmedalmzini783.wcguide.databinding.ActivityMainBinding;
-import com.ahmmedalmzini783.wcguide.ui.admin.AdminActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ahmmedalmzini783.wcguide.ui.auth.LoginActivity;
+import com.ahmmedalmzini783.wcguide.ui.auth.RegisterActivity;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
     private NavController navController;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_main);
 
         setupToolbar();
+        setupDrawer();
         
         // Wait for the layout to be inflated before setting up navigation
-        binding.getRoot().post(() -> setupNavigation());
+        findViewById(android.R.id.content).post(() -> setupNavigation());
     }
 
     private void setupToolbar() {
-        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(findViewById(R.id.toolbar));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.app_name));
         }
     }
 
-    private void setupNavigation() {
-        try {
-            // Setup Navigation
-            navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
-            // Setup Bottom Navigation
-            BottomNavigationView bottomNav = binding.bottomNavigation;
-            NavigationUI.setupWithNavController(bottomNav, navController);
-
-            // Setup AppBar with Navigation
-            AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.navigation_home, R.id.navigation_events, R.id.navigation_chatbot)
-                    .build();
-            NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        } catch (Exception e) {
-            // Log error and continue without navigation setup
-            android.util.Log.e("MainActivity", "Navigation setup failed", e);
+    private void setupDrawer() {
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        
+        // Setup drawer toggle
+        drawerToggle = new ActionBarDrawerToggle(
+                this, drawerLayout, findViewById(R.id.toolbar),
+                R.string.drawer_menu, R.string.drawer_menu);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        
+        // Ensure navigation icon is white
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_modern);
         }
+        
+        // Setup navigation view
+        setupNavigationView();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
-        return true;
+    private void setupNavigationView() {
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            
+            if (id == R.id.nav_home) {
+                navigateToHome();
+            } else if (id == R.id.nav_events) {
+                navigateToEvents();
+            } else if (id == R.id.nav_teams) {
+                navigateToTeams();
+            } else if (id == R.id.nav_news) {
+                navigateToNews();
+            } else if (id == R.id.nav_settings) {
+                navigateToSettings();
+            } else if (id == R.id.nav_about) {
+                navigateToAbout();
+            }
+            
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        });
+        
+        // Setup drawer header buttons
+        setupDrawerHeaderButtons();
+    }
+    
+    private void setupDrawerHeaderButtons() {
+        // Wait for the drawer header to be inflated
+        navigationView.post(() -> {
+            // Sign In button
+            if (findViewById(R.id.drawer_header_sign_in_btn) != null) {
+                findViewById(R.id.drawer_header_sign_in_btn).setOnClickListener(v -> {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                });
+            }
+            
+            // Sign Up button
+            if (findViewById(R.id.drawer_header_sign_up_btn) != null) {
+                findViewById(R.id.drawer_header_sign_up_btn).setOnClickListener(v -> {
+                    Intent intent = new Intent(this, RegisterActivity.class);
+                    startActivity(intent);
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                });
+            }
+            
+            // Sign Out button (for authenticated users)
+            if (findViewById(R.id.drawer_header_sign_out_btn) != null) {
+                findViewById(R.id.drawer_header_sign_out_btn).setOnClickListener(v -> {
+                    // TODO: Implement sign out functionality
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                });
+            }
+        });
+    }
+
+    private void setupNavigation() {
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        
+        // Setup bottom navigation only (remove ActionBar setup to avoid icon conflict)
+        NavigationUI.setupWithNavController((com.google.android.material.bottomnavigation.BottomNavigationView) findViewById(R.id.bottom_navigation), navController);
+    }
+
+    private void navigateToHome() {
+        navController.navigate(R.id.nav_home);
+    }
+
+    private void navigateToEvents() {
+        navController.navigate(R.id.nav_events);
+    }
+
+    private void navigateToTeams() {
+        // TODO: Implement teams navigation
+    }
+
+    private void navigateToNews() {
+        // TODO: Implement news navigation
+    }
+
+    private void navigateToSettings() {
+        // TODO: Implement settings navigation
+    }
+
+    private void navigateToAbout() {
+        // TODO: Implement about navigation
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_admin) {
-            openAdminPanel();
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
-        }
-
-        if (navController != null) {
-            return NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void openAdminPanel() {
-        // Simple password check (in production, use proper authentication)
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        
-        final android.widget.EditText input = new android.widget.EditText(this);
-        input.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        input.setHint("Admin Password");
-        
-        builder.setTitle("Admin Access")
-               .setMessage("Enter admin password to access control panel")
-               .setView(input)
-               .setPositiveButton("Login", (dialog, which) -> {
-                   String password = input.getText().toString();
-                   if ("admin2026".equals(password)) {
-                       Intent intent = new Intent(MainActivity.this, AdminActivity.class);
-                       startActivity(intent);
-                   } else {
-                       android.widget.Toast.makeText(MainActivity.this, "Invalid password", android.widget.Toast.LENGTH_SHORT).show();
-                   }
-               })
-               .setNegativeButton("Cancel", null)
-               .show();
-    }
-
     @Override
-    public boolean onSupportNavigateUp() {
-        if (navController != null) {
-            return NavigationUI.navigateUp(navController, new AppBarConfiguration.Builder().build())
-                    || super.onSupportNavigateUp();
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
-        return super.onSupportNavigateUp();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        binding = null;
     }
 }

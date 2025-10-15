@@ -1,170 +1,329 @@
 package com.ahmmedalmzini783.wcguide.ui.events;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.ahmmedalmzini783.wcguide.databinding.FragmentEventsBinding;
+import com.ahmmedalmzini783.wcguide.R;
+import com.ahmmedalmzini783.wcguide.data.model.Event;
 import com.ahmmedalmzini783.wcguide.util.Resource;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventsFragment extends Fragment {
 
-    private FragmentEventsBinding binding;
+    private RecyclerView eventsRecyclerView;
     private EventsViewModel viewModel;
     private EventAdapter eventAdapter;
+    private View rootView;
+    private AlertDialog filterDialog;
+    
+    // Featured event views
+    private View featuredEventLayout;
+    private TextView featuredEventTitle;
+    private TextView featuredEventDescription;
+    private TextView featuredEventDate;
+    private TextView featuredEventLocation;
+    private ImageView featuredEventImage;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentEventsBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        rootView = inflater.inflate(R.layout.fragment_events, container, false);
+        return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        viewModel = new ViewModelProvider(this).get(EventsViewModel.class);
-
+        
+        // Initialize ViewModel
+        viewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())).get(EventsViewModel.class);
+        
+        // Setup UI
         setupRecyclerView();
         setupFilters();
-        setupSwipeRefresh();
         observeViewModel();
-
-        // Load initial data
+        
+        // Load events
         viewModel.loadEvents();
     }
 
     private void setupRecyclerView() {
-        eventAdapter = new EventAdapter(event -> {
-            // Navigate to event details
-            // NavController.navigate(EventDetailsFragment.newInstance(event.getId()))
-        }, (event, isFavorite) -> {
-            // Handle favorite toggle
-            viewModel.toggleFavorite(event.getId(), "event", isFavorite);
-        });
-
-        binding.eventsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.eventsRecycler.setAdapter(eventAdapter);
+        eventsRecyclerView = rootView.findViewById(R.id.events_recycler);
+        if (eventsRecyclerView != null) {
+            eventAdapter = new EventAdapter(new ArrayList<>(), this::onEventClick);
+            eventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            eventsRecyclerView.setAdapter(eventAdapter);
+        }
+        
+        // Setup featured event views
+        setupFeaturedEventViews();
+    }
+    
+    private void setupFeaturedEventViews() {
+        featuredEventLayout = rootView.findViewById(R.id.featured_event_section);
+        featuredEventTitle = rootView.findViewById(R.id.featured_event_title);
+        featuredEventDescription = rootView.findViewById(R.id.featured_event_description);
+        featuredEventDate = rootView.findViewById(R.id.featured_event_date);
+        featuredEventLocation = rootView.findViewById(R.id.featured_event_location);
+        featuredEventImage = rootView.findViewById(R.id.featured_event_image);
+        
+        // Set click listener for featured event
+        if (featuredEventLayout != null) {
+            featuredEventLayout.setOnClickListener(v -> {
+                // Handle featured event click
+                Toast.makeText(getContext(), "تم النقر على الفعالية المميزة", Toast.LENGTH_SHORT).show();
+            });
+        }
     }
 
     private void setupFilters() {
-        // Country filter
-        binding.chipCountry.setOnClickListener(v -> {
-            // Show country selection dialog
-            showCountryFilterDialog();
-        });
-
-        // City filter
-        binding.chipCity.setOnClickListener(v -> {
-            // Show city selection dialog
-            showCityFilterDialog();
-        });
-
-        // Type filter
-        binding.chipType.setOnClickListener(v -> {
-            // Show type selection dialog
-            showTypeFilterDialog();
-        });
-
-        // Date filter
-        binding.chipDate.setOnClickListener(v -> {
-            // Show date picker dialog
-            showDateFilterDialog();
-        });
-
-        // Clear filters
-        binding.clearFilters.setOnClickListener(v -> {
-            viewModel.clearFilters();
-            updateFilterChips();
-        });
+        // إعداد زر الفلتر
+        View filterButton = rootView.findViewById(R.id.filter_button);
+        if (filterButton != null) {
+            filterButton.setOnClickListener(v -> showFilterDialog());
+        }
     }
 
-    private void setupSwipeRefresh() {
-        binding.swipeRefresh.setOnRefreshListener(() -> {
-            viewModel.refreshEvents();
+    private void showFilterDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_filter, null);
+        
+        builder.setView(dialogView);
+        filterDialog = builder.create();
+        filterDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        
+        // إعداد الفلاتر
+        setupDialogFilters(dialogView);
+        
+        // إعداد أزرار الإغلاق والتطبيق
+        dialogView.findViewById(R.id.close_button).setOnClickListener(v -> filterDialog.dismiss());
+        dialogView.findViewById(R.id.apply_filters).setOnClickListener(v -> {
+            applyFilters();
+            filterDialog.dismiss();
         });
+        dialogView.findViewById(R.id.clear_filters).setOnClickListener(v -> clearAllFilters(dialogView));
+        
+        filterDialog.show();
+    }
+
+    private void setupDialogFilters(View dialogView) {
+        // فلاتر البلد
+        ChipGroup countryChips = dialogView.findViewById(R.id.country_chips);
+        if (countryChips != null) {
+            countryChips.setOnCheckedStateChangeListener((group, checkedIds) -> {
+                // Handle country filter changes
+            });
+        }
+
+        // فلاتر النوع
+        ChipGroup typeChips = dialogView.findViewById(R.id.type_chips);
+        if (typeChips != null) {
+            typeChips.setOnCheckedStateChangeListener((group, checkedIds) -> {
+                // Handle type filter changes
+            });
+        }
+
+        // فلاتر التاريخ
+        ChipGroup dateChips = dialogView.findViewById(R.id.date_chips);
+        if (dateChips != null) {
+            dateChips.setOnCheckedStateChangeListener((group, checkedIds) -> {
+                // Handle date filter changes
+            });
+        }
+
+        // فلاتر الحالة
+        ChipGroup statusChips = dialogView.findViewById(R.id.status_chips);
+        if (statusChips != null) {
+            statusChips.setOnCheckedStateChangeListener((group, checkedIds) -> {
+                // Handle status filter changes
+            });
+        }
+    }
+
+    private void clearAllFilters(View dialogView) {
+        ChipGroup countryChips = dialogView.findViewById(R.id.country_chips);
+        ChipGroup typeChips = dialogView.findViewById(R.id.type_chips);
+        ChipGroup dateChips = dialogView.findViewById(R.id.date_chips);
+        ChipGroup statusChips = dialogView.findViewById(R.id.status_chips);
+        
+        if (countryChips != null) countryChips.clearCheck();
+        if (typeChips != null) typeChips.clearCheck();
+        if (dateChips != null) dateChips.clearCheck();
+        if (statusChips != null) statusChips.clearCheck();
+    }
+
+    private void applyFilters() {
+        Toast.makeText(getContext(), "تم تطبيق الفلاتر", Toast.LENGTH_SHORT).show();
+        // هنا يمكن إضافة منطق تطبيق الفلاتر
     }
 
     private void observeViewModel() {
+        // Observe regular events
         viewModel.getEvents().observe(getViewLifecycleOwner(), resource -> {
-            binding.swipeRefresh.setRefreshing(false);
-
             if (resource != null) {
                 switch (resource.getStatus()) {
                     case SUCCESS:
-                        binding.emptyState.setVisibility(View.GONE);
-                        binding.eventsRecycler.setVisibility(View.VISIBLE);
-
                         if (resource.getData() != null && !resource.getData().isEmpty()) {
-                            eventAdapter.submitList(resource.getData());
+                            showEvents(resource.getData());
                         } else {
                             showEmptyState();
                         }
                         break;
-
                     case ERROR:
-                        binding.emptyState.setVisibility(View.GONE);
-                        binding.eventsRecycler.setVisibility(View.VISIBLE);
-                        // Show error message
+                        showError(resource.getMessage());
                         break;
-
                     case LOADING:
-                        if (eventAdapter.getItemCount() == 0) {
-                            binding.swipeRefresh.setRefreshing(true);
-                        }
+                        showLoading();
                         break;
                 }
             }
         });
-
-        viewModel.getFilterState().observe(getViewLifecycleOwner(), filterState -> {
-            updateFilterChips();
+        
+        // Observe featured event
+        viewModel.getFeaturedEvent().observe(getViewLifecycleOwner(), resource -> {
+            if (resource != null) {
+                switch (resource.getStatus()) {
+                    case SUCCESS:
+                        if (resource.getData() != null) {
+                            showFeaturedEvent(resource.getData());
+                        } else {
+                            hideFeaturedEvent();
+                        }
+                        break;
+                    case ERROR:
+                        hideFeaturedEvent();
+                        break;
+                    case LOADING:
+                        // Keep current featured event while loading
+                        break;
+                }
+            }
         });
     }
 
-    private void showEmptyState() {
-        binding.eventsRecycler.setVisibility(View.GONE);
-        binding.emptyState.setVisibility(View.VISIBLE);
-    }
-
-    private void updateFilterChips() {
-        EventsViewModel.FilterState filterState = viewModel.getFilterState().getValue();
-        if (filterState != null) {
-            // Update chip appearances based on active filters
-            binding.chipCountry.setChecked(filterState.getSelectedCountry() != null);
-            binding.chipCity.setChecked(filterState.getSelectedCity() != null);
-            binding.chipType.setChecked(filterState.getSelectedType() != null);
-            binding.chipDate.setChecked(filterState.getSelectedDateRange() != null);
+    private void showEvents(List<Event> events) {
+        if (eventsRecyclerView != null) {
+            eventsRecyclerView.setVisibility(View.VISIBLE);
+        }
+        
+        View emptyStateLayout = rootView.findViewById(R.id.empty_state);
+        if (emptyStateLayout != null) {
+            emptyStateLayout.setVisibility(View.GONE);
+        }
+        
+        View progressBar = rootView.findViewById(R.id.progress_bar);
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
+        
+        if (eventAdapter != null) {
+            eventAdapter.updateEvents(events);
         }
     }
 
-    private void showCountryFilterDialog() {
-        // TODO: Implement country filter dialog
+    private void showEmptyState() {
+        if (eventsRecyclerView != null) {
+            eventsRecyclerView.setVisibility(View.GONE);
+        }
+        
+        View emptyStateLayout = rootView.findViewById(R.id.empty_state);
+        if (emptyStateLayout != null) {
+            emptyStateLayout.setVisibility(View.VISIBLE);
+        }
+        
+        View progressBar = rootView.findViewById(R.id.progress_bar);
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
-    private void showCityFilterDialog() {
-        // TODO: Implement city filter dialog
+    private void showLoading() {
+        View progressBar = rootView.findViewById(R.id.progress_bar);
+        if (progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        
+        if (eventsRecyclerView != null) {
+            eventsRecyclerView.setVisibility(View.GONE);
+        }
+        
+        View emptyStateLayout = rootView.findViewById(R.id.empty_state);
+        if (emptyStateLayout != null) {
+            emptyStateLayout.setVisibility(View.GONE);
+        }
     }
 
-    private void showTypeFilterDialog() {
-        // TODO: Implement type filter dialog
+    private void showError(String message) {
+        View progressBar = rootView.findViewById(R.id.progress_bar);
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
+        
+        if (eventsRecyclerView != null) {
+            eventsRecyclerView.setVisibility(View.GONE);
+        }
+        
+        View emptyStateLayout = rootView.findViewById(R.id.empty_state);
+        if (emptyStateLayout != null) {
+            emptyStateLayout.setVisibility(View.VISIBLE);
+        }
+        
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    private void showDateFilterDialog() {
-        // TODO: Implement date filter dialog
+    private void showFeaturedEvent(Event event) {
+        if (featuredEventLayout != null) {
+            featuredEventLayout.setVisibility(View.VISIBLE);
+            
+            if (featuredEventTitle != null) {
+                featuredEventTitle.setText(event.getTitle());
+            }
+            
+            if (featuredEventDescription != null) {
+                featuredEventDescription.setText(event.getDescription());
+            }
+            
+            if (featuredEventDate != null) {
+                featuredEventDate.setText(event.getFormattedDate());
+            }
+            
+            if (featuredEventLocation != null) {
+                featuredEventLocation.setText(event.getLocation());
+            }
+            
+            if (featuredEventImage != null && event.getImageUrl() != null) {
+                // Load image using Glide or similar library
+                // Glide.with(this).load(event.getImageUrl()).into(featuredEventImage);
+            }
+        }
+    }
+    
+    private void hideFeaturedEvent() {
+        if (featuredEventLayout != null) {
+            featuredEventLayout.setVisibility(View.GONE);
+        }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    private void onEventClick(Event event) {
+        Intent intent = EventDetailsActivity.createIntent(getContext(), event);
+        startActivity(intent);
     }
 }

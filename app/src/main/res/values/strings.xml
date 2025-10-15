@@ -2,10 +2,16 @@
 <resources>
     <!-- App Name -->
     <string name="app_name">World Cup 2026 Smart Guide</string>
+    
+    <!-- Google Sign-In -->
+    <string name="default_web_client_id">710163323679-3hemu2pr6d8nu4v1q8p7ikunhesul2a1.apps.googleusercontent.com</string>
 
     <!-- Navigation -->
     <string name="nav_home">Home</string>
-    <string name="nav_events">Events</string>
+    <string name="nav_events">الفعاليات</string>
+    <string name="nav_teams">الفرق</string>
+    <string name="nav_news">الأخبار</string>
+    <string name="nav_about">حول التطبيق</string>
     <string name="nav_chatbot">AI Assistant</string>
     <string name="nav_profile">Profile</string>
     <string name="nav_settings">Settings</string>
@@ -33,16 +39,49 @@
     <string name="countdown_seconds">Seconds</string>
 
     <!-- Events Screen -->
-    <string name="events_title">Events</string>
-    <string name="events_filter_country">Filter by Country</string>
-    <string name="events_filter_city">Filter by City</string>
-    <string name="events_filter_type">Filter by Type</string>
-    <string name="events_filter_date">Filter by Date</string>
-    <string name="events_clear_filters">Clear Filters</string>
-    <string name="events_no_results">No events found</string>
+    <string name="events_title">الفعاليات</string>
+    <string name="events_subtitle">اكتشف أجمل الأحداث والفعاليات</string>
+    <string name="events_featured">الفعالية المميزة</string>
+    <string name="events_featured_badge">مميز</string>
+    
+    <!-- Event Details -->
+    <string name="event_countdown_title">الوقت المتبقي</string>
+    <string name="event_details_title">تفاصيل الفعالية</string>
+    <string name="event_date_time">التاريخ والوقت</string>
+    <string name="event_location">الموقع</string>
+    <string name="event_venue">المكان</string>
+    <string name="event_capacity">السعة</string>
+    <string name="event_share">مشاركة</string>
+    <string name="event_tickets">التذاكر</string>
+    
+    <!-- Celebration Details -->
+    <string name="celebration_details_title">تفاصيل الاحتفال</string>
+    <string name="celebration_type">نوع الاحتفال</string>
+    <string name="celebration_duration">المدة</string>
+    <string name="celebration_activities">الأنشطة</string>
+    <string name="celebration_performers">المؤدون</string>
+    
+    <!-- Match Details -->
+    <string name="match_details_title">تفاصيل المباراة</string>
+    <string name="match_type">نوع المباراة</string>
+    <string name="match_group">المجموعة</string>
+    <string name="match_referee">الحكم</string>
+    <string name="events_other">فعاليات أخرى</string>
+    <string name="events_view_details">عرض التفاصيل</string>
+    <string name="events_no_results">لا توجد فعاليات متاحة</string>
+
+    <!-- Filter Strings -->
+    <string name="events_filter_title">فلترة الفعاليات</string>
+    <string name="events_filter_country">البلد</string>
+    <string name="events_filter_city">المدينة</string>
+    <string name="events_filter_type">نوع الفعالية</string>
+    <string name="events_filter_date">التاريخ</string>
+    <string name="events_filter_status">الحالة</string>
+    <string name="events_clear_filters">مسح الفلاتر</string>
+    <string name="events_apply_filters">تطبيق الفلاتر</string>
+    <string name="action_close">إغلاق</string>
 
     <!-- Event Details -->
-    <string name="event_details_title">Event Details</string>
     <string name="event_details_venue">Venue</string>
     <string name="event_details_capacity">Capacity</string>
     <string name="event_details_description">Description</string>
@@ -497,6 +536,120 @@
     <string name="welcome_guide_message">Hello! I\'m your World Cup 2026 guide. Ask me anything about stadiums, teams, host cities, or any other information you need!</string>
     <string name="error_ai_connection">Error connecting to AI service. Please check your internet connection.</string>
     <string name="error_empty_response">Sorry, I couldn\'t generate a response. Please try again.</string>
+
+    <!-- Navigation Drawer -->
+    <string name="drawer_menu">Menu</string>
+    <string name="drawer_home">Home</string>
+    <string name="drawer_events">Events</string>
+    <string name="drawer_chatbot">AI Assistant</string>
+    <string name="drawer_profile">Profile</string>
+    <string name="drawer_settings">Settings</string>
+    <string name="drawer_contact_us">Contact Us</string>
+    <string name="drawer_about_us">About Us</string>
+    <string name="drawer_privacy_policy">Privacy Policy</string>
+    <string name="drawer_terms_of_service">Terms of Service</string>
+    <string name="drawer_sign_in">Sign In</string>
+    <string name="drawer_sign_up">Sign Up</string>
+    <string name="drawer_sign_out">Sign Out</string>
+    <string name="drawer_guest_user">Guest User</string>
+    <string name="drawer_welcome">Welcome</string>
+    
+    <!-- Contact Us -->
+    <string name="contact_us_title">Contact Us</string>
+    <string name="contact_us_description">Get in touch with us for any questions or support</string>
+    <string name="contact_us_email">Email: support@wcguide2026.com</string>
+    <string name="contact_us_phone">Phone: +1 (555) 123-4567</string>
+    <string name="contact_us_address">Address: 123 World Cup Street, New York, NY 10001</string>
+    <string name="contact_us_social">Follow us on social media</string>
+    
+    <!-- About Us -->
+    <string name="about_us_title">About Us</string>
+    <string name="about_us_description">World Cup 2026 Smart Guide is your comprehensive companion for the FIFA World Cup 2026. We provide real-time information about matches, events, venues, hotels, restaurants, and everything you need to make the most of your World Cup experience.</string>
+    <string name="about_us_features">Features:</string>
+    <string name="about_us_feature_events">• Real-time event updates</string>
+    <string name="about_us_feature_venues">• Stadium and venue information</string>
+    <string name="about_us_feature_places">• Hotel and restaurant recommendations</string>
+    <string name="about_us_feature_ai">• AI-powered assistant</string>
+    <string name="about_us_feature_offline">• Offline mode support</string>
+    <string name="about_us_version">Version 1.0.0</string>
+    
+    <!-- Privacy Policy -->
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_last_updated">Last updated: January 2024</string>
+    <string name="privacy_policy_intro">This Privacy Policy describes how World Cup 2026 Smart Guide collects, uses, and protects your information.</string>
+    <string name="privacy_policy_data_collection">Data Collection</string>
+    <string name="privacy_policy_data_collection_desc">We collect information you provide directly to us, such as when you create an account, use our services, or contact us for support.</string>
+    <string name="privacy_policy_data_usage">How We Use Your Data</string>
+    <string name="privacy_policy_data_usage_desc">We use your information to provide, maintain, and improve our services, communicate with you, and ensure the security of our platform.</string>
+    <string name="privacy_policy_data_sharing">Data Sharing</string>
+    <string name="privacy_policy_data_sharing_desc">We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy.</string>
+    <string name="privacy_policy_contact">Contact Us</string>
+    <string name="privacy_policy_contact_desc">If you have any questions about this Privacy Policy, please contact us at privacy@wcguide2026.com</string>
+    
+    <!-- Terms of Service -->
+    <string name="terms_of_service_title">Terms of Service</string>
+    <string name="terms_of_service_last_updated">Last updated: January 2024</string>
+    <string name="terms_of_service_intro">These Terms of Service govern your use of World Cup 2026 Smart Guide.</string>
+    <string name="terms_of_service_acceptance">Acceptance of Terms</string>
+    <string name="terms_of_service_acceptance_desc">By using our app, you agree to be bound by these terms and conditions.</string>
+    <string name="terms_of_service_use">Use of Service</string>
+    <string name="terms_of_service_use_desc">You may use our service for personal, non-commercial purposes in accordance with these terms.</string>
+    <string name="terms_of_service_prohibited">Prohibited Uses</string>
+    <string name="terms_of_service_prohibited_desc">You may not use our service for any unlawful purpose or to solicit others to perform unlawful acts.</string>
+    <string name="terms_of_service_termination">Termination</string>
+    <string name="terms_of_service_termination_desc">We may terminate or suspend your access to our service immediately, without prior notice, for any reason whatsoever.</string>
+    <string name="terms_of_service_contact">Contact Information</string>
+    <string name="terms_of_service_contact_desc">If you have any questions about these Terms of Service, please contact us at legal@wcguide2026.com</string>
+
+    <!-- Authentication Pages -->
+    <string name="login_title">Sign In</string>
+    <string name="login_subtitle">Welcome back! Sign in to your account</string>
+    <string name="login_email_hint">Email address</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_button">Sign In</string>
+    <string name="login_forgot_password">Forgot Password?</string>
+    <string name="login_no_account">Don\'t have an account?</string>
+    <string name="login_create_account">Create Account</string>
+    <string name="login_google_signin">Continue with Google</string>
+    <string name="login_facebook_signin">Continue with Facebook</string>
+    <string name="login_or">or</string>
+    
+    <!-- Register Page -->
+    <string name="register_title">Create Account</string>
+    <string name="register_subtitle">Join us and start your World Cup journey</string>
+    <string name="register_full_name_hint">Full Name</string>
+    <string name="register_email_hint">Email address</string>
+    <string name="register_password_hint">Password</string>
+    <string name="register_confirm_password_hint">Confirm Password</string>
+    <string name="register_button">Create Account</string>
+    <string name="register_has_account">Already have an account?</string>
+    <string name="register_sign_in">Sign In</string>
+    <string name="register_terms_agreement">By creating an account, you agree to our</string>
+    <string name="register_terms_link">Terms of Service</string>
+    <string name="register_privacy_link">Privacy Policy</string>
+    <string name="register_and">and</string>
+    
+    <!-- Authentication Messages -->
+    <string name="auth_success_login">Welcome back!</string>
+    <string name="auth_success_register">Account created successfully!</string>
+    <string name="auth_error_invalid_email">Please enter a valid email address</string>
+    <string name="auth_error_weak_password">Password should be at least 6 characters</string>
+    <string name="auth_error_password_mismatch">Passwords do not match</string>
+    <string name="auth_error_user_not_found">No account found with this email</string>
+    <string name="auth_error_wrong_password">Incorrect password</string>
+    <string name="auth_error_email_already_exists">An account with this email already exists</string>
+    <string name="auth_error_network">Network error. Please check your connection</string>
+    <string name="auth_error_generic">Authentication failed. Please try again</string>
+    <string name="auth_loading">Please wait...</string>
+    <string name="auth_required_field">This field is required</string>
+    
+    <!-- Password Reset -->
+    <string name="forgot_password_title">Reset Password</string>
+    <string name="forgot_password_subtitle">Enter your email to receive reset instructions</string>
+    <string name="forgot_password_email_hint">Email address</string>
+    <string name="forgot_password_button">Send Reset Email</string>
+    <string name="forgot_password_success">Reset email sent! Check your inbox</string>
+    <string name="forgot_password_back_to_login">Back to Sign In</string>
 
 
 </resources>

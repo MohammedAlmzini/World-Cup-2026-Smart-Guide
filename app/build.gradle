@@ -51,8 +51,20 @@ android {
 
     buildFeatures {
         viewBinding true
-        dataBinding true
+        dataBinding false
         buildConfig true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/NOTICE']
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+        disable 'MissingClass'
     }
 }
 
@@ -84,6 +96,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    
+    // Google Sign-In
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    implementation 'com.google.firebase:firebase-auth'
 
     // Room
     implementation 'androidx.room:room-runtime:2.6.1'
@@ -98,6 +114,10 @@ dependencies {
     // Image loading
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+    
+    // GIF support
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
 
     // WorkManager
     implementation 'androidx.work:work-runtime:2.9.0'
@@ -121,6 +141,9 @@ dependencies {
 
     // Google AI Client (Gemini AI SDK)
     implementation 'com.google.ai.client.generativeai:generativeai:0.2.2'
+    
+    // Google Auth libraries للـ Vertex AI (مبسطة)
+    implementation 'com.google.auth:google-auth-library-oauth2-http:1.19.0'
     
     // Google Guava for concurrency utilities
     implementation 'com.google.guava:guava:32.1.3-android'

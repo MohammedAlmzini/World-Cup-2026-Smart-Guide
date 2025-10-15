@@ -13,6 +13,10 @@
     <!-- Audio permission for Speech-to-Text -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <!-- Storage permissions for image upload -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <!-- Notification permissions -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -29,9 +33,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_app"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.WorldCup2026SmartGuide"
         android:networkSecurityConfig="@xml/network_security_config"
@@ -76,15 +80,23 @@
             </intent-filter>
         </receiver>
 
-        <!-- Main Activity -->
+        <!-- Splash Activity (Launcher) -->
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.WorldCup2026SmartGuide.MainActivity">
+            android:theme="@style/Theme.SplashScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <!-- Main Activity -->
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.MainActivity">
 
             <!-- Deep link support -->
             <intent-filter android:autoVerify="true">
@@ -95,10 +107,44 @@
             </intent-filter>
         </activity>
 
-        <!-- Auth Activity -->
+        <!-- Login Activity -->
         <activity
-            android:name=".ui.auth.AuthActivity"
+            android:name=".ui.auth.LoginActivity"
             android:exported="false"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Register Activity -->
+        <activity
+            android:name=".ui.auth.RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Contact Us Activity -->
+        <activity
+            android:name=".ui.contact.ContactUsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- About Us Activity -->
+        <activity
+            android:name=".ui.about.AboutUsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Privacy Policy Activity -->
+        <activity
+            android:name=".ui.privacy.PrivacyPolicyActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Terms of Service Activity -->
+        <activity
+            android:name=".ui.terms.TermsOfServiceActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
 
         <!-- Event Details Activity -->
@@ -221,6 +267,38 @@
             android:name=".ui.admin.AddEditRestaurantActivity"
             android:exported="false"
             android:parentActivityName=".ui.admin.RestaurantManagementActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Manage Events Activity -->
+        <activity
+            android:name=".ui.admin.ManageEventsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.AdminActivity"
+            android:label="إدارة الفعاليات"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Add/Edit Event Activity -->
+        <activity
+            android:name=".ui.admin.AddEditEventActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.ManageEventsActivity"
+            android:label="إضافة/تعديل فعالية"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Event Details Activity (Public) -->
+        <activity
+            android:name=".ui.events.EventDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:label="تفاصيل الفعالية"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Manage Reviews Activity -->
+        <activity
+            android:name=".ui.admin.ManageReviewsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.AdminActivity"
+            android:label="إدارة التقييمات"
             android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
 
         <!-- All Landmarks Activity (public view) -->
