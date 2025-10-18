@@ -32,6 +32,7 @@ public class EventRepository {
     // Cache-then-Network strategy
     public LiveData<Resource<List<Event>>> getAllEvents() {
         MediatorLiveData<Resource<List<Event>>> result = new MediatorLiveData<>();
+        result.setValue(Resource.loading(null));
 
         // First, load from cache
         LiveData<List<EventEntity>> localData = eventDao.getAllEvents();
@@ -42,6 +43,9 @@ public class EventRepository {
                     List<Event> events = convertEntitiesToEvents(entities);
                     result.postValue(Resource.success(events));
                 });
+            } else {
+                // No cached data, show loading
+                result.setValue(Resource.loading(null));
             }
         });
 
@@ -59,8 +63,10 @@ public class EventRepository {
                     });
                     result.setValue(resource);
                 } else if (resource.getStatus() == Resource.Status.ERROR) {
-                    // If network fails, keep showing cached data
-                    result.setValue(resource);
+                    // If network fails, keep showing cached data if available
+                    if (localData.getValue() == null || localData.getValue().isEmpty()) {
+                        result.setValue(resource);
+                    }
                 }
             }
         });
@@ -256,16 +262,23 @@ public class EventRepository {
         Event event = new Event();
         event.setId(entity.getId());
         event.setTitle(entity.getTitle());
+        event.setDescription(entity.getDescription());
+        // Use venueName as location if available, otherwise use city
+        String location = entity.getVenueName() != null ? entity.getVenueName() : entity.getCity();
+        event.setLocation(location);
         event.setCountry(entity.getCountry());
         event.setCity(entity.getCity());
         event.setVenueName(entity.getVenueName());
         event.setType(entity.getType());
+        // Convert startUtc to Date
+        if (entity.getStartUtc() > 0) {
+            event.setDate(new java.util.Date(entity.getStartUtc()));
+        }
         event.setStartUtc(entity.getStartUtc());
         event.setEndUtc(entity.getEndUtc());
         event.setImageUrl(entity.getImageUrl());
         event.setCapacity(entity.getCapacity());
         event.setTicketUrl(entity.getTicketUrl());
-        event.setDescription(entity.getDescription());
         event.setLat(entity.getLat());
         event.setLng(entity.getLng());
         event.setFeatured(entity.isFeatured());
@@ -290,16 +303,21 @@ public class EventRepository {
         EventEntity entity = new EventEntity();
         entity.setId(event.getId());
         entity.setTitle(event.getTitle());
+        entity.setDescription(event.getDescription());
         entity.setCountry(event.getCountry());
         entity.setCity(event.getCity());
         entity.setVenueName(event.getVenueName());
         entity.setType(event.getType());
-        entity.setStartUtc(event.getStartUtc());
+        // Convert Date to startUtc
+        if (event.getDate() != null) {
+            entity.setStartUtc(event.getDate().getTime());
+        } else {
+            entity.setStartUtc(event.getStartUtc());
+        }
         entity.setEndUtc(event.getEndUtc());
         entity.setImageUrl(event.getImageUrl());
         entity.setCapacity(event.getCapacity());
         entity.setTicketUrl(event.getTicketUrl());
-        entity.setDescription(event.getDescription());
         entity.setLat(event.getLat());
         entity.setLng(event.getLng());
         entity.setFeatured(event.isFeatured());

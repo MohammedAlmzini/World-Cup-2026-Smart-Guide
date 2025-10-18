@@ -2,6 +2,7 @@ package com.ahmmedalmzini783.wcguide.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,6 +17,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.ahmmedalmzini783.wcguide.R;
 import com.ahmmedalmzini783.wcguide.ui.auth.LoginActivity;
 import com.ahmmedalmzini783.wcguide.ui.auth.RegisterActivity;
+import com.ahmmedalmzini783.wcguide.ui.profile.ProfileActivity;
+import com.ahmmedalmzini783.wcguide.ui.logos.LogosActivity;
+import com.ahmmedalmzini783.wcguide.util.AuthManager;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
+    private AuthManager authManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        authManager = AuthManager.getInstance(this);
         
         // Setup drawer toggle
         drawerToggle = new ActionBarDrawerToggle(
@@ -68,18 +74,24 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
             
-            if (id == R.id.nav_home) {
-                navigateToHome();
-            } else if (id == R.id.nav_events) {
-                navigateToEvents();
-            } else if (id == R.id.nav_teams) {
-                navigateToTeams();
-            } else if (id == R.id.nav_news) {
-                navigateToNews();
+            if (id == R.id.nav_profile) {
+                navigateToProfile();
+            } else if (id == R.id.nav_contact_us) {
+                navigateToContactUs();
+            } else if (id == R.id.nav_about_us) {
+                navigateToAboutUs();
+            } else if (id == R.id.nav_privacy_policy) {
+                navigateToPrivacyPolicy();
             } else if (id == R.id.nav_settings) {
                 navigateToSettings();
-            } else if (id == R.id.nav_about) {
-                navigateToAbout();
+            } else if (id == R.id.nav_terms_of_service) {
+                navigateToTermsOfService();
+            } else if (id == R.id.nav_about_app) {
+                navigateToAboutApp();
+            } else if (id == R.id.nav_events) {
+                navigateToEvents();
+            } else if (id == R.id.nav_news) {
+                navigateToNews();
             }
             
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -128,28 +140,55 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController((com.google.android.material.bottomnavigation.BottomNavigationView) findViewById(R.id.bottom_navigation), navController);
     }
 
-    private void navigateToHome() {
-        navController.navigate(R.id.nav_home);
+    private void navigateToProfile() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
-    private void navigateToEvents() {
-        navController.navigate(R.id.nav_events);
+    private void navigateToContactUs() {
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.contact.ContactUsActivity.class);
+        startActivity(intent);
     }
 
-    private void navigateToTeams() {
-        // TODO: Implement teams navigation
+    private void navigateToAboutUs() {
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.about.AboutUsActivity.class);
+        startActivity(intent);
     }
 
-    private void navigateToNews() {
-        // TODO: Implement news navigation
+    private void navigateToPrivacyPolicy() {
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.privacy.PrivacyPolicyActivity.class);
+        startActivity(intent);
     }
 
     private void navigateToSettings() {
-        // TODO: Implement settings navigation
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.settings.SettingsActivity.class);
+        startActivity(intent);
     }
 
-    private void navigateToAbout() {
-        // TODO: Implement about navigation
+    private void navigateToTermsOfService() {
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.terms.TermsOfServiceActivity.class);
+        startActivity(intent);
+    }
+
+    private void navigateToAboutApp() {
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.about.AboutAppActivity.class);
+        startActivity(intent);
+    }
+
+    private void navigateToEvents() {
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.events.EventsActivity.class);
+        startActivity(intent);
+    }
+
+    private void navigateToNews() {
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.news.NewsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
+        return true;
     }
 
     @Override
@@ -157,6 +196,14 @@ public class MainActivity extends AppCompatActivity {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+        
+        int id = item.getItemId();
+        if (id == R.id.action_profile) {
+            navigateToProfile();
+            return true;
+        
+        }
+        
         return super.onOptionsItemSelected(item);
     }
 

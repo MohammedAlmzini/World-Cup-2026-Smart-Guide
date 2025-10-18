@@ -160,14 +160,22 @@ public class HotelRepository {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Hotel hotel = snapshot.getValue(Hotel.class);
                     if (hotel != null) {
+                        Log.d(TAG, "Processing hotel: " + hotel.getName() + " from country: " + hotel.getCountry());
                         // Check if hotel's country is in the list of accepted countries
+                        boolean countryFound = false;
                         for (String country : countries) {
                             if (country.equalsIgnoreCase(hotel.getCountry())) {
-                                Log.d(TAG, "Hotel found for " + country + ": " + hotel.getName());
+                                Log.d(TAG, "Hotel accepted for " + country + ": " + hotel.getName());
                                 hotels.add(hotel);
+                                countryFound = true;
                                 break;
                             }
                         }
+                        if (!countryFound) {
+                            Log.d(TAG, "Hotel country '" + hotel.getCountry() + "' not in accepted list: " + java.util.Arrays.toString(countries));
+                        }
+                    } else {
+                        Log.w(TAG, "Hotel is null for snapshot: " + snapshot.getKey());
                     }
                 }
                 Log.d(TAG, "Total hotels loaded for multiple countries: " + hotels.size());

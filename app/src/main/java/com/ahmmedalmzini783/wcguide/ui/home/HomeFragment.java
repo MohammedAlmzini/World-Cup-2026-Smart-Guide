@@ -96,8 +96,25 @@ public class HomeFragment extends Fragment {
         // Setup Hotels RecyclerView
         if (binding.hotelsRecycler != null) {
             hotelsAdapter = new PlaceAdapter(place -> {
-                // Open place detail activity when clicked
-                // TODO: Implement place detail activity
+                // Convert Place to Landmark for display
+                com.ahmmedalmzini783.wcguide.data.model.Landmark landmark = new com.ahmmedalmzini783.wcguide.data.model.Landmark();
+                landmark.setId(place.getId());
+                landmark.setName(place.getName());
+                landmark.setDescription(place.getDescription() != null ? place.getDescription() : "فندق متميز في " + place.getCity());
+                landmark.setAddress(place.getAddress() != null ? place.getAddress() : place.getCity() + ", " + place.getCountry());
+                landmark.setLatitude(place.getLat());
+                landmark.setLongitude(place.getLng());
+                landmark.setCategory("فندق");
+                landmark.setRating(place.getAvgRating());
+                
+                // Set image if available
+                if (place.getImages() != null && !place.getImages().isEmpty()) {
+                    landmark.setImageUrl(place.getImages().get(0));
+                }
+                
+                Intent intent = new Intent(getContext(), com.ahmmedalmzini783.wcguide.ui.admin.LandmarkDetailsActivity.class);
+                intent.putExtra("landmark", landmark);
+                startActivity(intent);
             });
             
             LinearLayoutManager hotelsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -110,8 +127,25 @@ public class HomeFragment extends Fragment {
         // Setup Restaurants RecyclerView
         if (binding.restaurantsRecycler != null) {
             restaurantsAdapter = new PlaceAdapter(place -> {
-                // Open place detail activity when clicked
-                // TODO: Implement place detail activity
+                // Convert Place to Landmark for display
+                com.ahmmedalmzini783.wcguide.data.model.Landmark landmark = new com.ahmmedalmzini783.wcguide.data.model.Landmark();
+                landmark.setId(place.getId());
+                landmark.setName(place.getName());
+                landmark.setDescription(place.getDescription() != null ? place.getDescription() : "مطعم متميز في " + place.getCity());
+                landmark.setAddress(place.getAddress() != null ? place.getAddress() : place.getCity() + ", " + place.getCountry());
+                landmark.setLatitude(place.getLat());
+                landmark.setLongitude(place.getLng());
+                landmark.setCategory("مطعم");
+                landmark.setRating(place.getAvgRating());
+                
+                // Set image if available
+                if (place.getImages() != null && !place.getImages().isEmpty()) {
+                    landmark.setImageUrl(place.getImages().get(0));
+                }
+                
+                Intent intent = new Intent(getContext(), com.ahmmedalmzini783.wcguide.ui.admin.LandmarkDetailsActivity.class);
+                intent.putExtra("landmark", landmark);
+                startActivity(intent);
             });
             
             LinearLayoutManager restaurantsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);

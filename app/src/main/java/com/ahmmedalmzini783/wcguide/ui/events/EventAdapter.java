@@ -34,7 +34,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_event_compact, parent, false);
+                .inflate(R.layout.item_event, parent, false);
         return new EventViewHolder(view);
     }
 
@@ -59,22 +59,19 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         private final TextView eventTitle;
         private final TextView eventDate;
         private final TextView eventVenue;
-        private final TextView eventType;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
-            eventImage = itemView.findViewById(R.id.event_image);
-            eventTitle = itemView.findViewById(R.id.event_title);
-            eventDate = itemView.findViewById(R.id.event_date);
-            eventVenue = itemView.findViewById(R.id.event_venue);
-            eventType = itemView.findViewById(R.id.event_type);
+            eventImage = itemView.findViewById(R.id.event_item_image);
+            eventTitle = itemView.findViewById(R.id.event_item_title);
+            eventDate = itemView.findViewById(R.id.event_item_date);
+            eventVenue = itemView.findViewById(R.id.event_item_location);
         }
 
         public void bind(Event event, OnEventClickListener listener) {
-            eventTitle.setText(event.getTitle());
-            eventDate.setText(event.getDate() != null ? event.getDate().toString() : "");
-            eventVenue.setText(event.getLocation());
-            eventType.setText(event.getType());
+            eventTitle.setText(event.getTitle() != null ? event.getTitle() : "عنوان غير محدد");
+            eventDate.setText(event.getFormattedDate() != null ? event.getFormattedDate() : "تاريخ غير محدد");
+            eventVenue.setText(event.getLocation() != null ? event.getLocation() : "موقع غير محدد");
 
             // تحميل الصورة
             if (event.getImageUrl() != null && !event.getImageUrl().isEmpty()) {

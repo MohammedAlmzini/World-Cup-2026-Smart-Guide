@@ -90,4 +90,40 @@ public class ImageLoader {
                 .apply(options)
                 .into(imageView);
     }
+    
+    /**
+     * Load Firebase Storage image with proper error handling
+     */
+    public static void loadFirebaseImage(Context context, String imageUrl, ImageView imageView, int placeholder) {
+        if (imageUrl == null || imageUrl.isEmpty()) {
+            imageView.setImageResource(placeholder);
+            return;
+        }
+        
+        Glide.with(context)
+                .load(imageUrl)
+                .placeholder(placeholder)
+                .error(placeholder)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+    
+    /**
+     * Load circular image (for profile pictures)
+     */
+    public static void loadCircularImage(Context context, String imageUrl, ImageView imageView, int placeholder) {
+        if (imageUrl == null || imageUrl.isEmpty()) {
+            imageView.setImageResource(placeholder);
+            return;
+        }
+        
+        Glide.with(context)
+                .load(imageUrl)
+                .placeholder(placeholder)
+                .error(placeholder)
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
 }

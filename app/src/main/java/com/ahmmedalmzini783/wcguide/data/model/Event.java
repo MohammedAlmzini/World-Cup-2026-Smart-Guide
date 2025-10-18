@@ -3,8 +3,10 @@ package com.ahmmedalmzini783.wcguide.data.model;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Event implements Serializable {
@@ -357,9 +359,14 @@ public class Event implements Serializable {
     }
 
     public String getFormattedDate() {
-        if (date == null) return "";
-        // Simple date formatting - you can enhance this
-        return date.toString();
+        if (date == null) return "تاريخ غير محدد";
+        
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+            return dateFormat.format(date);
+        } catch (Exception e) {
+            return date.toString();
+        }
     }
 
     /**

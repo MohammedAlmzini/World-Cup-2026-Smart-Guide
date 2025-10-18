@@ -91,9 +91,26 @@ public class AllRestaurantsActivity extends AppCompatActivity {
 
     private void onRestaurantClick(Place restaurant) {
         Log.d(TAG, "Restaurant clicked: " + restaurant.getName());
-        // TODO: Navigate to restaurant detail activity
-        // Intent intent = RestaurantDetailActivity.createIntent(this, restaurant);
-        // startActivity(intent);
+        
+        // Convert Place to Landmark for display
+        com.ahmmedalmzini783.wcguide.data.model.Landmark landmark = new com.ahmmedalmzini783.wcguide.data.model.Landmark();
+        landmark.setId(restaurant.getId());
+        landmark.setName(restaurant.getName());
+        landmark.setDescription(restaurant.getDescription() != null ? restaurant.getDescription() : "مطعم متميز في " + restaurant.getCity());
+        landmark.setAddress(restaurant.getAddress() != null ? restaurant.getAddress() : restaurant.getCity() + ", " + restaurant.getCountry());
+        landmark.setLatitude(restaurant.getLat());
+        landmark.setLongitude(restaurant.getLng());
+        landmark.setCategory("مطعم");
+        landmark.setRating(restaurant.getAvgRating());
+        
+        // Set image if available
+        if (restaurant.getImages() != null && !restaurant.getImages().isEmpty()) {
+            landmark.setImageUrl(restaurant.getImages().get(0));
+        }
+        
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.admin.LandmarkDetailsActivity.class);
+        intent.putExtra("landmark", landmark);
+        startActivity(intent);
     }
 
     private void showLoading(boolean show) {

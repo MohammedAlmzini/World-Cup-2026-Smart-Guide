@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ahmmedalmzini783.wcguide.R;
 import com.ahmmedalmzini783.wcguide.data.model.Event;
@@ -33,6 +34,7 @@ public class EventsFragment extends Fragment {
     private EventAdapter eventAdapter;
     private View rootView;
     private AlertDialog filterDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
     
     // Featured event views
     private View featuredEventLayout;
@@ -59,10 +61,13 @@ public class EventsFragment extends Fragment {
         // Setup UI
         setupRecyclerView();
         setupFilters();
+        setupSwipeRefresh();
         observeViewModel();
         
-        // Load events
-        viewModel.loadEvents();
+        // Load events only if not already loaded
+        if (eventAdapter == null || eventAdapter.getItemCount() == 0) {
+            viewModel.loadEvents();
+        }
     }
 
     private void setupRecyclerView() {
@@ -88,8 +93,12 @@ public class EventsFragment extends Fragment {
         // Set click listener for featured event
         if (featuredEventLayout != null) {
             featuredEventLayout.setOnClickListener(v -> {
-                // Handle featured event click
-                Toast.makeText(getContext(), "تم النقر على الفعالية المميزة", Toast.LENGTH_SHORT).show();
+                // Handle featured event click - open event details
+                Event featuredEvent = viewModel.getFeaturedEvent().getValue() != null ? 
+                    viewModel.getFeaturedEvent().getValue().getData() : null;
+                if (featuredEvent != null) {
+                    onEventClick(featuredEvent);
+                }
             });
         }
     }
@@ -99,6 +108,23 @@ public class EventsFragment extends Fragment {
         View filterButton = rootView.findViewById(R.id.filter_button);
         if (filterButton != null) {
             filterButton.setOnClickListener(v -> showFilterDialog());
+        }
+    }
+
+    private void setupSwipeRefresh() {
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                // إعادة تحميل الفعاليات عند السحب للتحديث
+                viewModel.refreshEvents();
+            });
+            
+            // إعداد ألوان التحديث
+            swipeRefreshLayout.setColorSchemeResources(
+                R.color.primary,
+                R.color.primary_dark,
+                R.color.secondary
+            );
         }
     }
 
@@ -188,12 +214,19 @@ public class EventsFragment extends Fragment {
                         }
                         break;
                     case ERROR:
-                        showError(resource.getMessage());
+                        String errorMessage = resource.getMessage();
+                        if (errorMessage == null || errorMessage.isEmpty()) {
+                            errorMessage = "حدث خطأ في تحميل الفعاليات. تحقق من اتصال الإنترنت وحاول مرة أخرى.";
+                        }
+                        showError(errorMessage);
                         break;
                     case LOADING:
                         showLoading();
                         break;
                 }
+            } else {
+                // Handle null resource
+                showError("فشل في تحميل البيانات");
             }
         });
         
@@ -209,6 +242,7 @@ public class EventsFragment extends Fragment {
                         }
                         break;
                     case ERROR:
+                        // Don't show error for featured event, just hide it
                         hideFeaturedEvent();
                         break;
                     case LOADING:
@@ -237,6 +271,11 @@ public class EventsFragment extends Fragment {
         if (eventAdapter != null) {
             eventAdapter.updateEvents(events);
         }
+        
+        // إيقاف SwipeRefreshLayout
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     private void showEmptyState() {
@@ -252,6 +291,11 @@ public class EventsFragment extends Fragment {
         View progressBar = rootView.findViewById(R.id.progress_bar);
         if (progressBar != null) {
             progressBar.setVisibility(View.GONE);
+        }
+        
+        // إيقاف SwipeRefreshLayout
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -284,9 +328,28 @@ public class EventsFragment extends Fragment {
         View emptyStateLayout = rootView.findViewById(R.id.empty_state);
         if (emptyStateLayout != null) {
             emptyStateLayout.setVisibility(View.VISIBLE);
+            
+            // تحديث نص رسالة الخطأ
+            TextView errorTitle = emptyStateLayout.findViewById(R.id.empty_state_title);
+            TextView errorMessage = emptyStateLayout.findViewById(R.id.empty_state_message);
+            
+            if (errorTitle != null) {
+                errorTitle.setText("خطأ في التحميل");
+            }
+            if (errorMessage != null) {
+                errorMessage.setText(message);
+            }
         }
         
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        // إيقاف SwipeRefreshLayout
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+        
+        // عرض رسالة خطأ قصيرة
+        if (getContext() != null) {
+            Toast.makeText(getContext(), "فشل في تحميل الفعاليات", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showFeaturedEvent(Event event) {
@@ -325,5 +388,23 @@ public class EventsFragment extends Fragment {
     private void onEventClick(Event event) {
         Intent intent = EventDetailsActivity.createIntent(getContext(), event);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // تحديث البيانات عند العودة للصفحة
+        if (viewModel != null) {
+            viewModel.refreshEvents();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // تنظيف الموارد
+        if (filterDialog != null && filterDialog.isShowing()) {
+            filterDialog.dismiss();
+        }
     }
 }

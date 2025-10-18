@@ -16,6 +16,9 @@
     <!-- Storage permissions for image upload -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
+        android:maxSdkVersion="28" />
 
     <!-- Notification permissions -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -91,6 +94,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Profile Activity -->
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Favorites Activity -->
+        <activity
+            android:name=".ui.favorites.FavoritesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WorldCup2026SmartGuide" />
+
+        <!-- Comments Activity -->
+        <activity
+            android:name=".ui.comments.CommentsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WorldCup2026SmartGuide" />
+
+        <!-- Settings Activity -->
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WorldCup2026SmartGuide" />
 
         <!-- Main Activity -->
         <activity
@@ -177,18 +204,20 @@
             android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar"
             android:label="جميع المطاعم" />
 
-        <!-- Settings Activity -->
-        <activity
-            android:name=".ui.settings.SettingsActivity"
-            android:exported="false"
-            android:parentActivityName=".ui.main.MainActivity"
-            android:label="@string/settings_title" />
 
         <!-- Banner Details Activity -->
         <activity
             android:name=".ui.banner.BannerDetailActivity"
             android:exported="false"
             android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Logos Activity -->
+        <activity
+            android:name=".ui.logos.LogosActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:label="@string/logos_title"
             android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
 
         <!-- Admin Activity (for content management) -->
@@ -310,10 +339,74 @@
             android:label="جميع المعالم السياحية"
             android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
 
+        <!-- Hotel Details Activity -->
+        <activity
+            android:name=".ui.details.hotel.HotelDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:label="تفاصيل الفندق"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Restaurant Details Activity -->
+        <activity
+            android:name=".ui.details.restaurant.RestaurantDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:label="تفاصيل المطعم"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
         <!-- Firebase Debug Activity -->
         <activity
             android:name=".debug.FirebaseDebugActivity"
             android:exported="false"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- News Activity -->
+        <activity
+            android:name=".ui.news.NewsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:label="@string/news_title"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- News Detail Activity -->
+        <activity
+            android:name=".ui.news.NewsDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.news.NewsActivity"
+            android:label="@string/news_detail_title"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Events Activity -->
+        <activity
+            android:name=".ui.events.EventsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:label="@string/nav_events"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- About App Activity -->
+        <activity
+            android:name=".ui.about.AboutAppActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:label="@string/about_app_title"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Admin News Activity -->
+        <activity
+            android:name=".ui.admin.AdminNewsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.AdminActivity"
+            android:label="@string/admin_news_title"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Add/Edit News Activity -->
+        <activity
+            android:name=".ui.admin.AddEditNewsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.AdminNewsActivity"
+            android:label="@string/add_edit_news_title"
             android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
 
     </application>

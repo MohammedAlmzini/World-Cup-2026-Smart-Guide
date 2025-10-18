@@ -244,4 +244,93 @@
     <string name="error_ai_connection">خطأ في الاتصال بخدمة الذكاء الاصطناعي. يرجى التحقق من اتصال الإنترنت.</string>
     <string name="error_empty_response">عذراً، لم أستطع توليد إجابة. يرجى المحاولة مرة أخرى.</string>
 
+
+
+
+    <!-- Map related strings -->
+    <string name="event_location_map">موقع الفعالية</string>
+    <string name="open_in_google_maps">فتح في خرائط جوجل</string>
+    <string name="map_loading">جاري تحميل الخريطة...</string>
+    <string name="map_error">فشل في تحميل الخريطة</string>
+    <string name="coordinates_latitude">خط العرض</string>
+    <string name="coordinates_longitude">خط الطول</string>
+    <string name="get_current_location">الحصول على الموقع الحالي</string>
+    <string name="select_on_map">اختيار على الخريطة</string>
+
+    <!-- Profile related strings -->
+    <string name="profile_title">الملف الشخصي</string>
+    <string name="profile_favorites">المفضلة</string>
+    <string name="profile_comments">التعليقات</string>
+    <string name="profile_events_attended">الفعاليات</string>
+    <string name="profile_my_favorites">مفضلاتي</string>
+    <string name="profile_favorites_description">الفعاليات التي أضفتها للمفضلة</string>
+    <string name="profile_my_comments">تعليقاتي</string>
+    <string name="profile_comments_description">التعليقات التي كتبتها</string>
+    <string name="profile_settings">الإعدادات</string>
+    <string name="profile_settings_description">إعدادات الحساب والتطبيق</string>
+    <string name="profile_logout">تسجيل الخروج</string>
+    <string name="profile_logout_description">تسجيل الخروج من الحساب</string>
+    <string name="profile_logout_confirm">هل أنت متأكد من تسجيل الخروج؟</string>
+    <string name="profile_logout_yes">نعم، سجل الخروج</string>
+    <string name="profile_logout_cancel">إلغاء</string>
+
+    <!-- Comments related strings -->
+    <string name="comments_empty_title">لا توجد تعليقات</string>
+    <string name="comments_empty_message">لم تقم بكتابة أي تعليقات بعد</string>
+
+    <!-- Settings related strings -->
+    <string name="settings_coming_soon">قريباً</string>
+    <string name="settings_coming_soon_description">سيتم إضافة المزيد من الإعدادات في التحديثات القادمة</string>
+
+    <!-- Logos related strings -->
+    <string name="logos_title">الشعارات</string>
+    <string name="logos_description">اكتشف جميع شعارات وشعارات كأس العالم 2026</string>
+    <string name="no_logos_found">لا توجد شعارات</string>
+    <string name="no_logos_description">لم يتم العثور على أي شعارات لعرضها</string>
+
+    <!-- Profile related strings -->
+    <string name="profile_guest_name">مستخدم ضيف</string>
+    <string name="profile_authenticated_name">مستخدم مسجل</string>
+    <string name="profile_actions">إجراءات الملف الشخصي</string>
+    <string name="profile_edit">تعديل الملف الشخصي</string>
+    <string name="profile_change_password">تغيير كلمة المرور</string>
+    <string name="profile_sign_out">تسجيل الخروج</string>
+    <string name="profile_guest_actions">إجراءات المستخدم الضيف</string>
+    <string name="profile_sign_in">تسجيل الدخول</string>
+    <string name="profile_sign_up">إنشاء حساب</string>
+
+    <!-- News related strings -->
+    <string name="news_title">الأخبار</string>
+    <string name="news_empty_title">لا توجد أخبار</string>
+    <string name="news_empty_description">لم يتم العثور على أي أخبار لعرضها</string>
+    <string name="news_detail_title">تفاصيل الخبر</string>
+    <string name="news_title_hint">عنوان الخبر</string>
+    <string name="news_description_hint">وصف الخبر</string>
+    <string name="news_content_hint">محتوى الخبر</string>
+    <string name="news_image_url_hint">رابط الصورة</string>
+    <string name="news_category_hint">فئة الخبر</string>
+    <string name="news_priority_label">خبر مميز</string>
+
+    <!-- Events related strings -->
+    <string name="events_empty_title">لا توجد فعاليات</string>
+    <string name="events_empty_description">لم يتم العثور على أي فعاليات لعرضها</string>
+
+    <!-- About App related strings -->
+    <string name="about_app_title">حول التطبيق</string>
+    <string name="about_app_version">الإصدار 1.0.0</string>
+    <string name="about_app_description">دليل كأس العالم 2026 الذكي هو رفيقك الشامل لكأس العالم 2026. نحن نقدم معلومات في الوقت الفعلي حول المباريات والفعاليات والأماكن والفنادق والمطاعم وكل ما تحتاجه لجعل تجربة كأس العالم الخاصة بك الأفضل.</string>
+    <string name="about_app_features">المميزات:</string>
+    <string name="about_app_feature_events">• تحديثات الفعاليات في الوقت الفعلي</string>
+    <string name="about_app_feature_venues">• معلومات الملاعب والأماكن</string>
+    <string name="about_app_feature_places">• توصيات الفنادق والمطاعم</string>
+    <string name="about_app_feature_ai">• مساعد ذكي مدعوم بالذكاء الاصطناعي</string>
+    <string name="about_app_feature_offline">• دعم الوضع غير المتصل</string>
+
+    <!-- Admin News related strings -->
+    <string name="admin_news_title">إدارة الأخبار</string>
+    <string name="admin_news_empty_title">لا توجد أخبار</string>
+    <string name="admin_news_empty_description">لم يتم العثور على أي أخبار لإدارتها</string>
+    <string name="add_edit_news_title">إضافة/تعديل الخبر</string>
+
+
 </resources>

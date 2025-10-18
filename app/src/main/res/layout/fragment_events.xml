@@ -8,297 +8,323 @@
     android:background="@color/background"
     tools:context=".ui.events.EventsFragment">
 
-    <!-- Main Content -->
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Header Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/bg_events_header"
-                android:padding="24dp"
-                android:paddingTop="32dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/events_title"
-                    android:textAppearance="?attr/textAppearanceHeadline1"
-                    android:textColor="@color/white"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/events_subtitle"
-                    android:textAppearance="?attr/textAppearanceBody1"
-                    android:textColor="@color/white"
-                    android:alpha="0.9" />
-
-            </LinearLayout>
-
-            <!-- Featured Event Section -->
-            <LinearLayout
-                android:id="@+id/featured_event_section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:background="@color/background">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/events_featured"
-                    android:textAppearance="?attr/textAppearanceHeadline3"
-                    android:textColor="@color/on_background"
-                    android:layout_marginBottom="12dp" />
-
-                <!-- Featured Event Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/featured_event_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:strokeColor="@color/primary"
-                    app:strokeWidth="2dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <!-- Event Image -->
-                        <ImageView
-                            android:id="@+id/featured_event_image"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/placeholder_event"
-                            android:background="@color/primary_light" />
-
-                        <!-- Event Content -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-                            <!-- Event Title -->
-                            <TextView
-                                android:id="@+id/featured_event_title"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="World Cup Opening Ceremony"
-                                android:textAppearance="?attr/textAppearanceHeadline3"
-                                android:textColor="@color/on_background"
-                                android:layout_marginBottom="8dp" />
-
-                            <!-- Event Description -->
-                            <TextView
-                                android:id="@+id/featured_event_description"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="حفل افتتاح مبهر لكأس العالم 2026"
-                                android:textAppearance="?attr/textAppearanceBody2"
-                                android:textColor="@color/on_surface_variant"
-                                android:layout_marginBottom="8dp" />
-
-                            <!-- Event Date -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginBottom="4dp">
-
-                                <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:src="@drawable/ic_calendar"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_gravity="center_vertical" />
-
-                                <TextView
-                                    android:id="@+id/featured_event_date"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="June 15, 2026"
-                                    android:textAppearance="?attr/textAppearanceBody2"
-                                    android:textColor="@color/on_surface_variant" />
-
-                            </LinearLayout>
-
-                            <!-- Event Venue -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginBottom="12dp">
-
-                                <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:src="@drawable/ic_location"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_gravity="center_vertical" />
-
-                                <TextView
-                                    android:id="@+id/featured_event_location"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="MetLife Stadium, New York"
-                                    android:textAppearance="?attr/textAppearanceBody2"
-                                    android:textColor="@color/on_surface_variant" />
-
-                            </LinearLayout>
-
-                            <!-- Action Buttons -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="end">
-
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/featured_favorite_button"
-                                    style="@style/Widget.Material3.Button.IconButton"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="8dp"
-                                    app:icon="@drawable/ic_favorite_border"
-                                    app:iconTint="@color/primary" />
-
-                                <com.google.android.material.button.MaterialButton
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/events_view_details"
-                                    android:textColor="@color/white"
-                                    app:backgroundTint="@color/primary" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-
-            <!-- Filter and Other Events Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:background="@color/surface">
-
-                <!-- Filter Button -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="16dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/events_other"
-                        android:textAppearance="?attr/textAppearanceHeadline3"
-                        android:textColor="@color/on_background" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/filter_button"
-                        style="@style/Widget.Material3.Button.Outlined"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/events_filter_title"
-                        android:textColor="@color/primary"
-                        app:icon="@drawable/ic_filter"
-                        app:iconTint="@color/primary"
-                        app:strokeColor="@color/primary"
-                        app:strokeWidth="2dp" />
-
-                </LinearLayout>
-
-                <!-- Other Events List -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/events_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_event_compact" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
     <!-- Swipe Refresh -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
+        <!-- Main Content -->
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+
+                <!-- Featured Event Section -->
+                <LinearLayout
+                    android:id="@+id/featured_event_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/background"
+                    android:padding="16dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/events_featured"
+                        android:textAppearance="?attr/textAppearanceHeadline3"
+                        android:textColor="@color/on_background"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Featured Event Card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/featured_event_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        app:cardCornerRadius="24dp"
+                        app:cardElevation="12dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:strokeColor="@color/primary"
+                        app:strokeWidth="2dp"
+                        app:rippleColor="@color/primary_light">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <!-- Event Image with Overlay -->
+                            <FrameLayout
+                                android:id="@+id/featured_image_container"
+                                android:layout_width="match_parent"
+                                android:layout_height="220dp"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <ImageView
+                                    android:id="@+id/featured_event_image"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/placeholder_event"
+                                    android:background="@drawable/bg_featured_event_image" />
+
+                                <!-- Gradient Overlay -->
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/bg_featured_gradient" />
+
+                                <!-- Featured Badge -->
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="top|start"
+                                    android:layout_margin="16dp"
+                                    android:background="@drawable/bg_featured_badge"
+                                    android:paddingHorizontal="12dp"
+                                    android:paddingVertical="6dp"
+                                    android:text="⭐ فعالية مميزة"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <!-- Event Title Overlay -->
+                                <TextView
+                                    android:id="@+id/featured_event_title"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom|start"
+                                    android:layout_margin="20dp"
+                                    android:text="فعالية مميزة"
+                                    android:textAppearance="?attr/textAppearanceHeadline4"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    android:shadowColor="#80000000"
+                                    android:shadowDx="2"
+                                    android:shadowDy="2"
+                                    android:shadowRadius="4"
+                                    android:maxLines="2"
+                                    android:ellipsize="end" />
+
+                            </FrameLayout>
+
+                            <!-- Event Content -->
+                            <LinearLayout
+                                android:id="@+id/featured_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="20dp"
+                                app:layout_constraintTop_toBottomOf="@id/featured_image_container">
+
+                                <!-- Event Description -->
+                                <TextView
+                                    android:id="@+id/featured_event_description"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="وصف الفعالية المميزة"
+                                    android:textAppearance="?attr/textAppearanceBody1"
+                                    android:textColor="@color/on_surface"
+                                    android:textSize="14sp"
+                                    android:lineSpacingExtra="4dp"
+                                    android:layout_marginBottom="16dp"
+                                    android:maxLines="3"
+                                    android:ellipsize="end" />
+
+                                <!-- Event Details Row -->
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:layout_marginBottom="12dp">
+
+                                    <!-- Date -->
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal"
+                                        android:gravity="center_vertical">
+
+                                        <ImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:src="@drawable/ic_calendar"
+                                            android:layout_marginEnd="8dp"
+                                            android:tint="@color/primary" />
+
+                                        <TextView
+                                            android:id="@+id/featured_event_date"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="التاريخ"
+                                            android:textAppearance="?attr/textAppearanceBody2"
+                                            android:textColor="@color/on_surface_variant"
+                                            android:textSize="13sp" />
+
+                                    </LinearLayout>
+
+                                    <!-- Location -->
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal"
+                                        android:gravity="center_vertical">
+
+                                        <ImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:src="@drawable/ic_location"
+                                            android:layout_marginEnd="8dp"
+                                            android:tint="@color/primary" />
+
+                                        <TextView
+                                            android:id="@+id/featured_event_location"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="الموقع"
+                                            android:textAppearance="?attr/textAppearanceBody2"
+                                            android:textColor="@color/on_surface_variant"
+                                            android:textSize="13sp"
+                                            android:maxLines="1"
+                                            android:ellipsize="end" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <!-- Action Button -->
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:text="عرض التفاصيل"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    app:icon="@drawable/ic_arrow_forward"
+                                    app:iconTint="@color/white"
+                                    app:iconSize="16dp"
+                                    app:cornerRadius="20dp"
+                                    app:backgroundTint="@color/primary"
+                                    style="@style/Widget.Material3.Button" />
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+                <!-- Progress Bar -->
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="32dp"
+                    android:visibility="gone" />
+
+                <!-- Empty State -->
+                <LinearLayout
+                    android:id="@+id/empty_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="32dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/ic_events"
+                        android:alpha="0.5"
+                        android:layout_marginBottom="16dp" />
+
+                    <TextView
+                        android:id="@+id/empty_state_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/events_no_results"
+                        android:textAppearance="?attr/textAppearanceHeadline5"
+                        android:textColor="@color/on_background"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:id="@+id/empty_state_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/events_no_results_message"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="@color/on_background"
+                        android:alpha="0.7"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+                <!-- Other Events Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/events_other"
+                            android:textAppearance="?attr/textAppearanceHeadline3"
+                            android:textColor="@color/on_background" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/filter_button"
+                            style="@style/Widget.Material3.Button.Outlined"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_filter_title"
+                            android:textColor="@color/primary"
+                            app:icon="@drawable/ic_filter"
+                            app:iconTint="@color/primary"
+                            app:strokeColor="@color/primary"
+                            app:strokeWidth="2dp" />
+
+                    </LinearLayout>
+
+                    <!-- Other Events List -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/events_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_event_compact" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <!-- Progress Bar -->
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:indeterminateTint="@color/primary" />
-
-    <!-- Empty State -->
-    <LinearLayout
-        android:id="@+id/empty_state"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="32dp"
-        android:visibility="gone"
-        android:background="@color/background">
-
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_events"
-            android:alpha="0.5"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/cd_event_image" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/events_no_results"
-            android:textAppearance="?attr/textAppearanceHeadline2"
-            android:textColor="@color/on_surface_variant"
-            android:gravity="center" />
-
-    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

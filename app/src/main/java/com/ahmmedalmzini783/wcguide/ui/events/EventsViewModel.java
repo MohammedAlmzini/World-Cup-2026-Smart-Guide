@@ -32,7 +32,14 @@ public class EventsViewModel extends AndroidViewModel {
     }
 
     public void loadEvents() {
-        // Events are automatically loaded from Firebase through the repository
-        // No need for manual loading as the repository handles it
+        // Force refresh events from Firebase
+        // This will trigger the repository to fetch fresh data
+        eventRepository.getAllEvents();
+        eventRepository.getFeaturedEvent();
+    }
+
+    public void refreshEvents() {
+        // Force a complete refresh of events
+        loadEvents();
     }
 }

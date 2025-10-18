@@ -2,108 +2,128 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:clickable="true"
-    android:focusable="true"
+    android:layout_marginBottom="16dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/white"
+    app:strokeColor="@color/primary_light"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <!-- Event Image -->
         <ImageView
-            android:id="@+id/event_image"
-            android:layout_width="120dp"
+            android:id="@+id/event_item_image"
+            android:layout_width="match_parent"
             android:layout_height="120dp"
             android:scaleType="centerCrop"
-            android:contentDescription="@string/cd_event_image"
-            tools:src="@drawable/ic_events" />
+            android:background="@color/primary_light"
+            android:layout_marginBottom="12dp" />
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <!-- Event Title -->
+        <TextView
+            android:id="@+id/event_item_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
+        <!-- Event Description -->
+        <TextView
+            android:id="@+id/event_item_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:maxLines="3"
+            android:ellipsize="end" />
+
+        <!-- Event Date and Time -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_calendar"
+                android:layout_marginEnd="8dp"
+                app:tint="@color/primary" />
+
+            <TextView
+                android:id="@+id/event_item_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- Event Location -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_location"
+                android:layout_marginEnd="8dp"
+                app:tint="@color/primary" />
+
+            <TextView
+                android:id="@+id/event_item_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+
+            <!-- Admin Actions (only visible for admin) -->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/admin_actions_layout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:id="@+id/event_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="?attr/textAppearanceHeadline3"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    tools:text="Opening Ceremony" />
+                android:visibility="gone">
 
                 <ImageView
-                    android:id="@+id/favorite_button"
+                    android:id="@+id/btn_edit_event"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_favorite_border"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:contentDescription="@string/cd_favorite_button" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/event_venue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:drawableStart="@drawable/ic_location"
-                android:drawablePadding="4dp"
-                android:layout_marginBottom="4dp"
-                tools:text="SoFi Stadium, Los Angeles" />
-
-            <TextView
-                android:id="@+id/event_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceBody2"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:layout_marginBottom="8dp"
-                tools:text="June 11, 2026 - 8:00 PM" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/event_type"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"
+                    android:background="@drawable/circle_white_bg"
+                    android:padding="4dp"
                     android:layout_marginEnd="8dp"
-                    android:textSize="12sp"
-                    tools:text="Ceremony" />
+                    android:clickable="true"
+                    android:focusable="true" />
 
-                <TextView
-                    android:id="@+id/event_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.WorldCup.EventStatus.Upcoming"
-                    android:background="@drawable/bg_status_upcoming"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp"
-                    tools:text="Upcoming" />
+                <ImageView
+                    android:id="@+id/btn_delete_event"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_delete"
+                    android:background="@drawable/circle_white_bg"
+                    android:padding="4dp"
+                    android:clickable="true"
+                    android:focusable="true" />
 
             </LinearLayout>
 

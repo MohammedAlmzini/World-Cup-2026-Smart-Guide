@@ -39,6 +39,7 @@ public class AllHotelsActivity extends AppCompatActivity {
         setupToolbar();
         setupRecyclerView();
         setupViewModel();
+        observeData();
     }
 
     private void setupToolbar() {
@@ -70,8 +71,10 @@ public class AllHotelsActivity extends AppCompatActivity {
 
     private void setupViewModel() {
         viewModel = new ViewModelProvider(this).get(AllHotelsViewModel.class);
-        
-        // Observe all hotels
+    }
+    
+    private void observeData() {
+        // Load all hotels
         viewModel.getAllHotels().observe(this, resource -> {
             Log.d(TAG, "Hotels resource received with status: " + (resource != null ? resource.getStatus() : "null"));
             
@@ -80,23 +83,14 @@ public class AllHotelsActivity extends AppCompatActivity {
                     case LOADING:
                         Log.d(TAG, "Loading all hotels...");
                         showLoading(true);
-                        showEmptyState(false);
-                        // Show loading text
-                        if (binding.textHotelsCount != null) {
-                            binding.textHotelsCount.setText("جاري تحميل الفنادق...");
-                        }
                         break;
                     case SUCCESS:
+                        Log.d(TAG, "Hotels loaded successfully");
                         showLoading(false);
-                        // Reset to static title
-                        if (binding.textHotelsCount != null) {
-                            binding.textHotelsCount.setText("قائمة بالفنادق");
-                        }
                         if (resource.getData() != null && !resource.getData().isEmpty()) {
                             Log.d(TAG, "Displaying " + resource.getData().size() + " hotels");
                             hotelsAdapter.submitList(resource.getData());
                             showEmptyState(false);
-                            // Keep the title as "قائمة بالفنادق" - don't update count
                         } else {
                             Log.d(TAG, "No hotels data available");
                             showEmptyState(true);
@@ -106,21 +100,36 @@ public class AllHotelsActivity extends AppCompatActivity {
                         Log.e(TAG, "Error loading all hotels: " + resource.getMessage());
                         showLoading(false);
                         showEmptyState(true);
-                        // Reset to static title
-                        if (binding.textHotelsCount != null) {
-                            binding.textHotelsCount.setText("قائمة بالفنادق");
-                        }
                         break;
                 }
+            } else {
+                Log.e(TAG, "Resource is null");
             }
         });
     }
 
     private void onHotelClick(Place hotel) {
         Log.d(TAG, "Hotel clicked: " + hotel.getName());
-        // TODO: Navigate to hotel detail activity
-        // Intent intent = HotelDetailActivity.createIntent(this, hotel);
-        // startActivity(intent);
+        
+        // Convert Place to Landmark for display
+        com.ahmmedalmzini783.wcguide.data.model.Landmark landmark = new com.ahmmedalmzini783.wcguide.data.model.Landmark();
+        landmark.setId(hotel.getId());
+        landmark.setName(hotel.getName());
+        landmark.setDescription(hotel.getDescription() != null ? hotel.getDescription() : "فندق متميز في " + hotel.getCity());
+        landmark.setAddress(hotel.getAddress() != null ? hotel.getAddress() : hotel.getCity() + ", " + hotel.getCountry());
+        landmark.setLatitude(hotel.getLat());
+        landmark.setLongitude(hotel.getLng());
+        landmark.setCategory("فندق");
+        landmark.setRating(hotel.getAvgRating());
+        
+        // Set image if available
+        if (hotel.getImages() != null && !hotel.getImages().isEmpty()) {
+            landmark.setImageUrl(hotel.getImages().get(0));
+        }
+        
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.admin.LandmarkDetailsActivity.class);
+        intent.putExtra("landmark", landmark);
+        startActivity(intent);
     }
 
     private void showLoading(boolean show) {

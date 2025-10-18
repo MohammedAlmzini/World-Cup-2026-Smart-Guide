@@ -173,6 +173,36 @@ public class PlaceRepository {
         return result;
     }
 
+    public LiveData<Resource<List<Place>>> getAllHotels() {
+        MediatorLiveData<Resource<List<Place>>> result = new MediatorLiveData<>();
+        
+        Log.d(TAG, "Fetching all hotels from Firebase without country filtering");
+        
+        // Get all hotels from HotelRepository without country filtering
+        LiveData<Resource<List<Hotel>>> hotelData = hotelRepository.getAllHotels();
+        result.addSource(hotelData, hotelResource -> {
+            if (hotelResource != null) {
+                Log.d(TAG, "All hotels resource status: " + hotelResource.getStatus());
+                if (hotelResource.getStatus() == Resource.Status.LOADING) {
+                    result.setValue(Resource.loading(null));
+                } else if (hotelResource.getStatus() == Resource.Status.SUCCESS && hotelResource.getData() != null) {
+                    // Convert hotels to places
+                    List<Hotel> hotels = hotelResource.getData();
+                    Log.d(TAG, "Converting " + hotels.size() + " hotels to places");
+                    List<Place> places = HotelPlaceConverter.convertHotelsToPlaces(hotels);
+                    
+                    Log.d(TAG, "Final places count: " + places.size());
+                    result.setValue(Resource.success(places));
+                } else if (hotelResource.getStatus() == Resource.Status.ERROR) {
+                    Log.e(TAG, "Error loading all hotels: " + hotelResource.getMessage());
+                    result.setValue(Resource.error(hotelResource.getMessage(), null));
+                }
+            }
+        });
+        
+        return result;
+    }
+
     public LiveData<Resource<List<Place>>> getAllHotelsByKind(String kind, int limit) {
         MediatorLiveData<Resource<List<Place>>> result = new MediatorLiveData<>();
 

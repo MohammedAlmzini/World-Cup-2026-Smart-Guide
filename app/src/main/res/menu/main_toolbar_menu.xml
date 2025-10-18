@@ -3,15 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_admin"
-        android:icon="@drawable/ic_settings"
-        android:title="Admin Panel"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/nav_settings"
-        app:showAsAction="never" />
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_profile_placeholder"
+        android:title="@string/profile_title"
+        app:showAsAction="ifRoom" />
 
 </menu>

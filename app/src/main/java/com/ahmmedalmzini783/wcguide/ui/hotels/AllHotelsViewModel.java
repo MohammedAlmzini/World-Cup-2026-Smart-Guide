@@ -1,6 +1,7 @@
 package com.ahmmedalmzini783.wcguide.ui.hotels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -16,24 +17,20 @@ public class AllHotelsViewModel extends AndroidViewModel {
     private static final String TAG = "AllHotelsViewModel";
     
     private final PlaceRepository placeRepository;
-    private LiveData<Resource<List<Place>>> allHotels;
 
     public AllHotelsViewModel(@NonNull Application application) {
         super(application);
         placeRepository = new PlaceRepository(application);
-        loadAllHotels();
-    }
-
-    private void loadAllHotels() {
-        // Load all hotels without limit
-        allHotels = placeRepository.getAllHotelsByKind("hotel", Integer.MAX_VALUE);
+        Log.d(TAG, "AllHotelsViewModel created");
     }
 
     public LiveData<Resource<List<Place>>> getAllHotels() {
-        return allHotels;
+        Log.d(TAG, "getAllHotels() called");
+        // Use getAllHotels() directly from HotelRepository to get all hotels without country filtering
+        return placeRepository.getAllHotels();
     }
 
     public void refreshHotels() {
-        loadAllHotels();
+        // The LiveData will automatically refresh when observed again
     }
 }
