@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import android.widget.Toast;
 import com.google.android.material.card.MaterialCardView;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION_STORAGE = 101;
 
     private Toolbar toolbar;
-    private ImageView profileAvatar;
+    private CircleImageView profileAvatar;
     private TextView profileName, profileEmail;
     private MaterialCardView guestActionsCard;
     private Button btnEditProfile, btnChangePassword, btnSignOut;
@@ -118,6 +119,10 @@ public class ProfileActivity extends AppCompatActivity {
                 showImageSelectionDialog();
             }
         });
+        
+        // Make profile avatar clickable
+        profileAvatar.setClickable(true);
+        profileAvatar.setFocusable(true);
 
         btnChangePassword.setOnClickListener(v -> {
             // TODO: Implement change password functionality

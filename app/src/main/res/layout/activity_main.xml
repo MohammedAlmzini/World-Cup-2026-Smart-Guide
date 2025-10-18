@@ -51,6 +51,22 @@
 
 
 
+                <!-- Profile Avatar -->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/toolbar_profile_avatar"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_user_default"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@drawable/toolbar_icon_bg"
+                    android:padding="2dp"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_overlay="false" />
+
                 <!-- Notification Icon with Badge -->
                 <FrameLayout
                     android:id="@+id/notification_container"

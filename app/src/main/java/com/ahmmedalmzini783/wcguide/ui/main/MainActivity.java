@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +21,10 @@ import com.ahmmedalmzini783.wcguide.ui.auth.RegisterActivity;
 import com.ahmmedalmzini783.wcguide.ui.profile.ProfileActivity;
 import com.ahmmedalmzini783.wcguide.ui.logos.LogosActivity;
 import com.ahmmedalmzini783.wcguide.util.AuthManager;
+import com.ahmmedalmzini783.wcguide.util.ImageLoader;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
     private AuthManager authManager;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupToolbar();
         setupDrawer();
+        setupAuth();
         
         // Wait for the layout to be inflated before setting up navigation
         findViewById(android.R.id.content).post(() -> setupNavigation());
@@ -198,11 +204,7 @@ public class MainActivity extends AppCompatActivity {
         }
         
         int id = item.getItemId();
-        if (id == R.id.action_profile) {
-            navigateToProfile();
-            return true;
-        
-        }
+        // Profile navigation is handled by toolbar profile avatar click
         
         return super.onOptionsItemSelected(item);
     }
@@ -214,5 +216,96 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+    
+    private void setupAuth() {
+        mAuth = FirebaseAuth.getInstance();
+        updateUserProfile();
+    }
+    
+    private void updateUserProfile() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        
+        if (currentUser != null) {
+            // User is signed in
+            updateDrawerHeader(currentUser);
+        } else {
+            // User is not signed in
+            updateDrawerHeader(null);
+        }
+    }
+    
+    private void updateDrawerHeader(FirebaseUser user) {
+        if (navigationView != null) {
+            View headerView = navigationView.getHeaderView(0);
+            if (headerView != null) {
+                android.widget.ImageView avatar = 
+                    headerView.findViewById(R.id.drawer_header_avatar);
+                android.widget.TextView userName = 
+                    headerView.findViewById(R.id.drawer_header_user_name);
+                android.widget.TextView userEmail = 
+                    headerView.findViewById(R.id.drawer_header_user_email);
+                android.widget.LinearLayout authButtons = 
+                    headerView.findViewById(R.id.drawer_header_auth_buttons);
+                android.widget.Button signOutBtn = 
+                    headerView.findViewById(R.id.drawer_header_sign_out_btn);
+                
+                if (user != null) {
+                    // Authenticated user
+                    userName.setText(user.getDisplayName() != null ? 
+                        user.getDisplayName() : getString(R.string.drawer_guest_user));
+                    userEmail.setText(user.getEmail());
+                    userEmail.setVisibility(android.view.View.VISIBLE);
+                    
+                    // Keep default icon in drawer (no profile image)
+                    avatar.setImageResource(R.drawable.ic_user_default);
+                    
+                    // Show sign out button, hide auth buttons
+                    authButtons.setVisibility(android.view.View.GONE);
+                    signOutBtn.setVisibility(android.view.View.VISIBLE);
+                } else {
+                    // Guest user
+                    userName.setText(getString(R.string.drawer_guest_user));
+                    userEmail.setText("guest@wcguide2026.com");
+                    userEmail.setVisibility(android.view.View.GONE);
+                    avatar.setImageResource(R.drawable.ic_user_default);
+                    
+                    // Show auth buttons, hide sign out button
+                    authButtons.setVisibility(android.view.View.VISIBLE);
+                    signOutBtn.setVisibility(android.view.View.GONE);
+                }
+            }
+        }
+        
+        // Update toolbar profile avatar
+        updateToolbarProfileAvatar(user);
+    }
+    
+    private void updateToolbarProfileAvatar(FirebaseUser user) {
+        de.hdodenhof.circleimageview.CircleImageView toolbarAvatar = 
+            findViewById(R.id.toolbar_profile_avatar);
+        
+        if (toolbarAvatar != null) {
+            if (user != null && user.getPhotoUrl() != null) {
+                // Load user profile image in toolbar
+                ImageLoader.loadCircularImage(this, user.getPhotoUrl().toString(), 
+                    toolbarAvatar, R.drawable.ic_user_default);
+            } else {
+                // Show default icon in toolbar
+                toolbarAvatar.setImageResource(R.drawable.ic_user_default);
+            }
+            
+            // Set click listener to open profile
+            toolbarAvatar.setOnClickListener(v -> {
+                navigateToProfile();
+            });
+        }
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Update user profile when returning to the activity
+        updateUserProfile();
     }
 }
