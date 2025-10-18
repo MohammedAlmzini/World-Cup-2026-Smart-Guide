@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/drawer_header_bg"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+
+
+    <!-- User Info -->
+    <LinearLayout
+        android:id="@+id/drawer_header_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- User Avatar -->
+        <ImageView
+            android:id="@+id/drawer_header_avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_user_default"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/circle_white_bg"
+            android:padding="2dp" />
+
+        <!-- User Name -->
+        <TextView
+            android:id="@+id/drawer_header_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/drawer_guest_user"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <!-- User Email -->
+        <TextView
+            android:id="@+id/drawer_header_user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="guest@wcguide2026.com"
+            android:textColor="#B3FFFFFF"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- Sign In/Sign Up Buttons (for guest users) -->
+    <LinearLayout
+        android:id="@+id/drawer_header_auth_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/drawer_header_sign_in_btn"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="@string/drawer_sign_in"
+            android:textColor="#FFFFFF"
+            app:strokeColor="#FFFFFF"
+            app:cornerRadius="20dp"
+            app:backgroundTint="@android:color/transparent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/drawer_header_sign_up_btn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/drawer_sign_up"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="@color/primary"
+            app:cornerRadius="20dp" />
+
+    </LinearLayout>
+
+    <!-- Sign Out Button (for authenticated users) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/drawer_header_sign_out_btn"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/drawer_sign_out"
+            android:textColor="#FFFFFF"
+            app:strokeColor="#FFFFFF"
+            app:cornerRadius="20dp"
+            app:backgroundTint="@android:color/transparent"
+            android:visibility="gone" />
+
+</LinearLayout>

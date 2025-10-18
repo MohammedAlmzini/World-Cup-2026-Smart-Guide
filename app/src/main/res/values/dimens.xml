@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Phone dimensions -->
+    <dimen name="event_card_margin">12dp</dimen>
+    <dimen name="event_card_corner_radius">20dp</dimen>
+    <dimen name="event_title_text_size">16sp</dimen>
+    <dimen name="event_description_text_size">14sp</dimen>
+    <dimen name="event_venue_text_size">13sp</dimen>
+    <dimen name="event_date_text_size">12sp</dimen>
+    <dimen name="featured_event_title_size">20sp</dimen>
+    <dimen name="featured_event_description_size">14sp</dimen>
+</resources>

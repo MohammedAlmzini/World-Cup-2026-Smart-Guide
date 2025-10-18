@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Base gradient -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="@color/white"
+                android:centerColor="@color/surface"
+                android:endColor="@color/primary_light"
+                android:angle="135" />
+        </shape>
+    </item>
+    
+    <!-- Subtle overlay pattern -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="@color/white_20"
+                android:endColor="@color/transparent"
+                android:angle="45" />
+        </shape>
+    </item>
+    
+</layer-list>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Background -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M0,0h200v200h-200z"/>
+    
+    <!-- Restaurant Building -->
+    <path
+        android:fillColor="#BDBDBD"
+        android:pathData="M50,50h100v120h-100z"/>
+    
+    <!-- Windows -->
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M60,70h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M80,70h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M100,70h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M120,70h15v15h-15z"/>
+    
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M60,95h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M80,95h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M100,95h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M120,95h15v15h-15z"/>
+    
+    <!-- Door -->
+    <path
+        android:fillColor="#757575"
+        android:pathData="M85,120h30v50h-30z"/>
+    
+    <!-- Restaurant Sign -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M70,40h60v10h-60z"/>
+    
+    <!-- Fork and Knife Icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M75,42h2v6h-2z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M73,44h6v2h-6z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M85,42h2v6h-2z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M84,44h4v2h-4z"/>
+    
+</vector>

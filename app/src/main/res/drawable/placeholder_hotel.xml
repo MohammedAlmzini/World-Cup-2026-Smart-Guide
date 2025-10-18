@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Background -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M0,0h200v200h-200z"/>
+    
+    <!-- Hotel Building -->
+    <path
+        android:fillColor="#BDBDBD"
+        android:pathData="M50,50h100v120h-100z"/>
+    
+    <!-- Windows -->
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M60,70h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M80,70h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M100,70h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M120,70h15v15h-15z"/>
+    
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M60,95h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M80,95h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M100,95h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M120,95h15v15h-15z"/>
+    
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M60,120h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M80,120h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M100,120h15v15h-15z"/>
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M120,120h15v15h-15z"/>
+    
+    <!-- Door -->
+    <path
+        android:fillColor="#757575"
+        android:pathData="M85,140h30v30h-30z"/>
+    
+    <!-- Hotel Sign -->
+    <path
+        android:fillColor="#FF5722"
+        android:pathData="M70,40h60v10h-60z"/>
+    
+    <!-- Text -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M75,45h50v2h-50z"/>
+    
+</vector>
