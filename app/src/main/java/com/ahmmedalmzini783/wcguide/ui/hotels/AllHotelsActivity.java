@@ -52,6 +52,7 @@ public class AllHotelsActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
+        Log.d(TAG, "Setting up RecyclerView");
         hotelsAdapter = new PlaceAdapter(this::onHotelClick);
         
         // Use GridLayoutManager for better display of hotels
@@ -59,6 +60,8 @@ public class AllHotelsActivity extends AppCompatActivity {
         binding.recyclerViewHotels.setLayoutManager(layoutManager);
         binding.recyclerViewHotels.setAdapter(hotelsAdapter);
         binding.recyclerViewHotels.setHasFixedSize(true);
+        
+        Log.d(TAG, "RecyclerView setup complete. Adapter item count: " + hotelsAdapter.getItemCount());
         
         // Setup retry button
         if (binding.buttonRetry != null) {
@@ -89,7 +92,13 @@ public class AllHotelsActivity extends AppCompatActivity {
                         showLoading(false);
                         if (resource.getData() != null && !resource.getData().isEmpty()) {
                             Log.d(TAG, "Displaying " + resource.getData().size() + " hotels");
+                            // Log each place being displayed
+                            for (Place place : resource.getData()) {
+                                Log.d(TAG, "Displaying place: " + place.getName() + " (ID: " + place.getId() + ")");
+                            }
+                            android.util.Log.d(TAG, "Submitting list to adapter with " + resource.getData().size() + " items");
                             hotelsAdapter.submitList(resource.getData());
+                            android.util.Log.d(TAG, "Adapter item count after submit: " + hotelsAdapter.getItemCount());
                             showEmptyState(false);
                         } else {
                             Log.d(TAG, "No hotels data available");

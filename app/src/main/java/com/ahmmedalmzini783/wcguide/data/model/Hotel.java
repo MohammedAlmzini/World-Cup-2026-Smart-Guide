@@ -12,7 +12,7 @@ public class Hotel {
     private String workingHours;
     private List<String> services;
     private float rating;
-    private boolean isOpen;
+    private boolean open;
     private List<String> facilities;
     private List<String> worldCupServices;
     private List<AdditionalImage> additionalImages;
@@ -46,7 +46,7 @@ public class Hotel {
         this.workingHours = workingHours;
         this.services = services;
         this.rating = rating;
-        this.isOpen = isOpen;
+        this.open = isOpen;
         this.facilities = facilities;
         this.worldCupServices = worldCupServices;
         this.additionalImages = additionalImages;
@@ -88,8 +88,8 @@ public class Hotel {
     public float getRating() { return rating; }
     public void setRating(float rating) { this.rating = rating; }
 
-    public boolean isOpen() { return isOpen; }
-    public void setOpen(boolean open) { isOpen = open; }
+    public boolean isOpen() { return open; }
+    public void setOpen(boolean open) { this.open = open; }
 
     public List<String> getFacilities() { return facilities; }
     public void setFacilities(List<String> facilities) { this.facilities = facilities; }

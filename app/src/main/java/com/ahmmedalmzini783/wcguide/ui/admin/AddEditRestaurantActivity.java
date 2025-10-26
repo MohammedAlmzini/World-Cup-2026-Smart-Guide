@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.ahmmedalmzini783.wcguide.R;
 import com.ahmmedalmzini783.wcguide.data.model.Restaurant;
+import com.ahmmedalmzini783.wcguide.data.repository.NotificationRepository;
 import com.ahmmedalmzini783.wcguide.databinding.ActivityAddEditRestaurantBinding;
 import com.ahmmedalmzini783.wcguide.util.Resource;
 
@@ -31,6 +32,7 @@ public class AddEditRestaurantActivity extends AppCompatActivity {
     private String restaurantId;
     private boolean isEditMode;
     private Restaurant currentRestaurant;
+    private NotificationRepository notificationRepository;
 
     // Adapters for dynamic lists
     private AdditionalImagesAdapter additionalImagesAdapter;
@@ -95,6 +97,7 @@ public class AddEditRestaurantActivity extends AppCompatActivity {
 
     private void setupViewModel() {
         viewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
+        notificationRepository = new NotificationRepository();
     }
 
     private void setupClickListeners() {
@@ -109,6 +112,10 @@ public class AddEditRestaurantActivity extends AppCompatActivity {
             if (result != null) {
                 Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
                 if (result.contains("بنجاح")) {
+                    // Create notification for new restaurant
+                    if (!isEditMode) {
+                        createRestaurantNotification();
+                    }
                     finish();
                 }
                 viewModel.clearOperationResult();
@@ -137,6 +144,21 @@ public class AddEditRestaurantActivity extends AppCompatActivity {
 
     private void loadRestaurantData() {
         // Data will be loaded through ViewModel observer
+    }
+    
+    private void createRestaurantNotification() {
+        Restaurant restaurant = collectRestaurantData();
+        String notificationTitle = "مطعم جديد: " + restaurant.getName();
+        String notificationMessage = restaurant.getDescription().length() > 100 ? 
+            restaurant.getDescription().substring(0, 100) + "..." : restaurant.getDescription();
+        
+        notificationRepository.createContentNotification(
+            "restaurant",
+            notificationTitle,
+            notificationMessage,
+            restaurant.getId(),
+            restaurant.getMainImageUrl()
+        );
     }
 
     private void populateFields(Restaurant restaurant) {

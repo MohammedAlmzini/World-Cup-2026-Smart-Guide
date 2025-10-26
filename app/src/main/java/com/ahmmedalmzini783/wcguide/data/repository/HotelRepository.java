@@ -31,18 +31,33 @@ public class HotelRepository {
         result.setValue(Resource.loading(null));
 
         Log.d(TAG, "Fetching all hotels from Firebase");
+        Log.d(TAG, "Database reference path: " + databaseReference.toString());
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Hotel> hotels = new ArrayList<>();
                 Log.d(TAG, "Firebase response received. Children count: " + dataSnapshot.getChildrenCount());
+                Log.d(TAG, "DataSnapshot exists: " + dataSnapshot.exists());
+                Log.d(TAG, "DataSnapshot has children: " + dataSnapshot.hasChildren());
+                
+                if (!dataSnapshot.exists()) {
+                    Log.w(TAG, "No data found in Firebase hotels node");
+                    result.setValue(Resource.success(hotels));
+                    return;
+                }
                 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "Processing snapshot key: " + snapshot.getKey());
+                    Log.d(TAG, "Snapshot value: " + snapshot.getValue());
+                    
                     Hotel hotel = snapshot.getValue(Hotel.class);
                     if (hotel != null) {
-                        Log.d(TAG, "Hotel found: " + hotel.getName());
+                        Log.d(TAG, "Hotel found: " + hotel.getName() + " (ID: " + hotel.getId() + ")");
+                        Log.d(TAG, "Hotel details - Country: " + hotel.getCountry() + ", City: " + hotel.getCity());
                         hotels.add(hotel);
+                    } else {
+                        Log.w(TAG, "Failed to parse hotel from snapshot: " + snapshot.getKey());
                     }
                 }
                 Log.d(TAG, "Total hotels loaded: " + hotels.size());
@@ -52,6 +67,8 @@ public class HotelRepository {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, "Error fetching hotels: " + databaseError.getMessage());
+                Log.e(TAG, "Error code: " + databaseError.getCode());
+                Log.e(TAG, "Error details: " + databaseError.getDetails());
                 result.setValue(Resource.error(databaseError.getMessage(), null));
             }
         });
@@ -281,6 +298,7 @@ public class HotelRepository {
                     if (hotel != null) {
                         hotels.add(0, hotel); // Add at beginning for descending order
                     }
+
                 }
                 result.setValue(Resource.success(hotels));
             }
@@ -294,3 +312,4 @@ public class HotelRepository {
         return result;
     }
 }
+

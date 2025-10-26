@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -180,29 +182,48 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
 
     private void setupAI() {
         try {
-            // إعداد Vertex AI أولاً
+            // إعداد OpenAI كخدمة أساسية
+            String openAIKey = BuildConfig.OPENAI_API_KEY;
+            Log.d(TAG, "Setting up AI with OpenAI API key: " + (openAIKey != null && !openAIKey.isEmpty() && !openAIKey.equals("PLACEHOLDER_OPENAI_API_KEY") ? "Valid key found" : "Invalid or missing key"));
+            
+            if (openAIKey != null && !openAIKey.isEmpty() && !openAIKey.equals("PLACEHOLDER_OPENAI_API_KEY")) {
+                Log.d(TAG, "OpenAI API key is configured, using OpenAI as primary service");
+                executor = Executors.newSingleThreadExecutor();
+                Log.d(TAG, "AI setup completed successfully with OpenAI");
+                return;
+            }
+            
+            // إعداد Vertex AI كبديل
             setupVertexAI();
             
-            // إعداد Gemini API كبديل
-            String apiKey = BuildConfig.GEMINI_API_KEY;
-            Log.d(TAG, "Setting up AI with API key: " + (apiKey != null && !apiKey.isEmpty() && !apiKey.equals("PLACEHOLDER_GEMINI_API_KEY") ? "Valid key found" : "Invalid or missing key"));
+            // إعداد Gemini API كبديل أخير
+            String geminiKey = BuildConfig.GEMINI_API_KEY;
+            Log.d(TAG, "Setting up Gemini API as fallback: " + (geminiKey != null && !geminiKey.isEmpty() && !geminiKey.equals("PLACEHOLDER_GEMINI_API_KEY") ? "Valid key found" : "Invalid or missing key"));
             
-            if (apiKey == null || apiKey.isEmpty() || apiKey.equals("PLACEHOLDER_GEMINI_API_KEY")) {
-                Log.e(TAG, "Gemini API key is not configured properly");
-                showError("مفتاح API للذكاء الاصطناعي غير محدد بشكل صحيح");
+            if (geminiKey == null || geminiKey.isEmpty() || geminiKey.equals("PLACEHOLDER_GEMINI_API_KEY")) {
+                Log.w(TAG, "No AI API keys configured properly, using fallback responses");
+                Log.w(TAG, "AI setup failed due to missing API keys, chatbot will work in limited mode");
                 return;
             }
 
-            GenerativeModel gm = new GenerativeModel(
-                    "gemini-1.5-flash",
-                    apiKey
-            );
-            model = GenerativeModelFutures.from(gm);
-            executor = Executors.newSingleThreadExecutor();
-            Log.d(TAG, "AI setup completed successfully");
+            try {
+                GenerativeModel gm = new GenerativeModel(
+                        "gemini-1.5-flash",
+                        geminiKey
+                );
+                model = GenerativeModelFutures.from(gm);
+                executor = Executors.newSingleThreadExecutor();
+                Log.d(TAG, "AI setup completed successfully with Gemini fallback");
+            } catch (Exception e) {
+                Log.e(TAG, "Error creating GenerativeModel", e);
+                model = null;
+                executor = null;
+            }
         } catch (Exception e) {
             Log.e(TAG, "Error setting up AI", e);
-            showError("خطأ في إعداد الذكاء الاصطناعي: " + e.getMessage());
+            Log.w(TAG, "AI setup failed, chatbot will work in limited mode");
+            model = null;
+            executor = null;
         }
     }
 
@@ -212,14 +233,21 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
             projectId = "laravel-wasel";
             location = "us-central1";
             
-            // قراءة ملف service account من assets
-            InputStream serviceAccountStream = getActivity().getAssets().open("service-account.json");
-            credentials = ServiceAccountCredentials.fromStream(serviceAccountStream);
+            // محاولة قراءة ملف service account من assets
+            try {
+                InputStream serviceAccountStream = getActivity().getAssets().open("service-account.json");
+                credentials = ServiceAccountCredentials.fromStream(serviceAccountStream);
+                Log.d(TAG, "Vertex AI setup completed successfully with service account");
+            } catch (FileNotFoundException e) {
+                Log.w(TAG, "Service account file not found, using default credentials");
+                // استخدام default credentials إذا لم يتم العثور على الملف
+                credentials = null;
+            }
             
-            Log.d(TAG, "Vertex AI setup completed successfully");
         } catch (Exception e) {
             Log.e(TAG, "Error setting up Vertex AI", e);
             // لا نظهر خطأ هنا لأن Gemini API سيكون البديل
+            credentials = null;
         }
     }
 
@@ -229,12 +257,18 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
     }
 
     /**
-     * إرسال الرسالة إلى OpenAI كبديل عندما يفشل Gemini
+     * إرسال الرسالة إلى OpenAI كخدمة أساسية
      */
     private void sendToOpenAI(String userMessage, List<SearchResult> searchResults) {
         String openAIKey = BuildConfig.OPENAI_API_KEY;
         if (openAIKey == null || openAIKey.isEmpty() || openAIKey.equals("PLACEHOLDER_OPENAI_API_KEY")) {
-            showError("❌ لا يتوفر مفتاح OpenAI كبديل.\n\nيرجى إضافة مفتاح OpenAI صحيح في ملف local.properties:\nOPENAI_API_KEY=your_openai_key_here");
+            Log.e(TAG, "OpenAI API key not configured, falling back to Gemini");
+            // محاولة استخدام Gemini كبديل
+            if (model != null) {
+                sendToGeminiREST(userMessage, searchResults);
+            } else {
+                showError("❌ لا يتوفر مفتاح OpenAI.\n\nيرجى إضافة مفتاح OpenAI صحيح في ملف local.properties:\nOPENAI_API_KEY=your_openai_key_here");
+            }
             return;
         }
 
@@ -273,7 +307,9 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
                             showLoading(false);
-                            showError("فشل في الاتصال بـ OpenAI أيضاً: " + e.getMessage());
+                            Log.e(TAG, "OpenAI request failed, trying Gemini fallback");
+                            // محاولة استخدام Gemini كبديل
+                            sendToGeminiREST(userMessage, searchResults);
                         });
                     }
                 }
@@ -293,7 +329,7 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                                                 .getJSONObject("message")
                                                 .getString("content");
                                         
-                                        messagesList.add(new ChatMessage("🔄 (تم استخدام OpenAI كبديل)\n\n" + aiResponse, ChatMessage.TYPE_AI));
+                                        messagesList.add(new ChatMessage("✅ (OpenAI)\n\n" + aiResponse, ChatMessage.TYPE_AI));
                                         messagesAdapter.notifyItemInserted(messagesList.size() - 1);
                                         scrollToBottom();
                                         speakText(aiResponse);
@@ -301,11 +337,14 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                                         showError("لم يتم الحصول على رد من OpenAI");
                                     }
                                 } else {
-                                    showError("خطأ في OpenAI: " + response.code() + " " + response.message());
+                                    Log.e(TAG, "OpenAI API error: " + response.code() + " " + response.message());
+                                    // محاولة استخدام Gemini كبديل
+                                    sendToGeminiREST(userMessage, searchResults);
                                 }
                             } catch (Exception e) {
                                 Log.e(TAG, "Error parsing OpenAI response", e);
-                                showError("خطأ في معالجة رد OpenAI: " + e.getMessage());
+                                // محاولة استخدام Gemini كبديل
+                                sendToGeminiREST(userMessage, searchResults);
                             }
                         });
                     }
@@ -315,7 +354,8 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
         } catch (Exception e) {
             Log.e(TAG, "Error creating OpenAI request", e);
             showLoading(false);
-            showError("خطأ في إنشاء طلب OpenAI: " + e.getMessage());
+            // محاولة استخدام Gemini كبديل
+            sendToGeminiREST(userMessage, searchResults);
         }
     }
 
@@ -388,7 +428,7 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                                         if (parts.length() > 0) {
                                             String aiResponse = parts.getJSONObject(0).getString("text");
                                             
-                                            messagesList.add(new ChatMessage("✅ (Gemini REST API)\n\n" + aiResponse, ChatMessage.TYPE_AI));
+                                            messagesList.add(new ChatMessage("🔄 (Gemini - بديل)\n\n" + aiResponse, ChatMessage.TYPE_AI));
                                             messagesAdapter.notifyItemInserted(messagesList.size() - 1);
                                             scrollToBottom();
                                             speakText(aiResponse);
@@ -441,13 +481,131 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
      * اختبار مفتاح API مباشرة
      */
     private void testAPIKey() {
-        String apiKey = BuildConfig.GEMINI_API_KEY;
-        Log.d(TAG, "Testing API Key: " + apiKey.substring(0, 15) + "...");
+        String openAIKey = BuildConfig.OPENAI_API_KEY;
+        String geminiKey = BuildConfig.GEMINI_API_KEY;
         
         // إضافة رسالة في المحادثة
-        messagesList.add(new ChatMessage("🔍 جاري اختبار مفتاح API...", ChatMessage.TYPE_AI));
+        messagesList.add(new ChatMessage("🔍 جاري اختبار مفاتيح API...", ChatMessage.TYPE_AI));
         messagesAdapter.notifyItemInserted(messagesList.size() - 1);
         scrollToBottom();
+        
+        // اختبار OpenAI أولاً
+        if (openAIKey != null && !openAIKey.equals("PLACEHOLDER_OPENAI_API_KEY")) {
+            testOpenAIKey(openAIKey);
+        } else {
+            // اختبار Gemini كبديل
+            if (geminiKey != null && !geminiKey.equals("PLACEHOLDER_GEMINI_API_KEY")) {
+                testGeminiKey(geminiKey);
+            } else {
+                String testResult = "❌ لا توجد مفاتيح API مُكوّنة\n\n" +
+                        "🔧 مطلوب: إضافة مفتاح OpenAI أو Gemini في local.properties";
+                messagesList.add(new ChatMessage(testResult, ChatMessage.TYPE_AI));
+                messagesAdapter.notifyItemInserted(messagesList.size() - 1);
+                scrollToBottom();
+            }
+        }
+    }
+    
+    /**
+     * اختبار مفتاح OpenAI
+     */
+    private void testOpenAIKey(String apiKey) {
+        Log.d(TAG, "Testing OpenAI API Key: " + apiKey.substring(0, 15) + "...");
+        
+        try {
+            String url = "https://api.openai.com/v1/chat/completions";
+            
+            // طلب اختبار بسيط
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("model", "gpt-3.5-turbo");
+            requestBody.put("max_tokens", 10);
+            requestBody.put("temperature", 0.7);
+            
+            JSONArray messages = new JSONArray();
+            JSONObject message = new JSONObject();
+            message.put("role", "user");
+            message.put("content", "Hi");
+            messages.put(message);
+            requestBody.put("messages", messages);
+            
+            RequestBody body = RequestBody.create(
+                MediaType.parse("application/json; charset=utf-8"),
+                requestBody.toString()
+            );
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .addHeader("Authorization", "Bearer " + apiKey)
+                    .addHeader("Content-Type", "application/json")
+                    .post(body)
+                    .build();
+
+            httpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            String testResult = "❌ فشل اختبار OpenAI API: " + e.getMessage() + "\n\n" +
+                                    "🔧 مطلوب: فحص اتصال الشبكة";
+                            messagesList.add(new ChatMessage(testResult, ChatMessage.TYPE_AI));
+                            messagesAdapter.notifyItemInserted(messagesList.size() - 1);
+                            scrollToBottom();
+                        });
+                    }
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            try {
+                                String testResult;
+                                if (response.isSuccessful()) {
+                                    testResult = "✅ مفتاح OpenAI API يعمل بشكل مثالي!\n\n" +
+                                            "📋 التفاصيل:\n" +
+                                            "• المفتاح: " + apiKey.substring(0, 15) + "...\n" +
+                                            "• Package: com.ahmmedalmzini783.wcguide\n" +
+                                            "• الحالة: متصل ومُفعّل (خدمة أساسية)";
+                                } else if (response.code() == 401) {
+                                    testResult = "❌ مفتاح OpenAI API غير صحيح (401)\n\n" +
+                                            "🔧 الحل: تحقق من المفتاح في local.properties\n" +
+                                            "• احصل على مفتاح جديد من: platform.openai.com/api-keys";
+                                } else if (response.code() == 429) {
+                                    testResult = "❌ تم تجاوز حد الاستخدام (429)\n\n" +
+                                            "🔧 الحل: انتظر قليلاً أو تحقق من حساب OpenAI";
+                                } else {
+                                    testResult = "❌ خطأ في اختبار OpenAI API: " + response.code() + "\n\n" +
+                                            "📋 التفاصيل: " + response.message();
+                                }
+                                
+                                messagesList.add(new ChatMessage(testResult, ChatMessage.TYPE_AI));
+                                messagesAdapter.notifyItemInserted(messagesList.size() - 1);
+                                scrollToBottom();
+                                
+                            } catch (Exception e) {
+                                String errorResult = "❌ خطأ في معالجة نتيجة اختبار OpenAI: " + e.getMessage();
+                                messagesList.add(new ChatMessage(errorResult, ChatMessage.TYPE_AI));
+                                messagesAdapter.notifyItemInserted(messagesList.size() - 1);
+                                scrollToBottom();
+                            }
+                        });
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            String errorResult = "❌ خطأ في إنشاء طلب اختبار OpenAI: " + e.getMessage();
+            messagesList.add(new ChatMessage(errorResult, ChatMessage.TYPE_AI));
+            messagesAdapter.notifyItemInserted(messagesList.size() - 1);
+            scrollToBottom();
+        }
+    }
+    
+    /**
+     * اختبار مفتاح Gemini
+     */
+    private void testGeminiKey(String apiKey) {
+        Log.d(TAG, "Testing Gemini API Key: " + apiKey.substring(0, 15) + "...");
         
         try {
             String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
@@ -481,7 +639,7 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                 public void onFailure(Call call, IOException e) {
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
-                            String testResult = "❌ فشل اختبار API: " + e.getMessage() + "\n\n" +
+                            String testResult = "❌ فشل اختبار Gemini API: " + e.getMessage() + "\n\n" +
                                     "🔧 مطلوب: فحص اتصال الشبكة";
                             messagesList.add(new ChatMessage(testResult, ChatMessage.TYPE_AI));
                             messagesAdapter.notifyItemInserted(messagesList.size() - 1);
@@ -497,13 +655,13 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                             try {
                                 String testResult;
                                 if (response.isSuccessful()) {
-                                    testResult = "✅ مفتاح API يعمل بشكل مثالي!\n\n" +
+                                    testResult = "✅ مفتاح Gemini API يعمل بشكل مثالي!\n\n" +
                                             "📋 التفاصيل:\n" +
                                             "• المفتاح: " + apiKey.substring(0, 15) + "...\n" +
                                             "• Package: com.ahmmedalmzini783.wcguide\n" +
-                                            "• الحالة: متصل ومُفعّل";
+                                            "• الحالة: متصل ومُفعّل (خدمة بديلة)";
                                 } else if (response.code() == 403) {
-                                    testResult = "❌ مفتاح API محجوب (403)\n\n" +
+                                    testResult = "❌ مفتاح Gemini API محجوب (403)\n\n" +
                                             "🔍 المشكلة:\n" +
                                             "المفتاح لا يدعم هذا التطبيق\n\n" +
                                             "🛠️ الحل:\n" +
@@ -512,10 +670,10 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                                             "3. أضف Package Name: com.ahmmedalmzini783.wcguide\n" +
                                             "4. أو أنشئ مفتاح جديد من: aistudio.google.com";
                                 } else if (response.code() == 401) {
-                                    testResult = "❌ مفتاح API غير صحيح (401)\n\n" +
+                                    testResult = "❌ مفتاح Gemini API غير صحيح (401)\n\n" +
                                             "🔧 الحل: تحقق من المفتاح في local.properties";
                                 } else {
-                                    testResult = "❌ خطأ في اختبار API: " + response.code() + "\n\n" +
+                                    testResult = "❌ خطأ في اختبار Gemini API: " + response.code() + "\n\n" +
                                             "📋 التفاصيل: " + response.message();
                                 }
                                 
@@ -524,7 +682,7 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                                 scrollToBottom();
                                 
                             } catch (Exception e) {
-                                String errorResult = "❌ خطأ في معالجة نتيجة الاختبار: " + e.getMessage();
+                                String errorResult = "❌ خطأ في معالجة نتيجة اختبار Gemini: " + e.getMessage();
                                 messagesList.add(new ChatMessage(errorResult, ChatMessage.TYPE_AI));
                                 messagesAdapter.notifyItemInserted(messagesList.size() - 1);
                                 scrollToBottom();
@@ -535,7 +693,7 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
             });
 
         } catch (Exception e) {
-            String errorResult = "❌ خطأ في إنشاء طلب الاختبار: " + e.getMessage();
+            String errorResult = "❌ خطأ في إنشاء طلب اختبار Gemini: " + e.getMessage();
             messagesList.add(new ChatMessage(errorResult, ChatMessage.TYPE_AI));
             messagesAdapter.notifyItemInserted(messagesList.size() - 1);
             scrollToBottom();
@@ -659,9 +817,22 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
         // التحقق من إعداد الذكاء الاصطناعي
         if (model == null) {
             Log.e(TAG, "AI model not initialized, attempting to reinitialize");
-            setupAI();
-            if (model == null) {
-                showError("الذكاء الاصطناعي غير متاح حالياً. تحقق من إعدادات API");
+            try {
+                setupAI();
+                if (model == null) {
+                    Log.w(TAG, "AI model still null after reinitialization, using fallback response");
+                    showLoading(false);
+                    messagesList.add(new ChatMessage("عذراً، الذكاء الاصطناعي غير متاح حالياً. يرجى المحاولة لاحقاً أو التحقق من إعدادات API.", ChatMessage.TYPE_AI));
+                    messagesAdapter.notifyItemInserted(messagesList.size() - 1);
+                    scrollToBottom();
+                    return;
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error reinitializing AI model", e);
+                showLoading(false);
+                messagesList.add(new ChatMessage("عذراً، حدث خطأ في إعداد الذكاء الاصطناعي. يرجى المحاولة لاحقاً.", ChatMessage.TYPE_AI));
+                messagesAdapter.notifyItemInserted(messagesList.size() - 1);
+                scrollToBottom();
                 return;
             }
         }
@@ -1229,9 +1400,17 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
      */
     private void sendToAI(String userMessage, List<SearchResult> searchResults) {
         try {
-            // استخدام Vertex AI أولاً
+            // استخدام OpenAI أولاً
+            String openAIKey = BuildConfig.OPENAI_API_KEY;
+            if (openAIKey != null && !openAIKey.isEmpty() && !openAIKey.equals("PLACEHOLDER_OPENAI_API_KEY")) {
+                Log.d(TAG, "Using OpenAI as primary AI service");
+                sendToOpenAI(userMessage, searchResults);
+                return;
+            }
+            
+            // استخدام Vertex AI كبديل
             if (credentials != null) {
-                Log.d(TAG, "Using Vertex AI Gemini Pro");
+                Log.d(TAG, "Using Vertex AI Gemini Pro as fallback");
                 sendToVertexAI(userMessage, searchResults);
                 return;
             }
@@ -1654,7 +1833,7 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
 
     private void showError(String errorMessage) {
         try {
-            if (getContext() != null) {
+            if (getContext() != null && messagesList != null && messagesAdapter != null) {
                 // إضافة رسالة خطأ في المحادثة أيضاً
                 messagesList.add(new ChatMessage("❌ " + errorMessage, ChatMessage.TYPE_AI));
                 messagesAdapter.notifyItemInserted(messagesList.size() - 1);
@@ -1664,9 +1843,19 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                 Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
                 
                 Log.e(TAG, "Error shown to user: " + errorMessage);
+            } else {
+                Log.w(TAG, "Cannot show error - context or adapter is null");
             }
         } catch (Exception e) {
             Log.e(TAG, "Error in showError", e);
+            // محاولة إظهار Toast كبديل
+            try {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "حدث خطأ: " + errorMessage, Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception toastError) {
+                Log.e(TAG, "Failed to show toast error", toastError);
+            }
         }
     }
 
@@ -1699,6 +1888,9 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
     }
 
     private void showSettingsMessage() {
+        String openAIKey = BuildConfig.OPENAI_API_KEY;
+        String geminiKey = BuildConfig.GEMINI_API_KEY;
+        
         String settingsText = "⚙️ إعدادات وأدوات المطور:\n\n" +
                 "🔧 الأدوات المتاحة:\n" +
                 "• اكتب 'test api' - اختبار مفتاح API\n" +
@@ -1706,7 +1898,8 @@ public class ChatbotFragment extends Fragment implements TextToSpeech.OnInitList
                 "• اكتب 'admin123' - وضع الإدارة\n\n" +
                 "📋 المعلومات:\n" +
                 "• Package: com.ahmmedalmzini783.wcguide\n" +
-                "• API Key: " + BuildConfig.GEMINI_API_KEY.substring(0, 15) + "...\n\n" +
+                "• OpenAI API: " + (openAIKey != null && !openAIKey.equals("PLACEHOLDER_OPENAI_API_KEY") ? "✅ مُفعّل" : "❌ غير مُفعّل") + "\n" +
+                "• Gemini API: " + (geminiKey != null && !geminiKey.equals("PLACEHOLDER_GEMINI_API_KEY") ? "✅ مُفعّل (بديل)" : "❌ غير مُفعّل") + "\n\n" +
                 "💡 للمساعدة في حل مشاكل API اكتب: test api";
         
         messagesList.add(new ChatMessage(settingsText, ChatMessage.TYPE_AI));

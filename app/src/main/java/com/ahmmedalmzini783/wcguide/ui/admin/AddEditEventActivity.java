@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ahmmedalmzini783.wcguide.R;
 import com.ahmmedalmzini783.wcguide.data.model.Event;
+import com.ahmmedalmzini783.wcguide.data.repository.NotificationRepository;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -60,6 +61,8 @@ public class AddEditEventActivity extends AppCompatActivity {
     private DatabaseReference eventsRef;
     private Calendar selectedDateTime;
     private SimpleDateFormat dateTimeFormat;
+    private NotificationRepository notificationRepository;
+    private boolean isEditMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +72,19 @@ public class AddEditEventActivity extends AppCompatActivity {
         setupSpinner();
         setupFirebase();
         setupDateTimePicker();
+        notificationRepository = new NotificationRepository();
         
         // التحقق من وجود حدث للتحرير
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_EVENT)) {
             currentEvent = (Event) intent.getSerializableExtra(EXTRA_EVENT);
             if (currentEvent != null) {
+                isEditMode = true;
                 populateFields();
                 setTitle("تحرير الفعالية");
             }
         } else {
+            isEditMode = false;
             setTitle("إضافة فعالية جديدة");
         }
 
@@ -503,6 +509,10 @@ public class AddEditEventActivity extends AppCompatActivity {
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
+                    // Create notification for new event
+                    if (!isEditMode) {
+                        createEventNotification(event);
+                    }
                     btnSave.setEnabled(true);
                     btnSave.setText("حفظ");
                     Toast.makeText(AddEditEventActivity.this, 
@@ -597,6 +607,20 @@ public class AddEditEventActivity extends AppCompatActivity {
         }
         
         return event;
+    }
+    
+    private void createEventNotification(Event event) {
+        String notificationTitle = "فعالية جديدة: " + event.getTitle();
+        String notificationMessage = event.getDescription().length() > 100 ? 
+            event.getDescription().substring(0, 100) + "..." : event.getDescription();
+        
+        notificationRepository.createContentNotification(
+            "event",
+            notificationTitle,
+            notificationMessage,
+            event.getId(),
+            event.getImageUrl()
+        );
     }
 
     public static Intent createIntent(android.content.Context context, Event event) {

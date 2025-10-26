@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.ahmmedalmzini783.wcguide.R;
 import com.ahmmedalmzini783.wcguide.data.model.Hotel;
+import com.ahmmedalmzini783.wcguide.data.repository.NotificationRepository;
 import com.ahmmedalmzini783.wcguide.databinding.ActivityAddEditHotelBinding;
 import com.ahmmedalmzini783.wcguide.util.Resource;
 
@@ -31,6 +32,7 @@ public class AddEditHotelActivity extends AppCompatActivity {
     private String hotelId;
     private boolean isEditMode;
     private Hotel currentHotel;
+    private NotificationRepository notificationRepository;
 
     // Adapters for dynamic lists
     private AdditionalImagesAdapter additionalImagesAdapter;
@@ -95,6 +97,7 @@ public class AddEditHotelActivity extends AppCompatActivity {
 
     private void setupViewModel() {
         viewModel = new ViewModelProvider(this).get(HotelViewModel.class);
+        notificationRepository = new NotificationRepository();
     }
 
     private void setupClickListeners() {
@@ -122,6 +125,10 @@ public class AddEditHotelActivity extends AppCompatActivity {
             if (result != null) {
                 Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
                 if (result.contains("بنجاح")) {
+                    // Create notification for new hotel
+                    if (!isEditMode) {
+                        createHotelNotification();
+                    }
                     finish();
                 }
                 viewModel.clearOperationResult();
@@ -133,6 +140,21 @@ public class AddEditHotelActivity extends AppCompatActivity {
             binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
             binding.btnSave.setEnabled(!isLoading);
         });
+    }
+    
+    private void createHotelNotification() {
+        Hotel hotel = collectHotelData();
+        String notificationTitle = "فندق جديد: " + hotel.getName();
+        String notificationMessage = hotel.getDescription().length() > 100 ? 
+            hotel.getDescription().substring(0, 100) + "..." : hotel.getDescription();
+        
+        notificationRepository.createContentNotification(
+            "hotel",
+            notificationTitle,
+            notificationMessage,
+            hotel.getId(),
+            hotel.getMainImageUrl()
+        );
     }
 
     private void loadHotelData() {

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.ahmmedalmzini783.wcguide.ui.home.HomeFragment"
+        android:name="com.ahmmedalmzini783.wcguide.ui.home.HomeFragmentWithTabs"
         android:label="@string/nav_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home_with_tabs" />
 
     <fragment
         android:id="@+id/navigation_events"

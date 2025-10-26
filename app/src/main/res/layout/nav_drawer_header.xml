@@ -19,14 +19,15 @@
         android:gravity="center_horizontal">
 
         <!-- User Avatar -->
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/drawer_header_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_user_default"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/circle_white_bg"
-            android:padding="2dp" />
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_overlay="false" />
 
         <!-- User Name -->
         <TextView

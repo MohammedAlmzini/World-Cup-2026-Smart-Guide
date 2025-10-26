@@ -110,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Authenticated user actions
         btnEditProfile.setOnClickListener(v -> {
-            showImageSelectionDialog();
+            showEditProfileDialog();
         });
         
         // Profile avatar click listener
@@ -177,6 +177,52 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
+    private void showEditProfileDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("تعديل الملف الشخصي");
+        
+        // Create input layout
+        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
+        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+        layout.setPadding(50, 20, 50, 20);
+        
+        // Name input
+        android.widget.TextView nameLabel = new android.widget.TextView(this);
+        nameLabel.setText("الاسم:");
+        nameLabel.setTextSize(16);
+        nameLabel.setTextColor(getResources().getColor(R.color.primary));
+        layout.addView(nameLabel);
+        
+        android.widget.EditText nameInput = new android.widget.EditText(this);
+        nameInput.setHint("أدخل اسمك");
+        nameInput.setText(currentUser != null ? currentUser.getDisplayName() : "");
+        nameInput.setLayoutParams(new android.widget.LinearLayout.LayoutParams(
+            android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT));
+        nameInput.setPadding(16, 16, 16, 16);
+        nameInput.setBackground(getResources().getDrawable(R.drawable.edit_text_background));
+        layout.addView(nameInput);
+        
+        builder.setView(layout);
+        
+        builder.setPositiveButton("حفظ", (dialog, which) -> {
+            String newName = nameInput.getText().toString().trim();
+            if (!newName.isEmpty()) {
+                updateUserName(newName);
+            } else {
+                Toast.makeText(this, "الرجاء إدخال اسم صحيح", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+        builder.setNegativeButton("إلغاء", (dialog, which) -> dialog.dismiss());
+        
+        builder.setNeutralButton("تغيير الصورة", (dialog, which) -> {
+            showImageSelectionDialog();
+        });
+        
+        builder.show();
+    }
+    
     private void showImageSelectionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("اختر صورة الملف الشخصي");
@@ -318,5 +364,31 @@ public class ProfileActivity extends AppCompatActivity {
             progressDialog.dismiss();
             Toast.makeText(this, "فشل في رفع الصورة: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
+    }
+    
+    private void updateUserName(String newName) {
+        if (currentUser == null) {
+            Toast.makeText(this, "يجب تسجيل الدخول أولاً", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressDialog.setMessage("جاري تحديث الاسم...");
+        progressDialog.show();
+
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(newName)
+                .build();
+
+        currentUser.updateProfile(profileUpdates)
+                .addOnCompleteListener(task -> {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "تم تحديث الاسم بنجاح", Toast.LENGTH_SHORT).show();
+                        // Update the UI with the new name
+                        profileName.setText(newName);
+                    } else {
+                        Toast.makeText(this, "فشل في تحديث الاسم: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

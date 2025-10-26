@@ -711,7 +711,6 @@
     <string name="news_detail_title">News Details</string>
     <string name="news_title_hint">News Title</string>
     <string name="news_description_hint">News Description</string>
-    <string name="news_content_hint">News Content</string>
     <string name="news_image_url_hint">Image URL</string>
     <string name="news_category_hint">News Category</string>
     <string name="news_priority_label">Featured News</string>
@@ -736,6 +735,103 @@
     <string name="admin_news_empty_title">No News</string>
     <string name="admin_news_empty_description">No news found to manage</string>
     <string name="add_edit_news_title">Add/Edit News</string>
+    <string name="news_content_hint">News content (you can use the formatting buttons below)</string>
 
+    <!-- Notifications -->
+    <string name="notifications_title">الإشعارات</string>
+    <string name="notification_icon">أيقونة الإشعار</string>
+    <string name="notification_image">صورة الإشعار</string>
+    <string name="empty_notifications">لا توجد إشعارات</string>
+    <string name="empty_notifications_title">لا توجد إشعارات جديدة</string>
+    <string name="empty_notifications_message">ستظهر الإشعارات هنا عند إضافة محتوى جديد</string>
+    <string name="mark_all_read">تحديد الكل كمقروء</string>
+    <string name="clear_all">حذف الكل</string>
+    <string name="notification_new_news">خبر جديد</string>
+    <string name="notification_new_hotel">فندق جديد</string>
+    <string name="notification_new_restaurant">مطعم جديد</string>
+    <string name="notification_new_event">فعالية جديدة</string>
+    <string name="notification_general">إشعار عام</string>
+
+    <!-- User Review System -->
+    <string name="add_review_title">إضافة تقييم</string>
+    <string name="add_review_subtitle">شاركنا تجربتك</string>
+    <string name="review_rating_label">تقييمك</string>
+    <string name="review_comment_label">تعليقك</string>
+    <string name="review_comment_hint">اكتب تعليقك هنا...</string>
+    <string name="review_submit">إرسال التقييم</string>
+    <string name="review_success">تم إرسال تقييمك بنجاح</string>
+    <string name="review_error">حدث خطأ أثناء إرسال التقييم</string>
+    <string name="review_rating_required">يرجى إضافة تقييم</string>
+    <string name="review_comment_required">يرجى كتابة تعليق</string>
+    <string name="login_required_title">تسجيل الدخول مطلوب</string>
+    <string name="login_required_message">يجب تسجيل الدخول لإضافة تقييم</string>
+    <string name="login_required_login">تسجيل الدخول</string>
+    <string name="login_required_cancel">إلغاء</string>
+    <string name="review_saved_pending_login">تم حفظ تقييمك، سيتم إرساله بعد تسجيل الدخول</string>
+    <string name="review_loading">جاري إرسال التقييم...</string>
+    <string name="review_target_restaurant">مطعم</string>
+    <string name="review_target_hotel">فندق</string>
+    <string name="review_target_landmark">معلم</string>
+
+    <!-- Google Places Strings -->
+    <string name="google_places_title">الأماكن السياحية</string>
+    <string name="google_places_hotels">الفنادق</string>
+    <string name="google_places_restaurants">المطاعم</string>
+    <string name="google_places_attractions">المعالم السياحية</string>
+    <string name="google_places_filter">فلترة</string>
+    <string name="google_places_refresh">تحديث</string>
+    <string name="google_places_apply_filters">تم تطبيق الفلاتر</string>
+    <string name="google_places_clear_filters_success">تم مسح الفلاتر</string>
+    <string name="google_places_no_results">لا توجد نتائج</string>
+    <string name="google_places_loading">جاري التحميل...</string>
+    <string name="google_places_error">حدث خطأ أثناء تحميل البيانات</string>
+    <string name="google_places_open_now">مفتوح الآن</string>
+    <string name="google_places_closed">مغلق</string>
+    <string name="google_places_place_image">صورة المكان</string>
+    <string name="google_places_place_photo">صورة المكان</string>
+    <string name="google_places_empty_places">لا توجد أماكن</string>
+    <string name="google_places_no_places_found">لم يتم العثور على أماكن</string>
+    <string name="google_places_try_different_filters">جرب فلاتر مختلفة</string>
+    <string name="google_places_retry">إعادة المحاولة</string>
+    <string name="google_places_share_place">مشاركة المكان</string>
+    <string name="google_places_favorite_added">تم إضافة/إزالة من المفضلة</string>
+    <string name="google_places_open_in_maps">فتح في خرائط جوجل</string>
+    <string name="google_places_call">اتصال</string>
+    <string name="google_places_visit_website">زيارة الموقع</string>
+    <string name="google_places_share">مشاركة</string>
+    <string name="google_places_opening_hours">ساعات العمل</string>
+    <string name="google_places_contact_info">معلومات الاتصال</string>
+    <string name="google_places_location">الموقع</string>
+    <string name="google_places_photos">الصور</string>
+    <string name="google_places_amenities">المرافق والخدمات</string>
+    <string name="google_places_additional_info">معلومات إضافية</string>
+    <string name="google_places_hotel">فندق</string>
+    <string name="google_places_restaurant">مطعم</string>
+    <string name="google_places_tourist_attraction">معلم سياحي</string>
+    <string name="google_places_rating_4_plus">4+ نجوم</string>
+    <string name="google_places_rating_3_plus">3+ نجوم</string>
+    <string name="google_places_rating_2_plus">2+ نجوم</string>
+    <string name="google_places_all_ratings">جميع التقييمات</string>
+    <string name="google_places_price_level">مستوى السعر</string>
+    <string name="google_places_country_filter">الدولة</string>
+    <string name="google_places_place_type_filter">نوع المكان</string>
+    <string name="google_places_rating_filter">التقييم</string>
+    <string name="google_places_usa">الولايات المتحدة</string>
+    <string name="google_places_canada">كندا</string>
+    <string name="google_places_mexico">المكسيك</string>
+    <string name="google_places_hotels_chip">فنادق</string>
+    <string name="google_places_restaurants_chip">مطاعم</string>
+    <string name="google_places_attractions_chip">معالم سياحية</string>
+    <string name="google_places_filter_title">فلترة الأماكن</string>
+    <string name="google_places_apply">تطبيق</string>
+    <string name="google_places_cancel">إلغاء</string>
+    <string name="google_places_clear_filters">مسح الفلاتر</string>
+    
+    <!-- Missing strings for layouts -->
+    <string name="empty_places">لا توجد أماكن</string>
+    <string name="no_places_found">لم يتم العثور على أماكن</string>
+    <string name="try_different_filters">جرب فلاتر مختلفة</string>
+    <string name="place_image">صورة المكان</string>
+    <string name="place_photo">صورة المكان</string>
 
 </resources>

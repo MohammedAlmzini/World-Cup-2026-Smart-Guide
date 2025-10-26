@@ -64,6 +64,8 @@ public class PlaceAdapter extends ListAdapter<Place, PlaceAdapter.PlaceViewHolde
         }
 
         void bind(Place place) {
+            android.util.Log.d("PlaceAdapter", "Binding place: " + place.getName() + " (ID: " + place.getId() + ")");
+            
             binding.placeName.setText(place.getName());
 
             String ratingText = String.format(Locale.getDefault(), "%.1f", place.getAvgRating());

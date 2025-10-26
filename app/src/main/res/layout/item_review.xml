@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="4dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true">
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/card_modern_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,134 +15,94 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Header Row -->
+        <!-- Review Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_marginBottom="8dp">
 
-            <TextView
-                android:id="@+id/text_reviewer_name"
+            <!-- User Avatar -->
+            <ImageView
+                android:id="@+id/user_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_person"
+                android:background="@drawable/modern_rating_badge"
+                android:padding="8dp"
+                android:layout_marginEnd="12dp" />
+
+            <!-- User Info -->
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="اسم المراجع"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                tools:text="أحمد محمد" />
+                android:orientation="vertical">
 
-            <RatingBar
-                android:id="@+id/rating_bar"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:rating="4.5"
-                android:isIndicator="true"
-                android:progressTint="@color/secondary_variant"
-                android:layout_marginStart="8dp" />
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="أحمد محمد"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/modern_text_primary"
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="أحمد محمد" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/review_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="منذ أسبوع"
+                    android:textSize="12sp"
+                    android:textColor="@color/modern_text_tertiary"
+                    android:fontFamily="sans-serif"
+                    tools:text="منذ أسبوع" />
 
-        <!-- Review Title -->
-        <TextView
-            android:id="@+id/text_review_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="عنوان التقييم"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/secondary_variant"
-            android:layout_marginBottom="4dp"
-            tools:text="تجربة رائعة" />
+            </LinearLayout>
 
-        <!-- Review Description -->
-        <TextView
-            android:id="@+id/text_review_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="وصف التقييم"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:layout_marginBottom="8dp"
-            tools:text="مكان جميل جداً ويستحق الزيارة، الطبيعة خلابة والمناظر رائعة." />
-
-        <!-- Landmark Name -->
-        <TextView
-            android:id="@+id/text_landmark_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="المعلم السياحي"
-            android:textSize="12sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginBottom="8dp"
-            android:drawableStart="@android:drawable/ic_menu_mylocation"
-            android:drawablePadding="4dp"
-            tools:text="برج خليفة" />
-
-        <!-- Footer Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <!-- Approval Status -->
-            <TextView
-                android:id="@+id/text_approval_status"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="معتمد"
-                android:textSize="12sp"
-                android:textColor="@android:color/holo_green_dark"
-                android:drawableStart="@android:drawable/ic_media_play"
-                android:drawablePadding="4dp"
-                tools:text="معتمد" />
-
-            <!-- Date -->
-            <TextView
-                android:id="@+id/text_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="التاريخ"
-                android:textSize="12sp"
-                android:textColor="@android:color/darker_gray"
-                tools:text="2024-01-15" />
-
-            <!-- Action Buttons -->
+            <!-- Rating -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginStart="8dp">
+                android:gravity="center_vertical">
 
-                <ImageButton
-                    android:id="@+id/btn_edit"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_edit"
-                    android:contentDescription="تعديل"
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_star_filled"
+                    android:tint="@color/rating_gold"
                     android:layout_marginEnd="4dp" />
 
-                <ImageButton
-                    android:id="@+id/btn_delete"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_delete"
-                    android:contentDescription="حذف"
-                    android:tint="@android:color/holo_red_dark" />
+                <TextView
+                    android:id="@+id/review_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.5"
+                    android:textSize="14sp"
+                    android:textColor="@color/modern_text_primary"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium" />
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <!-- Review Text -->
+        <TextView
+            android:id="@+id/review_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="فندق رائع جداً، الخدمة ممتازة والموقع ممتاز. أنصح به بشدة!"
+            android:textSize="14sp"
+            android:textColor="@color/modern_text_secondary"
+            android:fontFamily="sans-serif"
+            android:lineSpacingExtra="2dp"
+            tools:text="فندق رائع جداً، الخدمة ممتازة والموقع ممتاز. أنصح به بشدة!" />
+
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

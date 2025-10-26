@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ahmmedalmzini783.wcguide.R;
-import com.ahmmedalmzini783.wcguide.ui.home.PlaceAdapter;
+import com.ahmmedalmzini783.wcguide.ui.googleplaces.GooglePlacesAdapter;
 import com.ahmmedalmzini783.wcguide.ui.home.HomeViewModel;
 
 public class RestaurantsFragment extends Fragment {
     
     private RecyclerView recyclerView;
-    private PlaceAdapter adapter;
+    private GooglePlacesAdapter adapter;
     private HomeViewModel viewModel;
 
     public static RestaurantsFragment newInstance(HomeViewModel viewModel) {
@@ -33,7 +33,7 @@ public class RestaurantsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_section_grid, container, false);
         
         recyclerView = view.findViewById(R.id.section_recycler);
-        adapter = new PlaceAdapter(place -> {
+        adapter = new GooglePlacesAdapter(place -> {
             // Handle place click
         });
         

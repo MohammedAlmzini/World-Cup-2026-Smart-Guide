@@ -8,24 +8,21 @@
     
     <!-- Background Colors -->
     <color name="background">#FFFFFF</color>
-    <color name="surface">#F8FAFC</color>
-    <color name="surface_variant">#F1F5F9</color>
-    
+
     <!-- Text Colors -->
     <color name="on_background">#1E293B</color>
-    <color name="on_surface">#334155</color>
-    <color name="on_surface_variant">#64748B</color>
-    
+
     <!-- Filter Colors -->
     <color name="white">#FFFFFF</color>
+    
+    <!-- Editor Colors -->
+    <color name="divider">#E2E8F0</color>
     <color name="white_20">#33FFFFFF</color>
     <color name="white_40">#66FFFFFF</color>
     <color name="transparent">#00000000</color>
     
     <!-- Status Colors -->
-    <color name="success">#3B82F6</color>
     <color name="warning">#F59E0B</color>
-    <color name="error">#EF4444</color>
     <color name="info">#3B82F6</color>
     
     <!-- World Cup Colors -->
@@ -110,7 +107,6 @@
     <color name="primary_dark">#1E40AF</color>
     <color name="primary_light">#93C5FD</color>
     <color name="card_background">#F8FAFC</color>
-    <color name="divider">#E2E8F0</color>
     <color name="on_primary">#FFFFFF</color>
     <color name="rating_star_empty">#CBD5E1</color>
     <color name="gradient_blue_light_start">#3B82F6</color>
@@ -129,4 +125,47 @@
     <color name="modern_blue_accent">#3B82F6</color>
     <color name="modern_blue_soft">#DBEAFE</color>
     <color name="modern_blue_subtle">#F0F9FF</color>
+    
+    <!-- Notification Colors -->
+    <color name="notification_icon_bg">#E0F2FE</color>
+    <color name="notification_read_bg">#F8FAFC</color>
+    <color name="notification_unread_bg">#FFFFFF</color>
+    <color name="accent_color">#3B82F6</color>
+    <color name="background_color">#F8FAFC</color>
+    <color name="text_primary">#1E293B</color>
+    <color name="text_tertiary">#94A3B8</color>
+    <color name="card_stroke_color">#E2E8F0</color>
+    
+    <!-- Shimmer Colors -->
+    <color name="shimmer_placeholder">#E2E8F0</color>
+    <color name="shimmer_highlight">#F1F5F9</color>
+    
+    <!-- Google Places Colors -->
+    <color name="outline">#CBD5E1</color>
+    <color name="on_surface">#334155</color>
+    <color name="on_surface_variant">#64748B</color>
+    <color name="surface">#F8FAFC</color>
+    <color name="surface_variant">#F1F5F9</color>
+    <color name="success">#10B981</color>
+    <color name="error">#EF4444</color>
+    
+    <!-- Modern Card Design Colors -->
+    <color name="card_modern_bg">#FFFFFF</color>
+    <color name="card_modern_shadow">#0F172A</color>
+    <color name="card_modern_border">#E2E8F0</color>
+    <color name="gradient_start">#667EEA</color>
+    <color name="gradient_end">#764BA2</color>
+    <color name="accent_gradient_start">#F093FB</color>
+    <color name="accent_gradient_end">#F5576C</color>
+    <color name="modern_primary">#6366F1</color>
+    <color name="modern_secondary">#8B5CF6</color>
+    <color name="modern_accent">#EC4899</color>
+    <color name="glass_effect">#40FFFFFF</color>
+    <color name="modern_text_primary">#1F2937</color>
+    <color name="modern_text_secondary">#6B7280</color>
+    <color name="modern_text_tertiary">#9CA3AF</color>
+    <color name="rating_gold">#F59E0B</color>
+    <color name="price_green">#059669</color>
+    <color name="status_open">#10B981</color>
+    <color name="status_closed">#EF4444</color>
 </resources>

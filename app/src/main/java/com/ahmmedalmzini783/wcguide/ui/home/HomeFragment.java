@@ -20,17 +20,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.ahmmedalmzini783.wcguide.R;
 import com.ahmmedalmzini783.wcguide.databinding.FragmentHomeBinding;
 import com.ahmmedalmzini783.wcguide.util.DateTimeUtil;
-import com.ahmmedalmzini783.wcguide.data.model.Landmark;
-import com.ahmmedalmzini783.wcguide.data.repository.LandmarkRepository;
-import com.ahmmedalmzini783.wcguide.util.ImageLoader;
 import com.ahmmedalmzini783.wcguide.ui.hotels.AllHotelsActivity;
-import com.example.wcguide.activities.AllLandmarksActivity; // Note: class resides in different base package (com.example.wcguide)
-import com.example.wcguide.viewmodels.LandmarkHomeViewModel;
-import com.google.android.material.button.MaterialButton;
+import com.ahmmedalmzini783.wcguide.ui.googleplaces.GooglePlacesAdapter;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
@@ -41,14 +37,11 @@ public class HomeFragment extends Fragment {
     // Adapters for different sections
     private BannerAdapter bannerAdapter;
     private PlaceAdapter attractionsAdapter;
-    private PlaceAdapter hotelsAdapter;
-    private PlaceAdapter restaurantsAdapter;
+    private GooglePlacesAdapter hotelsAdapter;
+    private GooglePlacesAdapter restaurantsAdapter;
     
-    // Landmarks section
-    private LandmarkHomeViewModel landmarkViewModel;
-    private View landmarksSection;
-    private View[] landmarkCards;
-    private MaterialButton buttonViewMore;
+    // Google Places section
+    private GooglePlacesAdapter placesAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -64,7 +57,7 @@ public class HomeFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         setupRecyclerViews();
-        setupLandmarksSection();
+        setupPlacesSection();
         setupHotelsViewMoreButton();
         setupRestaurantsViewMoreButton();
         observeViewModel();
@@ -95,29 +88,15 @@ public class HomeFragment extends Fragment {
 
         // Setup Hotels RecyclerView
         if (binding.hotelsRecycler != null) {
-            hotelsAdapter = new PlaceAdapter(place -> {
-                // Convert Place to Landmark for display
-                com.ahmmedalmzini783.wcguide.data.model.Landmark landmark = new com.ahmmedalmzini783.wcguide.data.model.Landmark();
-                landmark.setId(place.getId());
-                landmark.setName(place.getName());
-                landmark.setDescription(place.getDescription() != null ? place.getDescription() : "فندق متميز في " + place.getCity());
-                landmark.setAddress(place.getAddress() != null ? place.getAddress() : place.getCity() + ", " + place.getCountry());
-                landmark.setLatitude(place.getLat());
-                landmark.setLongitude(place.getLng());
-                landmark.setCategory("فندق");
-                landmark.setRating(place.getAvgRating());
-                
-                // Set image if available
-                if (place.getImages() != null && !place.getImages().isEmpty()) {
-                    landmark.setImageUrl(place.getImages().get(0));
-                }
-                
-                Intent intent = new Intent(getContext(), com.ahmmedalmzini783.wcguide.ui.admin.LandmarkDetailsActivity.class);
-                intent.putExtra("landmark", landmark);
+            hotelsAdapter = new GooglePlacesAdapter(place -> {
+                // Handle hotel click - navigate to Google Place details
+                Intent intent = new Intent(getContext(), com.ahmmedalmzini783.wcguide.ui.googleplaces.GooglePlaceDetailsActivity.class);
+                intent.putExtra("place_id", place.getPlaceId());
+                intent.putExtra("place_name", place.getName());
                 startActivity(intent);
             });
             
-            LinearLayoutManager hotelsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+            GridLayoutManager hotelsLayoutManager = new GridLayoutManager(getContext(), 2);
             binding.hotelsRecycler.setLayoutManager(hotelsLayoutManager);
             binding.hotelsRecycler.setAdapter(hotelsAdapter);
             binding.hotelsRecycler.setHasFixedSize(true);
@@ -126,29 +105,15 @@ public class HomeFragment extends Fragment {
 
         // Setup Restaurants RecyclerView
         if (binding.restaurantsRecycler != null) {
-            restaurantsAdapter = new PlaceAdapter(place -> {
-                // Convert Place to Landmark for display
-                com.ahmmedalmzini783.wcguide.data.model.Landmark landmark = new com.ahmmedalmzini783.wcguide.data.model.Landmark();
-                landmark.setId(place.getId());
-                landmark.setName(place.getName());
-                landmark.setDescription(place.getDescription() != null ? place.getDescription() : "مطعم متميز في " + place.getCity());
-                landmark.setAddress(place.getAddress() != null ? place.getAddress() : place.getCity() + ", " + place.getCountry());
-                landmark.setLatitude(place.getLat());
-                landmark.setLongitude(place.getLng());
-                landmark.setCategory("مطعم");
-                landmark.setRating(place.getAvgRating());
-                
-                // Set image if available
-                if (place.getImages() != null && !place.getImages().isEmpty()) {
-                    landmark.setImageUrl(place.getImages().get(0));
-                }
-                
-                Intent intent = new Intent(getContext(), com.ahmmedalmzini783.wcguide.ui.admin.LandmarkDetailsActivity.class);
-                intent.putExtra("landmark", landmark);
+            restaurantsAdapter = new GooglePlacesAdapter(place -> {
+                // Handle restaurant click - navigate to Google Place details
+                Intent intent = new Intent(getContext(), com.ahmmedalmzini783.wcguide.ui.googleplaces.GooglePlaceDetailsActivity.class);
+                intent.putExtra("place_id", place.getPlaceId());
+                intent.putExtra("place_name", place.getName());
                 startActivity(intent);
             });
             
-            LinearLayoutManager restaurantsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+            GridLayoutManager restaurantsLayoutManager = new GridLayoutManager(getContext(), 2);
             binding.restaurantsRecycler.setLayoutManager(restaurantsLayoutManager);
             binding.restaurantsRecycler.setAdapter(restaurantsAdapter);
             binding.restaurantsRecycler.setHasFixedSize(true);
@@ -407,119 +372,43 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void setupLandmarksSection() {
-        landmarksSection = binding.getRoot().findViewById(R.id.landmarks_section);
-        if (landmarksSection == null) return;
-
-        // Initialize landmark cards
-        landmarkCards = new View[4];
-        landmarkCards[0] = landmarksSection.findViewById(R.id.card_landmark_1);
-        landmarkCards[1] = landmarksSection.findViewById(R.id.card_landmark_2);
-        landmarkCards[2] = landmarksSection.findViewById(R.id.card_landmark_3);
-        landmarkCards[3] = landmarksSection.findViewById(R.id.card_landmark_4);
-
-        buttonViewMore = landmarksSection.findViewById(R.id.button_view_more);
-        
-        // Setup View More button
-        if (buttonViewMore != null) {
-            buttonViewMore.setOnClickListener(v -> {
-                Intent intent = new Intent(getContext(), AllLandmarksActivity.class);
-                startActivity(intent);
-            });
-        }
-
-        // Setup ViewModel
-        LandmarkRepository repository = new LandmarkRepository();
-        LandmarkHomeViewModel.Factory factory = new LandmarkHomeViewModel.Factory(repository);
-        landmarkViewModel = new ViewModelProvider(this, factory).get(LandmarkHomeViewModel.class);
-
-        // Observe data
-        landmarkViewModel.getLatestLandmarks(4).observe(getViewLifecycleOwner(), resource -> {
-            if (resource != null) {
-                switch (resource.getStatus()) {
-                    case LOADING:
-                        showLandmarksLoading(true);
-                        break;
-                    case SUCCESS:
-                        showLandmarksLoading(false);
-                        if (resource.getData() != null && !resource.getData().isEmpty()) {
-                            displayLandmarks(resource.getData());
-                            showLandmarksEmptyState(false);
-                        } else {
-                            showLandmarksEmptyState(true);
-                        }
-                        break;
-                    case ERROR:
-                        showLandmarksLoading(false);
-                        showLandmarksEmptyState(true);
-                        break;
-                }
-            }
-        });
-    }
-
-    private void displayLandmarks(List<Landmark> landmarks) {
-        for (int i = 0; i < landmarkCards.length; i++) {
-            if (i < landmarks.size() && landmarkCards[i] != null) {
-                populateLandmarkCard(landmarkCards[i], landmarks.get(i));
-                landmarkCards[i].setVisibility(View.VISIBLE);
-            } else if (landmarkCards[i] != null) {
-                landmarkCards[i].setVisibility(View.GONE);
-            }
-        }
-    }
-
-    private void populateLandmarkCard(View cardView, Landmark landmark) {
-        ImageView imageLandmark = cardView.findViewById(R.id.image_landmark);
-        TextView textLandmarkName = cardView.findViewById(R.id.text_landmark_name);
-        TextView textLandmarkDescription = cardView.findViewById(R.id.text_landmark_description);
-        RatingBar ratingBar = cardView.findViewById(R.id.rating_bar);
-        TextView textRating = cardView.findViewById(R.id.text_rating);
-        TextView textLocation = cardView.findViewById(R.id.text_location);
-        ProgressBar progressBar = cardView.findViewById(R.id.progress_bar);
-
-        if (textLandmarkName != null) textLandmarkName.setText(landmark.getName());
-        
-        if (textLandmarkDescription != null) {
-            String description = landmark.getDescription();
-            if (description != null && description.length() > 60) {
-                description = description.substring(0, 60) + "...";
-            }
-            textLandmarkDescription.setText(description);
-        }
-        
-        if (textLocation != null) textLocation.setText(landmark.getAddress());
-        
-        if (ratingBar != null && textRating != null) {
-            float rating = landmark.getRating();
-            ratingBar.setRating(rating);
-            textRating.setText(String.format("%.1f", rating));
-        }
-
-        // Load image
-        if (imageLandmark != null) {
-            String imageUrl = landmark.getImageUrl();
-            if (imageUrl != null && !imageUrl.isEmpty()) {
-                if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
-                ImageLoader.loadImageWithCacheBusting(
-                    getContext(),
-                    imageUrl,
-                    imageLandmark,
-                    android.R.drawable.ic_menu_gallery
-                );
-                if (progressBar != null) progressBar.setVisibility(View.GONE);
-            } else {
-                imageLandmark.setImageResource(android.R.drawable.ic_menu_gallery);
-            }
-        }
-
-        // Set click listener
-        cardView.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), com.ahmmedalmzini783.wcguide.ui.admin.LandmarkDetailsActivity.class);
-            intent.putExtra("landmark", landmark);
+    private void setupPlacesSection() {
+        // Setup RecyclerView for Google Places
+        placesAdapter = new GooglePlacesAdapter(place -> {
+            // Handle place click
+            Intent intent = new Intent(getContext(), com.ahmmedalmzini783.wcguide.ui.googleplaces.GooglePlaceDetailsActivity.class);
+            intent.putExtra("place", place);
             startActivity(intent);
         });
+        binding.recyclerPlaces.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerPlaces.setAdapter(placesAdapter);
+        
+        // Setup View More button
+        binding.btnViewAllPlaces.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), com.ahmmedalmzini783.wcguide.ui.googleplaces.GooglePlacesActivity.class);
+                startActivity(intent);
+        });
+
+        // Load Google Places data
+        loadGooglePlaces();
     }
+
+    private void loadGooglePlaces() {
+        // Load Google Places data using the existing GooglePlacesViewModel
+        com.ahmmedalmzini783.wcguide.ui.googleplaces.GooglePlacesViewModel placesViewModel = 
+                new ViewModelProvider(this).get(com.ahmmedalmzini783.wcguide.ui.googleplaces.GooglePlacesViewModel.class);
+        
+        // Load tourist attractions
+        placesViewModel.getPlaces("attraction").observe(getViewLifecycleOwner(), resource -> {
+            if (resource != null && resource.getData() != null && !resource.getData().isEmpty()) {
+                placesAdapter.submitList(resource.getData());
+            }
+        });
+        
+        // Load places for all countries
+        placesViewModel.loadPlaces("attraction");
+    }
+
 
     private void setupHotelsViewMoreButton() {
         if (binding.buttonViewMoreHotels != null) {
@@ -541,21 +430,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void showLandmarksLoading(boolean show) {
-        // You can add a progress bar to the landmarks section if needed
-    }
-
-    private void showLandmarksEmptyState(boolean show) {
-        View emptyState = landmarksSection != null ? landmarksSection.findViewById(R.id.layout_empty_state) : null;
-        if (emptyState != null) {
-            emptyState.setVisibility(show ? View.VISIBLE : View.GONE);
-        }
-        
-        View sectionContent = landmarksSection != null ? landmarksSection.findViewById(R.id.section_landmarks) : null;
-        if (sectionContent != null) {
-            sectionContent.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 
     @Override
     public void onDestroyView() {

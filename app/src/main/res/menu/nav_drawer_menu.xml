@@ -54,5 +54,17 @@
         android:id="@+id/nav_news"
         android:icon="@drawable/ic_news"
         android:title="@string/nav_news" />
+    
+    <!-- الإشعارات -->
+    <item
+        android:id="@+id/nav_notifications"
+        android:icon="@drawable/ic_notification"
+        android:title="@string/notifications_title" />
+    
+    <!-- الأماكن السياحية -->
+    <item
+        android:id="@+id/nav_google_places"
+        android:icon="@drawable/ic_explore"
+        android:title="@string/google_places_title" />
         
 </menu>

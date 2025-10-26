@@ -47,7 +47,7 @@
         <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDSvvk57l5YSCSfa7bHPdR_IpOg3ikemE0" />
+            android:value="${PLACES_API_KEY}" />
 
         <!-- Firebase Messaging Service -->
         <service
@@ -137,6 +137,12 @@
         <!-- Login Activity -->
         <activity
             android:name=".ui.auth.LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- User Review Activity -->
+        <activity
+            android:name=".ui.review.UserReviewActivity"
             android:exported="false"
             android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
 
@@ -407,6 +413,30 @@
             android:exported="false"
             android:parentActivityName=".ui.admin.AdminNewsActivity"
             android:label="@string/add_edit_news_title"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Notifications Activity -->
+        <activity
+            android:name=".ui.notifications.NotificationsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:label="@string/notifications_title"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Google Places Activity -->
+        <activity
+            android:name=".ui.googleplaces.GooglePlacesActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:label="@string/google_places_title"
+            android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
+
+        <!-- Google Place Details Activity -->
+        <activity
+            android:name=".ui.googleplaces.GooglePlaceDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.googleplaces.GooglePlacesActivity"
+            android:label="@string/place_details_title"
             android:theme="@style/Theme.WorldCup2026SmartGuide.NoActionBar" />
 
     </application>

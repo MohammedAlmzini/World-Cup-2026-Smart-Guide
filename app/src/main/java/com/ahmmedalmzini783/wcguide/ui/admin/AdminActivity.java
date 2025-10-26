@@ -144,6 +144,18 @@ public class AdminActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ManageEventsActivity.class);
             startActivity(intent);
         });
+        
+        // Setup add news button
+        binding.btnAddNews.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddEditNewsActivity.class);
+            startActivity(intent);
+        });
+        
+        // Setup manage news button
+        binding.btnManageNews.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AdminNewsActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void setupFab() {

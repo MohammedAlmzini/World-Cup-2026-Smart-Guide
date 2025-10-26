@@ -26,11 +26,16 @@ android {
         buildConfigField "String", "MAPS_API_KEY", "\"${properties.getProperty('MAPS_API_KEY', 'PLACEHOLDER_MAPS_API_KEY')}\""
         buildConfigField "String", "OPENAI_API_KEY", "\"${properties.getProperty('OPENAI_API_KEY', 'PLACEHOLDER_OPENAI_API_KEY')}\""
         buildConfigField "String", "GEMINI_API_KEY", "\"${properties.getProperty('GEMINI_API_KEY', 'PLACEHOLDER_GEMINI_API_KEY')}\""
+        buildConfigField "String", "PLACES_API_KEY", "\"${properties.getProperty('PLACES_API_KEY', 'PLACEHOLDER_PLACES_API_KEY')}\""
 
         // Add Maps API key to manifest
         manifestPlaceholders = [
-                mapsApiKey: properties.getProperty('MAPS_API_KEY', 'PLACEHOLDER_MAPS_API_KEY')
+                mapsApiKey: properties.getProperty('MAPS_API_KEY', 'PLACEHOLDER_MAPS_API_KEY'),
+                PLACES_API_KEY: properties.getProperty('PLACES_API_KEY', 'PLACEHOLDER_PLACES_API_KEY')
         ]
+
+        // Add Places API key as string resource
+        resValue "string", "places_api_key", properties.getProperty('PLACES_API_KEY', 'PLACEHOLDER_PLACES_API_KEY')
     }
 
     buildTypes {
@@ -97,6 +102,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    implementation 'com.google.android.libraries.places:places:3.3.0'
     
     // Google Sign-In
     implementation 'com.google.android.gms:play-services-auth:20.7.0'

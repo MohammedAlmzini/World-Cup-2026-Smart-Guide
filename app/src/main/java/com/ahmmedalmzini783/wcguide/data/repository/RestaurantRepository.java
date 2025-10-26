@@ -31,18 +31,33 @@ public class RestaurantRepository {
         result.setValue(Resource.loading(null));
 
         Log.d(TAG, "Fetching all restaurants from Firebase");
+        Log.d(TAG, "Database reference path: " + databaseReference.toString());
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Restaurant> restaurants = new ArrayList<>();
                 Log.d(TAG, "Firebase response received. Children count: " + dataSnapshot.getChildrenCount());
+                Log.d(TAG, "DataSnapshot exists: " + dataSnapshot.exists());
+                Log.d(TAG, "DataSnapshot has children: " + dataSnapshot.hasChildren());
+                
+                if (!dataSnapshot.exists()) {
+                    Log.w(TAG, "No data found in Firebase restaurants node");
+                    result.setValue(Resource.success(restaurants));
+                    return;
+                }
                 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "Processing snapshot key: " + snapshot.getKey());
+                    Log.d(TAG, "Snapshot value: " + snapshot.getValue());
+                    
                     Restaurant restaurant = snapshot.getValue(Restaurant.class);
                     if (restaurant != null) {
-                        Log.d(TAG, "Restaurant found: " + restaurant.getName());
+                        Log.d(TAG, "Restaurant found: " + restaurant.getName() + " (ID: " + restaurant.getId() + ")");
+                        Log.d(TAG, "Restaurant details - Country: " + restaurant.getCountry() + ", City: " + restaurant.getCity());
                         restaurants.add(restaurant);
+                    } else {
+                        Log.w(TAG, "Failed to parse restaurant from snapshot: " + snapshot.getKey());
                     }
                 }
                 Log.d(TAG, "Total restaurants loaded: " + restaurants.size());
@@ -52,6 +67,8 @@ public class RestaurantRepository {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e(TAG, "Error fetching restaurants: " + databaseError.getMessage());
+                Log.e(TAG, "Error code: " + databaseError.getCode());
+                Log.e(TAG, "Error details: " + databaseError.getDetails());
                 result.setValue(Resource.error(databaseError.getMessage(), null));
             }
         });

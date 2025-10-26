@@ -189,7 +189,18 @@ public class PlaceRepository {
                     // Convert hotels to places
                     List<Hotel> hotels = hotelResource.getData();
                     Log.d(TAG, "Converting " + hotels.size() + " hotels to places");
+                    
+                    // Log each hotel before conversion
+                    for (Hotel hotel : hotels) {
+                        Log.d(TAG, "Converting hotel: " + hotel.getName() + " (ID: " + hotel.getId() + ")");
+                    }
+                    
                     List<Place> places = HotelPlaceConverter.convertHotelsToPlaces(hotels);
+                    
+                    // Log each place after conversion
+                    for (Place place : places) {
+                        Log.d(TAG, "Converted place: " + place.getName() + " (ID: " + place.getId() + ")");
+                    }
                     
                     Log.d(TAG, "Final places count: " + places.size());
                     result.setValue(Resource.success(places));

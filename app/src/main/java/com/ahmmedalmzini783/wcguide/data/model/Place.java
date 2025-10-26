@@ -1,9 +1,11 @@
 package com.ahmmedalmzini783.wcguide.data.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class Place {
+public class Place implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String id;
     private String kind; // attraction, hotel, restaurant
     private String name;

@@ -1,100 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background">
+    android:background="@color/background"
+    tools:context=".ui.news.NewsDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/toolbar_gradient_bg_enhanced"
-        android:fitsSystemWindows="true">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <com.google.android.material.appbar.MaterialToolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/toolbar_gradient_bg"
-            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-            app:title="@string/news_detail_title" />
+            android:background="@color/primary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="تفاصيل الخبر"
+            app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="16dp">
 
             <!-- News Image -->
             <ImageView
-                android:id="@+id/news_detail_image"
+                android:id="@+id/iv_news_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:layout_marginBottom="16dp"
                 android:scaleType="centerCrop"
-                android:background="@color/primary_light"
-                android:layout_marginBottom="16dp" />
+                android:background="@drawable/image_placeholder_bg"
+                android:contentDescription="صورة الخبر" />
 
             <!-- News Title -->
             <TextView
-                android:id="@+id/news_detail_title"
+                android:id="@+id/tv_news_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primary"
-                android:textSize="20sp"
+                android:layout_marginBottom="12dp"
+                android:textColor="@color/on_background"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:lineSpacingExtra="4dp"
+                tools:text="عنوان الخبر الرئيسي هنا" />
 
-            <!-- News Meta Info -->
+            <!-- News Meta Information -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
+                <!-- Category -->
                 <TextView
-                    android:id="@+id/news_detail_category"
+                    android:id="@+id/tv_news_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="12sp"
-                    android:background="@drawable/category_bg"
-                    android:padding="4dp"
-                    android:layout_marginEnd="8dp" />
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/category_chip_bg"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:textColor="@color/primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="التصنيف: رياضة" />
 
+                <!-- Date -->
                 <TextView
-                    android:id="@+id/news_detail_date"
+                    android:id="@+id/tv_news_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="12sp" />
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="14sp"
+                    tools:text="تاريخ النشر: 15 أكتوبر 2024 - 14:30" />
 
             </LinearLayout>
 
             <!-- News Description -->
             <TextView
-                android:id="@+id/news_detail_description"
+                android:id="@+id/tv_news_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_secondary"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/description_bg"
+                android:padding="16dp"
+                android:textColor="@color/on_surface"
                 android:textSize="16sp"
-                android:layout_marginBottom="16dp" />
+                android:lineSpacingExtra="4dp"
+                tools:text="وصف مختصر للخبر يوضح النقاط الرئيسية والتفاصيل المهمة" />
 
             <!-- News Content -->
             <TextView
-                android:id="@+id/news_detail_content"
+                android:id="@+id/tv_news_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_secondary"
+                android:layout_marginBottom="24dp"
+                android:textColor="@color/on_background"
                 android:textSize="16sp"
-                android:lineSpacingExtra="4dp" />
+                android:lineSpacingExtra="6dp"
+                android:autoLink="web"
+                android:linksClickable="true"
+                tools:text="محتوى الخبر الكامل هنا مع جميع التفاصيل والمعلومات المهمة..." />
+
+            <!-- Bottom Spacing -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp" />
 
         </LinearLayout>
 

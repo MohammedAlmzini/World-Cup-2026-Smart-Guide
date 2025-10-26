@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,8 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ahmmedalmzini783.wcguide.R;
 import com.ahmmedalmzini783.wcguide.ui.news.NewsItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,7 @@ public class AdminNewsActivity extends AppCompatActivity {
     
     private AdminNewsAdapter adminNewsAdapter;
     private List<NewsItem> newsList;
-    private FirebaseFirestore db;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public class AdminNewsActivity extends AppCompatActivity {
         emptyStateLayout = findViewById(R.id.empty_state_layout);
         fabAddNews = findViewById(R.id.fab_add_news);
 
-        db = FirebaseFirestore.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("news");
         newsList = new ArrayList<>();
     }
 
@@ -74,22 +78,33 @@ public class AdminNewsActivity extends AppCompatActivity {
     }
 
     private void loadNews() {
-        db.collection("news")
-            .orderBy("createdAt", com.google.firebase.firestore.Query.Direction.DESCENDING)
-            .get()
-            .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    newsList.clear();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        NewsItem newsItem = document.toObject(NewsItem.class);
-                        newsItem.setId(document.getId());
+        databaseReference.orderByChild("createdAt").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                newsList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    NewsItem newsItem = snapshot.getValue(NewsItem.class);
+                    if (newsItem != null) {
+                        newsItem.setId(snapshot.getKey());
                         newsList.add(newsItem);
                     }
-                    
-                    adminNewsAdapter.notifyDataSetChanged();
-                    updateEmptyState();
                 }
-            });
+                
+                // ترتيب القائمة حسب التاريخ (الأحدث أولاً)
+                newsList.sort((a, b) -> {
+                    if (a.getCreatedAt() == null || b.getCreatedAt() == null) return 0;
+                    return b.getCreatedAt().compareTo(a.getCreatedAt());
+                });
+                
+                adminNewsAdapter.notifyDataSetChanged();
+                updateEmptyState();
+            }
+            
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                handleDatabaseError(databaseError.toException(), "تحميل");
+            }
+        });
     }
 
     private void updateEmptyState() {
@@ -116,10 +131,18 @@ public class AdminNewsActivity extends AppCompatActivity {
     private void onDeleteNewsClick(NewsItem newsItem) {
         // TODO: Implement delete confirmation dialog
         // For now, just delete directly
-        db.collection("news").document(newsItem.getId()).delete()
+        databaseReference.child(newsItem.getId()).removeValue()
             .addOnSuccessListener(aVoid -> {
-                loadNews(); // Refresh the list
+                // القائمة ستتحدث تلقائياً بسبب ValueEventListener
+            })
+            .addOnFailureListener(e -> {
+                handleDatabaseError(e, "حذف");
             });
+    }
+
+    private void handleDatabaseError(Exception e, String operation) {
+        String errorMessage = "حدث خطأ في " + operation + " الأخبار: " + e.getMessage();
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override

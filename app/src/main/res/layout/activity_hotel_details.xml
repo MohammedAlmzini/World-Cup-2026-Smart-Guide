@@ -320,6 +320,20 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Add Review Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_review"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@string/add_review_title"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/primary"
+                app:cornerRadius="12dp"
+                app:icon="@android:drawable/ic_menu_add"
+                app:iconTint="@color/white"
+                android:layout_marginBottom="16dp" />
+
             <!-- Contact Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"

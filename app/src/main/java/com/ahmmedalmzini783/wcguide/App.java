@@ -8,6 +8,8 @@ import androidx.work.WorkManager;
 import com.ahmmedalmzini783.wcguide.data.local.AppDatabase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.libraries.places.api.Places;
+import com.ahmmedalmzini783.wcguide.BuildConfig;
 
 public class App extends Application {
 
@@ -17,6 +19,17 @@ public class App extends Application {
 
         // Initialize Firebase
         FirebaseApp.initializeApp(this);
+
+        // Initialize Google Places SDK with New Places API
+        try {
+            if (!Places.isInitialized()) {
+                Places.initialize(getApplicationContext(), getString(R.string.places_api_key));
+                Log.d("App", "Google Places SDK initialized successfully");
+                Log.d("App", "Places API Key: " + (getString(R.string.places_api_key) != null ? "Present" : "Missing"));
+            }
+        } catch (Exception e) {
+            Log.e("App", "Failed to initialize Places SDK", e);
+        }
 
         // Enable offline persistence (must be called before any database usage)
         try {

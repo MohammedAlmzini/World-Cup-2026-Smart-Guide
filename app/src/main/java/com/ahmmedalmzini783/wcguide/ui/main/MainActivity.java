@@ -20,6 +20,8 @@ import com.ahmmedalmzini783.wcguide.ui.auth.LoginActivity;
 import com.ahmmedalmzini783.wcguide.ui.auth.RegisterActivity;
 import com.ahmmedalmzini783.wcguide.ui.profile.ProfileActivity;
 import com.ahmmedalmzini783.wcguide.ui.logos.LogosActivity;
+import com.ahmmedalmzini783.wcguide.ui.googleplaces.GooglePlacesActivity;
+import com.ahmmedalmzini783.wcguide.ui.home.HomeFragmentWithTabs;
 import com.ahmmedalmzini783.wcguide.util.AuthManager;
 import com.ahmmedalmzini783.wcguide.util.ImageLoader;
 import com.google.android.material.navigation.NavigationView;
@@ -98,6 +100,10 @@ public class MainActivity extends AppCompatActivity {
                 navigateToEvents();
             } else if (id == R.id.nav_news) {
                 navigateToNews();
+            } else if (id == R.id.nav_notifications) {
+                navigateToNotifications();
+            } else if (id == R.id.nav_google_places) {
+                navigateToGooglePlaces();
             }
             
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -182,12 +188,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void navigateToEvents() {
-        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.events.EventsActivity.class);
-        startActivity(intent);
+        // TODO: Create EventsActivity or use existing activity
+        android.widget.Toast.makeText(this, "Events page under development", android.widget.Toast.LENGTH_SHORT).show();
     }
 
     private void navigateToNews() {
         Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.news.NewsActivity.class);
+        startActivity(intent);
+    }
+
+    private void navigateToNotifications() {
+        Intent intent = new Intent(this, com.ahmmedalmzini783.wcguide.ui.notifications.NotificationsActivity.class);
+        startActivity(intent);
+    }
+
+    private void navigateToGooglePlaces() {
+        Intent intent = GooglePlacesActivity.createIntent(this);
         startActivity(intent);
     }
 
@@ -239,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
         if (navigationView != null) {
             View headerView = navigationView.getHeaderView(0);
             if (headerView != null) {
-                android.widget.ImageView avatar = 
+                de.hdodenhof.circleimageview.CircleImageView avatar = 
                     headerView.findViewById(R.id.drawer_header_avatar);
                 android.widget.TextView userName = 
                     headerView.findViewById(R.id.drawer_header_user_name);
@@ -257,8 +273,22 @@ public class MainActivity extends AppCompatActivity {
                     userEmail.setText(user.getEmail());
                     userEmail.setVisibility(android.view.View.VISIBLE);
                     
-                    // Keep default icon in drawer (no profile image)
-                    avatar.setImageResource(R.drawable.ic_user_default);
+                    // Load user profile image in drawer
+                    if (user.getPhotoUrl() != null && !user.getPhotoUrl().toString().isEmpty()) {
+                        String photoUrl = user.getPhotoUrl().toString();
+                        android.util.Log.d("MainActivity", "Loading user photo: " + photoUrl);
+                        
+                        // Use Glide directly for better control
+                        com.bumptech.glide.Glide.with(this)
+                            .load(photoUrl)
+                            .placeholder(R.drawable.ic_user_default)
+                            .error(R.drawable.ic_user_default)
+                            .circleCrop()
+                            .into(avatar);
+                    } else {
+                        android.util.Log.d("MainActivity", "No user photo URL, using default icon");
+                        avatar.setImageResource(R.drawable.ic_user_default);
+                    }
                     
                     // Show sign out button, hide auth buttons
                     authButtons.setVisibility(android.view.View.GONE);
@@ -286,12 +316,20 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.toolbar_profile_avatar);
         
         if (toolbarAvatar != null) {
-            if (user != null && user.getPhotoUrl() != null) {
+            if (user != null && user.getPhotoUrl() != null && !user.getPhotoUrl().toString().isEmpty()) {
                 // Load user profile image in toolbar
-                ImageLoader.loadCircularImage(this, user.getPhotoUrl().toString(), 
-                    toolbarAvatar, R.drawable.ic_user_default);
+                String photoUrl = user.getPhotoUrl().toString();
+                android.util.Log.d("MainActivity", "Loading toolbar photo: " + photoUrl);
+                
+                com.bumptech.glide.Glide.with(this)
+                    .load(photoUrl)
+                    .placeholder(R.drawable.ic_user_default)
+                    .error(R.drawable.ic_user_default)
+                    .circleCrop()
+                    .into(toolbarAvatar);
             } else {
                 // Show default icon in toolbar
+                android.util.Log.d("MainActivity", "No toolbar photo URL, using default icon");
                 toolbarAvatar.setImageResource(R.drawable.ic_user_default);
             }
             
@@ -307,5 +345,14 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         // Update user profile when returning to the activity
         updateUserProfile();
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Update profile when returning from ProfileActivity
+        if (requestCode == 1001) { // ProfileActivity result code
+            updateUserProfile();
+        }
     }
 }

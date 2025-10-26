@@ -289,13 +289,66 @@
 
         </LinearLayout>
 
-        <!-- Tourist Landmarks Section (moved up directly after banners / latest news) -->
-        <include
-            android:id="@+id/landmarks_section"
-            layout="@layout/section_landmarks_home"
+        <!-- Google Places Section (Tourist Attractions) -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="6dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Section Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="الأماكن السياحية"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/modern_blue_primary"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_view_all_places"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="عرض الكل"
+                        android:textColor="@color/modern_blue_primary"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/modern_blue_soft"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_arrow_forward"
+                        app:iconGravity="end"
+                        app:iconSize="16dp" />
+
+                </LinearLayout>
+
+                <!-- Places RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_places"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_google_place" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
 
         <!-- Hotels Section -->
@@ -350,7 +403,7 @@
                     android:id="@+id/hotels_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:clipToPadding="false"
                     android:scrollbars="none" />
 
@@ -444,7 +497,7 @@
                     android:id="@+id/restaurants_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:clipToPadding="false"
                     android:scrollbars="none" />
 

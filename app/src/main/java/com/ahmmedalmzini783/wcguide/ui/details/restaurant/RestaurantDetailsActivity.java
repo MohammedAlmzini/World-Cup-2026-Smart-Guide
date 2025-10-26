@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ahmmedalmzini783.wcguide.R;
 import com.ahmmedalmzini783.wcguide.data.model.Place;
+import com.ahmmedalmzini783.wcguide.util.ReviewAuthHelper;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -264,6 +265,9 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements OnMa
         // Visit website button
         findViewById(R.id.btn_visit_website).setOnClickListener(v -> visitWebsite());
         
+        // Add review button
+        findViewById(R.id.btn_add_review).setOnClickListener(v -> addReview());
+        
         // Favorite FAB
         fabFavorite.setOnClickListener(v -> toggleFavorite());
     }
@@ -295,6 +299,12 @@ public class RestaurantDetailsActivity extends AppCompatActivity implements OnMa
     private void visitWebsite() {
         // TODO: Add website field to Place model
         Toast.makeText(this, "الموقع الإلكتروني غير متاح", Toast.LENGTH_SHORT).show();
+    }
+
+    private void addReview() {
+        if (restaurant != null) {
+            ReviewAuthHelper.handleAddReview(this, restaurant, "restaurant");
+        }
     }
 
     private void toggleFavorite() {
